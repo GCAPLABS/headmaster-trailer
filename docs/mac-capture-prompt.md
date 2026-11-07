@@ -4,7 +4,7 @@ Paste everything below the line into Cursor's agent (Agent mode) on the Mac mini
 
 ---
 
-Help me make real screen recordings for a 100-second launch trailer. You run the commands; I do the clicking in apps when you tell me to. Work through the steps in order, one at a time, and wait for me to say "done" after each thing you ask me to do.
+Help me make real screen recordings for a 100-second launch trailer. You run the commands. If you have a Playwright MCP, use it to drive Chrome for the Gmail part yourself (open a persistent, headed Chrome profile; I'll sign in to Google once by hand, because Google blocks sign-in from automated browsers). Use AppleScript (`osascript`) for the Mac's Reminders app. I do any tapping inside the iOS Simulator, and anything you can't drive, when you tell me to. Work through the steps in order, one at a time, and wait for me to say "done" after each thing you ask me to do.
 
 ## 0. Set up
 
@@ -21,10 +21,10 @@ First ask me to send this email to the recording account, from a second demo acc
 - Subject: Friday plans
 - Body: "Hi! Before Friday could you book dinner for the team, fill in the supplier form and reply to Sam about the venue? Everything you need is in this thread. Thanks! Dana"
 
-Size the Chrome window to 1920x1080 with AppleScript (`osascript -e 'tell application "Google Chrome" to set bounds of front window to {0, 25, 1920, 1105}'`). Then record, one at a time:
-- `gmail-inbox.mov`, about 6 s: the inbox with "Friday plans" unread at the top among a few ordinary emails; I hover over it, then click it open.
-- `gmail-read.mov`, about 8 s: the open email; I hold still for 6 s, then scroll down very slightly.
-- `gmail-reply.mov`, about 6 s: I click Reply and the empty reply box opens with the cursor blinking; I type nothing.
+Size the Chrome window to 1920x1080 with AppleScript (`osascript -e 'tell application "Google Chrome" to set bounds of front window to {0, 25, 1920, 1105}'`). Then record the screen with ffmpeg (not Playwright's own video, which drops frames) while you, or I, do each action slowly, one at a time:
+- `gmail-inbox.mov`, about 6 s: the inbox with "Friday plans" unread at the top among a few ordinary emails; the mouse hovers over it, then clicks it open.
+- `gmail-read.mov`, about 8 s: the open email; hold still for 6 s, then scroll down very slightly.
+- `gmail-reply.mov`, about 6 s: click Reply and the empty reply box opens with the cursor blinking; type nothing.
 
 ## 2. Screens I film with my phone
 
@@ -38,7 +38,7 @@ When the clips arrive in ~/Downloads, copy them to `public/rec/` as `filmed-gmai
 ## 3. Reminders (iOS Simulator plus the Mac's Reminders app)
 
 1. Boot the newest iPhone simulator (iPhone 17 Pro or newest, iOS 26 if available): `xcrun simctl boot "<device>" && open -a Simulator`. Set the status bar: `xcrun simctl status_bar booted override --time 9:41 --batteryLevel 100 --cellularBars 4 --wifiBars 3`. Light mode: `xcrun simctl ui booted appearance light`.
-2. Ask me to set up in the Simulator's Reminders: a list "Friday" with "Book dinner for the team", "Supplier form", "Reply to Sam" (a due time on "Supplier form" a minute ahead), and a list "Team" shared with two people (made-up names are fine) with a few items. Do the same "Friday" list in the Mac's Reminders app.
+2. Create the Mac's Reminders lists yourself with AppleScript (they sync to the Simulator only if both use the same iCloud account; otherwise I'll make them in the Simulator by hand). The lists: a list "Friday" with "Book dinner for the team", "Supplier form", "Reply to Sam" (a due time on "Supplier form" a minute ahead), and a list "Team" shared with two people (made-up names are fine) with a few items.
 3. Record the Simulator with `xcrun simctl io booted recordVideo --codec h264 public/rec/<name>.mov` (stop with Ctrl+C when I say done), and the Mac side by side with the ffmpeg command above:
 - `ios-reminders-alert.mov`, about 5 s: the Friday list open; the "Supplier form" reminder banner drops in from the top.
 - `ios-reminders-check.mov`, about 5 s: a slow scroll through the Friday list, then one item ticked off.
