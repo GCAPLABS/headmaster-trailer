@@ -1,6 +1,6 @@
 {
  "fps": 30,
- "total": 3000,
+ "total": 3105,
  "note": "One timeline for picture and sound. vo = [firstWord, lastWord, filmSeconds, subtitle or null]. v3: music in segments from two sources (A = driving take, bed = calm bed), ducked under every line; extra = lines from other takes; sfx = one-shots on the beat.",
  "scenes": {
   "hook": [
@@ -81,7 +81,7 @@
   ],
   "end": [
    2850,
-   3000
+   3105
   ]
  },
  "vo": [
@@ -355,8 +355,8 @@
    "src_file": "music-seam-2.mp3",
    "film": 85.5,
    "src": 28.0,
-   "dur": 14.5,
-   "fadeOut": 2.5,
+   "dur": 18.0,
+   "fadeOut": 3.0,
    "gain": 5.2,
    "gainEnd": 14.506976744186048,
    "note": "museum slot (app showcase) and the 5 s end card; falls away by 100 s"
@@ -372,8 +372,16 @@
    "file": "vo-sara4-a.mp3",
    "src": 7.46,
    "end": 8.39,
-   "film": 13.44,
+   "film": 13.76,
    "sub": "Even Pokémon."
+  },
+  {
+   "file": "vo-sara-end-a.mp3",
+   "src": 0.0,
+   "end": 7.0,
+   "film": 95.4,
+   "sub": null,
+   "note": "end card: Headmaster. Your own AI agent. Out now on Windows and Mac. Coming soon on iOS."
   }
  ],
  "sfx": [

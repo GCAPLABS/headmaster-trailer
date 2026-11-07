@@ -511,20 +511,22 @@ const Mark: React.FC<{src: string; size: number; color: string}> = ({src, size, 
 );
 // End card, white: the icon lands, what it is and the address either side.
 const End: React.FC<{f: number}> = ({f}) => {
+  // Each part lands on Sara's line (vo-sara-end-a.mp3 at 95.4 s): Headmaster 95.4, Your own AI agent 96.6, Out now 98.7, Coming soon 100.7.
   const land = springAt(f, 4, {damping: 14, stiffness: 120, mass: 1.1});
-  const side = prog(f, 22, 40);
-  const tag = prog(f, 34, 50);
+  const side = prog(f, 10, 24);
+  const tag = prog(f, 46, 60);
+  const now = prog(f, 109, 122), soon = prog(f, 169, 182);
   return (
     <AbsoluteFill style={{background: C.white}}>
       <Center>
         <div style={{display: 'flex', alignItems: 'center', gap: 110}}>
           {/* Where it runs (the slot that used to read "Free in beta"): real marks from simple-icons, tinted to our ink. */}
-          <div style={{width: 560, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 16, opacity: side, transform: `translateX(${(1 - side) * 30}px)`}}>
-            <div style={{display: 'flex', alignItems: 'center', gap: 14, fontFamily: FONT.body, fontWeight: 600, fontSize: 40, color: C.ink}}>
+          <div style={{width: 560, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 16}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: 14, fontFamily: FONT.body, fontWeight: 600, fontSize: 40, color: C.ink, opacity: now, transform: `translateX(${(1 - now) * 30}px)`}}>
               <span>Out now on</span><Mark src="brand/logos/windows.svg" size={34} color={C.ink} /><Mark src="brand/logos/apple.svg" size={40} color={C.ink} />
             </div>
-            <div style={{fontFamily: FONT.body, fontWeight: 600, fontSize: 40, color: C.ink}}>Windows and Mac</div>
-            <div style={{display: 'flex', alignItems: 'center', gap: 12, fontFamily: FONT.body, fontWeight: 500, fontSize: 30, color: C.muted, marginTop: 6}}>
+            <div style={{fontFamily: FONT.body, fontWeight: 600, fontSize: 40, color: C.ink, opacity: now, transform: `translateX(${(1 - now) * 30}px)`}}>Windows and Mac</div>
+            <div style={{display: 'flex', alignItems: 'center', gap: 12, fontFamily: FONT.body, fontWeight: 500, fontSize: 30, color: C.muted, marginTop: 6, opacity: soon, transform: `translateX(${(1 - soon) * 30}px)`}}>
               <span>Coming soon on</span><Mark src="brand/logos/appstore.svg" size={30} color={C.muted} /><span>iOS</span>
             </div>
           </div>
