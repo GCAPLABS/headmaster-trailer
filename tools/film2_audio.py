@@ -20,6 +20,8 @@ def ramp(n, a, b):
 for m in TL['music']:
     s, d, t = int(m['src'] * R), int(m['dur'] * R), int(m['film'] * R)
     seg = src(m.get('src_file', 'music-a.mp3'))[s:s + d].copy() * (10 ** (m.get('gain', 0) / 20))
+    if 'gainEnd' in m:  # slow climb: the gain moves linearly in dB from 'gain' to 'gainEnd' across the segment
+        seg *= (10 ** (np.linspace(0, m['gainEnd'] - m.get('gain', 0), len(seg), dtype=np.float32) / 20))[:, None]
     fi, fo = int(m.get('fadeIn', 0.01) * R), int(m.get('fadeOut', 0.01) * R)
     seg[:fi] *= ramp(fi, 0, 1)[:len(seg[:fi])]; seg[-fo:] *= ramp(fo, 1, 0)[-len(seg[-fo:]):]
     e = min(N, t + len(seg)); mus[t:e] += seg[:e - t]

@@ -316,53 +316,45 @@
  ],
  "music": [
   {
-   "src_file": "music-a.mp3",
+   "src_file": "music-seam-1.mp3",
    "film": 0.0,
-   "src": 11.0,
-   "dur": 21.35,
-   "fadeOut": 0.35,
-   "gain": -20,
-   "note": "phrase ends on the downbeat at 21.0"
-  },
-  {
-   "src_file": "music-bed.mp3",
-   "film": 21.0,
    "src": 0.0,
-   "dur": 32.0,
-   "fadeIn": 0.25,
-   "fadeOut": 1.0,
-   "gain": 5.5,
-   "note": "bars on odd film seconds; splices at the bar 53.0"
-  },
-  {
-   "src_file": "music-bed.mp3",
-   "film": 57.0,
-   "src": 23.0,
-   "dur": 6.0,
-   "fadeIn": 1.0,
-   "fadeOut": 5.0,
-   "gain": -2.5,
-   "note": "same calm bed 4 bars back (bar-aligned), 8 dB down; crossfades over the bar 52-53 and decays under Until now"
+   "dur": 59.0,
+   "fadeIn": 0.05,
+   "fadeOut": 1.5,
+   "gain": 0,
+   "note": "piece 1 (ElevenLabs, reference style: 62 Hz swelling bass, no kick); it thins to near silence by 58-60 under \"Not anymore\""
   },
   {
    "src_file": "music-a.mp3",
-   "film": 61.0,
-   "src": 52.0,
-   "dur": 18.0,
-   "fadeIn": 0.05,
-   "fadeOut": 0.6,
-   "gain": 6,
-   "note": "drop (src 56) on Headmaster at 60.0; natural end src 68-70"
+   "film": 58.0,
+   "src": 54.0,
+   "dur": 14.0,
+   "fadeIn": 0.3,
+   "fadeOut": 0.05,
+   "gain": 0,
+   "note": "the seam: the upbeat track enters on its build under \"Not anymore\"; the drop (src 56) lands at 60.0 with the logo"
   },
   {
-   "src_file": "music-bed.mp3",
-   "film": 77.0,
-   "src": 34.0,
-   "dur": 24.0,
-   "fadeIn": 0.25,
-   "fadeOut": 1.5,
-   "gain": 8,
-   "note": "enters on the downbeat at 72.0"
+   "src_file": "music-a.mp3",
+   "film": 72.0,
+   "src": 16.0,
+   "dur": 30.0,
+   "fadeIn": 0.05,
+   "fadeOut": 0.05,
+   "gain": 0,
+   "gainEnd": 3,
+   "note": "main phrase, bar-aligned splice src 68 -> 16; climbs 3 dB into the museum"
+  },
+  {
+   "src_file": "music-a.mp3",
+   "film": 102.0,
+   "src": 66.0,
+   "dur": 5.0,
+   "fadeIn": 0.05,
+   "fadeOut": 2.5,
+   "gain": 3,
+   "note": "the natural ending (src 68) rings out on the end card"
   }
  ],
  "duck": {
@@ -376,7 +368,7 @@
    "src": 7.56,
    "end": 8.67,
    "film": 13.3,
-   "sub": "Even Pok\u00e9mon."
+   "sub": "Even Pokémon."
   }
  ],
  "sfx": [
