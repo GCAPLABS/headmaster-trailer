@@ -497,19 +497,34 @@ const Museum: React.FC<{f: number}> = ({f}) => {
   );
 };
 
+// A brand mark from an SVG, tinted with a CSS mask so it takes our colour.
+const Mark: React.FC<{src: string; size: number; color: string}> = ({src, size, color}) => (
+  <div style={{width: size, height: size, background: color, WebkitMaskImage: `url(${staticFile(src)})`, maskImage: `url(${staticFile(src)})`, WebkitMaskSize: 'contain', maskSize: 'contain', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center'}} />
+);
 // End card, white: the icon lands, what it is and the address either side.
 const End: React.FC<{f: number}> = ({f}) => {
   const land = springAt(f, 4, {damping: 14, stiffness: 120, mass: 1.1});
   const side = prog(f, 22, 40);
+  const tag = prog(f, 34, 50);
   return (
     <AbsoluteFill style={{background: C.white}}>
       <Center>
-        <div style={{display: 'flex', alignItems: 'center', gap: 120}}>
-          <div style={{fontFamily: FONT.body, fontWeight: 600, fontSize: 52, color: C.ink2, opacity: side, transform: `translateX(${(1 - side) * 30}px)`}}>Your own AI agent.</div>
+        <div style={{display: 'flex', alignItems: 'center', gap: 110}}>
+          {/* Where it runs (the slot that used to read "Free in beta"): real marks from simple-icons, tinted to our ink. */}
+          <div style={{width: 560, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 16, opacity: side, transform: `translateX(${(1 - side) * 30}px)`}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: 14, fontFamily: FONT.body, fontWeight: 600, fontSize: 40, color: C.ink}}>
+              <span>Out now on</span><Mark src="brand/logos/windows.svg" size={34} color={C.ink} /><Mark src="brand/logos/apple.svg" size={40} color={C.ink} />
+            </div>
+            <div style={{fontFamily: FONT.body, fontWeight: 600, fontSize: 40, color: C.ink}}>Windows and Mac</div>
+            <div style={{display: 'flex', alignItems: 'center', gap: 12, fontFamily: FONT.body, fontWeight: 500, fontSize: 30, color: C.muted, marginTop: 6}}>
+              <span>Coming soon on</span><Mark src="brand/logos/appstore.svg" size={30} color={C.muted} /><span>iOS</span>
+            </div>
+          </div>
           <Img src={staticFile('headmaster-icon-dark.svg')} style={{width: 240, height: 240, borderRadius: 54, opacity: Math.min(1, land * 1.5), transform: `translateY(${(1 - land) * 40}px) scale(${0.95 + 0.05 * Math.min(1, land)})`}} />
-          <div style={{fontFamily: FONT.body, fontWeight: 700, fontSize: 52, color: C.blue, opacity: side, transform: `translateX(${(1 - side) * -30}px)`}}>headmaster.app</div>
+          <div style={{width: 560, fontFamily: FONT.body, fontWeight: 700, fontSize: 52, color: C.blue, opacity: side, transform: `translateX(${(1 - side) * -30}px)`}}>headmaster.app</div>
         </div>
       </Center>
+      <div style={{position: 'absolute', left: 0, right: 0, top: 720, textAlign: 'center', fontFamily: FONT.body, fontWeight: 600, fontSize: 44, color: C.ink2, opacity: tag, transform: `translateY(${(1 - tag) * 14}px)`}}>Your own AI agent.</div>
       <div style={{position: 'absolute', left: 0, right: 0, bottom: 56, textAlign: 'center', fontFamily: FONT.body, fontWeight: 500, fontSize: 22, color: C.muted, opacity: side}}>Not affiliated with any brand shown.</div>
     </AbsoluteFill>
   );
