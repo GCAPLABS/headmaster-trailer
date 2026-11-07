@@ -133,3 +133,13 @@ Latest cut: `renders/v4-board/v4-preview.mp4` (half size, 103.5 s). Audit agains
   - Captions: word by word, small Figtree, no background; white on dark scenes, ink on light ones (owner rejected the lime outline). Cold open and "And your to-do list?" in clean Figtree, word by word (no CRT font).
 - **Still open:** real Gmail reading view and reply (Mac capture, shot list), filmed-screen shots (owner films a monitor with a phone), moving Reminders recordings (Simulator), then the full-size render.
 - **Git:** push to GitLab only (`gitlab/v4-real-screens`). GitHub returns 403, so the stop hook's "unpushed commits" count is about GitHub and can be ignored.
+
+## v4 full render (7 Nov 2026, night)
+
+`renders/headmaster-launch-trailer-v4.mp4`: 1920x1080, 103.5 s, -14.1 LUFS, voice about 10 dB over music. Since the evening notes:
+- "Even Pokémon" is the first Sara sample with her giggle (owner's pick), `vo-sara-b.mp3` 6.96 to 8.36 s, "Po" on the evolve cut.
+- The chat turn (62 to 95 s) was re-recorded with the demo slowed 5x and sped back up, so every frame is new (the first take updated about 6 times a second). Camera max 1.3x, pulls back to the whole app on "fifty years".
+- Captions: small Figtree, no box; white on dark scenes, ink on light ones.
+- Real Mac captures (branch `v4-captures`, `public/rec/`, `docs/capture-note.md`): the iPhone Home Screen with the Reminders badge ("And your to-do list?"), the reminder banner, the Mac Friday list, the shared Team list. The Gmail captures are kept but not used: the owner preferred the large Gmail rebuild (`Message`, `GmailReply` in `Film2.tsx`).
+- Skipped by the owner: the phone-filmed screen shots.
+
