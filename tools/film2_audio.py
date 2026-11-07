@@ -8,7 +8,7 @@ W = json.load(open(f'{root}/src/vo-words.json'))
 def load(p):
     raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', p, '-ac', '2', '-ar', str(R), '-f', 'f32le', '-'], capture_output=True, check=True).stdout
     return np.frombuffer(raw, np.float32).reshape(-1, 2).copy()
-vo = load(f'{root}/public/vo-a.mp3')
+vo = load(f"{root}/public/{TL.get('voFile', 'vo-a.mp3')}")
 _cache = {}
 def src(name):
     if name not in _cache: _cache[name] = load(f'{root}/public/{name}')

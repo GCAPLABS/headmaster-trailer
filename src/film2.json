@@ -321,7 +321,7 @@
    "src": 11.0,
    "dur": 21.5,
    "fadeOut": 1.5,
-   "gain": -14
+   "gain": -18
   },
   {
    "src_file": "music-bed.mp3",
@@ -330,7 +330,7 @@
    "dur": 32.0,
    "fadeIn": 1.5,
    "fadeOut": 2.0,
-   "gain": 5.5
+   "gain": 8
   },
   {
    "src_file": "music-a.mp3",
@@ -339,7 +339,7 @@
    "dur": 21.5,
    "fadeIn": 1.0,
    "fadeOut": 2.0,
-   "gain": 4
+   "gain": 6
   },
   {
    "src_file": "music-bed.mp3",
@@ -348,7 +348,7 @@
    "dur": 23.5,
    "fadeIn": 2.0,
    "fadeOut": 3.0,
-   "gain": 4
+   "gain": 8
   }
  ],
  "duck": {
@@ -358,11 +358,11 @@
  },
  "extra": [
   {
-   "file": "vo-games-b.mp3",
-   "src": 4.26,
-   "end": 4.95,
-   "film": 14.2,
-   "sub": "Games."
+   "file": "vo-sara-b.mp3",
+   "src": 7.1,
+   "end": 8.13,
+   "film": 13.32,
+   "sub": "Even Pok\u00e9mon."
   }
  ],
  "sfx": [
@@ -374,7 +374,7 @@
   {
    "file": "sfx/evolve.mp3",
    "film": 14.6,
-   "db": -16
+   "db": -20
   },
   {
    "file": "sfx/whoosh.mp3",
@@ -479,7 +479,8 @@
  ],
  "gains": {
   "music": 0.3,
-  "voice": 2.0
+  "voice": 1.12
  },
- "evolveClip": "pokemon-evolve.mp4"
+ "evolveClip": "pokemon-evolve.mp4",
+ "voFile": "vo-sara-b.mp3"
 }
