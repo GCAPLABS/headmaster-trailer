@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, Img, OffthreadVideo, random, Sequence, staticFile, useCurrentFrame} from 'remotion';
 import TL from './film2.json';
 import {C, FONT, out, prog} from './theme';
-import {BLACK, Center, Crt, TERM, Term, TodoIcon} from './Trailer';
+import {BLACK, Center, Crt, TERM, Term} from './Trailer';
 
 // v2 opening, paced like the reference: a cut every half beat (15 frames at 120 bpm), 4 photos per word
 // running old -> today, type that smashes through the camera, an original 8-bit "evolving" gag, a music run,
@@ -12,9 +12,9 @@ export const H2 = {
   words: [
     {w: 'Light', imgs: ['clips/48919.mp4', 'clips/41740.mp4', 'clips/47241.mp4', 'clips/48298.mp4', 'clips/6754.mp4']},
     {w: 'Maps', imgs: ['clips/21612.mp4', 'clips/21621.mp4', 'clips/21607.mp4', 'clips/45032.mp4', 'brand/maps-today.jpg']},
-    {w: 'Money', imgs: ['clips/31100.mp4', 'clips/18261.mp4', 'clips/18297.mp4', 'brand/money-today.jpg']},
+    {w: 'Money', imgs: ['clips/31100.mp4', 'clips/18249.mp4', 'clips/18297.mp4', 'brand/money-today.jpg']},
     {w: 'Computers', imgs: ['clips/41266.mp4', 'clips/50748.mp4', 'clips/46635.mp4', 'clips/308.mp4']},
-    {w: 'Music', imgs: ['clips/42920.mp4', 'clips/48459.mp4', 'brand/music-today.jpg']},
+    {w: 'Music', imgs: ['clips/42920.mp4', 'clips/48459.mp4', 'clips/48532.mp4', 'brand/music-today.jpg']},
   ],
  gag: 0, ask: 0, end: 0,
 };
@@ -26,10 +26,11 @@ export const H2 = {
   const gi = 4;
   const st = (H2 as any).starts as number[];
   H2.gag = st[gi];
-  const gagLen = 90;
+  // 62 frames: the reference's evolve gag runs 11.20 to 13.27 s.
+  const gagLen = 62;
   st[gi] = H2.gag + gagLen;
   H2.ask = st[gi] + H2.words[gi].imgs.length * H2.img;
-  H2.end = H2.ask + 90;
+  H2.end = (TL as any).scenes.hook[1];
 }
 const STARTS = (H2 as any).starts as number[];
 
@@ -42,7 +43,7 @@ const Punch: React.FC<{lf: number; seed: number; children: React.ReactNode}> = (
 };
 
 // A real clip on its own clock: the clip starts at its cut, from a hand-picked moment (START, seconds).
-const START: Record<string, number> = {'clips/47241.mp4': 1.5, 'clips/31100.mp4': 4, 'clips/7248.mp4': 2, 'clips/6833.mp4': 2};
+const START: Record<string, number> = {'pokemon-evolve.mp4': 0, 'clips/18249.mp4': 2.2, 'clips/48532.mp4': 1, 'clips/47241.mp4': 1.5, 'clips/31100.mp4': 4, 'clips/7248.mp4': 2, 'clips/6833.mp4': 2};
 const Clip: React.FC<{src: string; lf: number; fit?: 'cover'}> = ({src, lf}) => {
   const f = useCurrentFrame();
   return (
@@ -84,6 +85,8 @@ const Sprite: React.FC<{rows: string[]; px: number}> = ({rows, px}) => (
   </svg>
 );
 const Gag: React.FC<{lf: number}> = ({lf}) => {
+  // The owner's clip, retimed frame by frame to the reference (tools/pokemon_evolve.py): it plays from the cut, no title.
+  if ((TL as any).evolveClip) return <AbsoluteFill style={{background: '#000'}}><Clip src={(TL as any).evolveClip} lf={lf} /></AbsoluteFill>;
   const flick = lf >= 24 && lf < 54 ? Math.floor(lf / Math.max(2, 8 - (lf - 24) / 4)) % 2 === 1 : false;
   const flash = lf >= 54 && lf < 58;
   const done = lf >= 58;
@@ -120,24 +123,22 @@ const Gag: React.FC<{lf: number}> = ({lf}) => {
   );
 };
 
-// Generic phone home screen; the camera pushes into the to-do app, its badge climbing.
-const ICONS = ['#e5484d', '#30a46c', '#0090ff', '#f5a623', '#8e4ec6', '#12a594', '#e54666', '#3e63dd', '#ffb224', '#29a383', '#d6409f', '#0d74ce'];
+// "And this?" The real Reminders icon on black, like the reference's real Mail icon; its badge starts climbing.
+export const Badge: React.FC<{n: number; size: number}> = ({n, size}) => (
+  <div style={{position: 'absolute', right: -size * 0.12, top: -size * 0.12, minWidth: size * 0.36, height: size * 0.36, padding: `0 ${size * 0.08}px`, boxSizing: 'border-box', borderRadius: size * 0.18, background: '#ff3b30', color: '#fff', fontFamily: FONT.body, fontWeight: 600, fontSize: size * 0.22, display: 'flex', alignItems: 'center', justifyContent: 'center', fontVariantNumeric: 'tabular-nums'}}>{n}</div>
+);
 const Ask: React.FC<{lf: number}> = ({lf}) => {
-  const z = 1 + 2.4 * out(prog(lf, 6, 40));
-  const c = out(prog(lf, 6, 40));
-  const badge = Math.min(47, 3 + Math.floor(Math.max(0, lf - 30) / 1.4));
+  const e = out(prog(lf, 0, 24));
+  const badge = lf < 34 ? 0 : Math.min(47, 3 + Math.floor((lf - 34) / 1.6));
   return (
-    <AbsoluteFill style={{background: BLACK, overflow: 'hidden'}}>
-      <AbsoluteFill style={{transformOrigin: '930px 458px', transform: `translate(${(960 - 930) * c}px, ${(470 - 458) * c}px) scale(${z})`}}>
-        <div style={{position: 'absolute', left: 760, top: 80, width: 420, height: 900, borderRadius: 64, background: '#1d1d24', border: '10px solid #2c2c35', overflow: 'hidden'}}>
-          <div style={{position: 'absolute', inset: 0, background: '#2a2160'}} />
-          <div style={{position: 'absolute', left: 30, top: 120, display: 'grid', gridTemplateColumns: 'repeat(4, 72px)', gap: '34px 22px'}}>
-            {ICONS.map((c, i) => i === 9 ? <div key={i} style={{width: 72, height: 72}}><TodoIcon size={72} badge={badge} /></div> : <div key={i} style={{width: 72, height: 72, borderRadius: 18, background: c}} />)}
-          </div>
+    <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+      <Center y={-70}>
+        <div style={{position: 'relative', width: 300, height: 300, opacity: e, transform: `scale(${0.94 + 0.06 * e + 0.05 * prog(lf, 24, 103, (t) => t)})`}}>
+          <Img src={staticFile('apple/reminders-icon.png')} style={{width: 300, height: 300, borderRadius: 68}} />
+          {badge > 0 && <Badge n={badge} size={300} />}
         </div>
-      </AbsoluteFill>
-      <Center y={390}><div style={{background: 'rgba(0,0,0,0.55)', padding: '6px 24px'}}><Term f={lf} at={8} text="And this?" size={110} /></div></Center>
-      <Crt f={lf} grain={0.06} />
+      </Center>
+      <Center y={250}><Term f={lf} at={10} text="And this?" size={96} /></Center>
     </AbsoluteFill>
   );
 };

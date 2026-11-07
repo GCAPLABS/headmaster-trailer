@@ -124,13 +124,13 @@
   [
    12,
    12,
-   17.0,
+   16.1,
    null
   ],
   [
    13,
    14,
-   18.6,
+   18.4,
    null
   ],
   [
@@ -349,7 +349,8 @@
  ],
  "duck": {
   "db": -7,
-  "from": 0.0
+  "from": 0.0,
+  "hold": 1.6
  },
  "extra": [
   {
@@ -368,27 +369,12 @@
   },
   {
    "file": "sfx/evolve.mp3",
-   "film": 15.8,
+   "film": 14.6,
    "db": -6
   },
   {
    "file": "sfx/whoosh.mp3",
    "film": 21.5,
-   "db": -10
-  },
-  {
-   "file": "sfx/whoosh.mp3",
-   "film": 35.0,
-   "db": -10
-  },
-  {
-   "file": "sfx/whoosh.mp3",
-   "film": 43.0,
-   "db": -10
-  },
-  {
-   "file": "sfx/whoosh.mp3",
-   "film": 80.0,
    "db": -10
   },
   {
@@ -400,6 +386,11 @@
    "file": "sfx/ding.mp3",
    "film": 22.9,
    "db": -12
+  },
+  {
+   "file": "sfx/pen.mp3",
+   "film": 24.7,
+   "db": -8
   },
   {
    "file": "sfx/ding.mp3",
@@ -417,39 +408,14 @@
    "db": -12
   },
   {
-   "file": "sfx/pen.mp3",
-   "film": 24.7,
-   "db": -8
+   "file": "sfx/whoosh.mp3",
+   "film": 35.0,
+   "db": -10
   },
   {
    "file": "sfx/notif.mp3",
-   "film": 43.07,
-   "db": -14
-  },
-  {
-   "file": "sfx/notif.mp3",
-   "film": 43.43,
-   "db": -14
-  },
-  {
-   "file": "sfx/notif.mp3",
-   "film": 43.8,
-   "db": -14
-  },
-  {
-   "file": "sfx/notif.mp3",
-   "film": 44.17,
-   "db": -14
-  },
-  {
-   "file": "sfx/notif.mp3",
-   "film": 44.53,
-   "db": -14
-  },
-  {
-   "file": "sfx/notif.mp3",
-   "film": 44.9,
-   "db": -14
+   "film": 43.1,
+   "db": -24
   },
   {
    "file": "sfx/tick.mp3",
@@ -467,6 +433,16 @@
    "db": -14
   },
   {
+   "file": "sfx/logo.mp3",
+   "film": 55.1,
+   "db": -6
+  },
+  {
+   "file": "sfx/typing.mp3",
+   "film": 61.77,
+   "db": -12
+  },
+  {
    "file": "sfx/tick.mp3",
    "film": 67.0,
    "db": -14
@@ -482,28 +458,24 @@
    "db": -14
   },
   {
-   "file": "sfx/typing.mp3",
-   "film": 61.77,
-   "db": -12
+   "file": "sfx/click.mp3",
+   "film": 77.33,
+   "db": -8
   },
   {
-   "file": "sfx/logo.mp3",
-   "film": 55.1,
-   "db": -6
+   "file": "sfx/whoosh.mp3",
+   "film": 80.0,
+   "db": -10
   },
   {
    "file": "sfx/logo.mp3",
    "film": 90.1,
    "db": -12
-  },
-  {
-   "file": "sfx/click.mp3",
-   "film": 77.33,
-   "db": -8
   }
  ],
  "gains": {
   "music": 0.3,
   "voice": 2.0
- }
+ },
+ "evolveClip": "pokemon-evolve.mp4"
 }

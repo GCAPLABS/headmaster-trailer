@@ -56,7 +56,18 @@ npx remotion still src/index.ts Film2 out/f.png --frame=1300 --gl=swangle   # si
 | `.claude/skills/` | Every design and motion skill. They load automatically. |
 | Older files (`Film.tsx`, `Full.tsx`, `Trailer.tsx`, `Scenes*.tsx`, `storyboard*`, `timeline*.json`) | v1 and the earlier demo film. Not part of the current cut. |
 
-## Open work: the owner's feedback, newest first (do these next)
+## v4 status (7 Nov 2026, branch `v4-real-screens`)
+
+Done in v4, not yet rendered in full (the owner sees the board first: `renders/v4-board/board.jpg`):
+- **0:43 sound:** the six pings and the whoosh are gone. One soft ping (-24 dB) is left at 43.1 s, and `duck.hold` (1.6 s) keeps the bed level across short gaps instead of pumping. Mix: voice +11.0 dB over music under the lines, -15.1 LUFS.
+- **Pokémon gag:** the owner's FireRed clip, built by `tools/pokemon_evolve.py` and retimed frame by frame to the reference's 11.20–13.27 s. Pixels are snapped to the GBA's native resolution and scaled up with nearest-neighbour. The gag is now 62 frames, Music has a 4th clip (cassette 48532), and "Music." and "And this?" moved to 16.1 s and 18.4 s.
+- **Money:** Franklin's face on the $100 (Mixkit 18249, from 2.2 s) replaces the "NOTE" corner shot.
+- **Middle story:** every drawn Windows dialog is gone. It now uses real webcore pins (`public/webcore/`), real Mixkit footage (pen on a pad 42655, phone in hands 4915), and real iOS 26 and macOS Reminders screens plus real iOS notifications from support.apple.com (`public/apple/`). The Reminders icon carries the badge in "And this?", the nag and the snow.
+- **End card:** "Not affiliated with any brand shown."
+- **Still stand-ins:** the Gmail reading view and empty reply (45.5–53.5 s) are rebuilt in Gmail's layout and Roboto. `docs/shot-list-iphone-gmail.md` lists the real captures for the owner's Mac Claude.
+- **Gaps vs the reference that v4 does not touch** (the owner decides): the cold open is a CRT terminal font, where the reference uses small clean sans on pure black; the "Light" clips are generic stock, where the reference uses iconic images (a fire painting, Edison with his bulb); the opening's driving music between words is about -18 dB, so the whole-film voice-over-gap figure is +5.5 dB (+15 to +23 in the story).
+
+## Open work: the owner's feedback, newest first (v4 above addresses 1–4)
 
 1. **The sound at 0:43 is "disgusting".** The notification run (`notif` sfx ×6 at 43.07–44.9 s, -14 dB) and the whoosh and beat switch at 43.0 s must go. Use at most one soft sound, and make the music change smooth.
 2. **Drop the drawn old-Windows pop-up look completely.** That covers the to-do dialogs, organiser, shared list, TO-DO.TXT and drawn notifications in `Film2.tsx`. The owner says that is NOT webcore. "Webcore" means the real Pinterest aesthetic in `webcore-pinterest-urls.txt` and `reference/refs-webcore/`: zoomed-in CRT pixel screens with sky and hills through the grid, stacked dialogs, Y2K icon sheets, glitchy blue text. Use it only where a web shot fits.
