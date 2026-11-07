@@ -8,7 +8,7 @@ import {BLACK, Center, Crt, TERM, Term} from './Trailer';
 // running old -> today, type that smashes through the camera, an original 8-bit "evolving" gag, a music run,
 // then "And this?" on a phone home screen. Photos: The Met (CC0), NASA (PD), Wikimedia Commons (credits.json).
 export const H2 = {
-  on: 0, line1: 18, line2: 84, smash: [138, 150], montage: 150, img: 15,
+  on: 0, line1: 18, line2: 90, smash: [138, 150], montage: 150, img: 15,
   words: [
     {w: 'Light', imgs: ['clips/48919.mp4', 'clips/41740.mp4', 'clips/47241.mp4', 'clips/48298.mp4', 'clips/6754.mp4']},
     {w: 'Maps', imgs: ['clips/21612.mp4', 'clips/21621.mp4', 'clips/45032.mp4', 'brand/google-maps.jpg', 'brand/maps-today.jpg']},
@@ -143,7 +143,7 @@ const Ask: React.FC<{lf: number}> = ({lf}) => {
           {badge > 0 && <Badge n={badge} size={300} />}
         </div>
       </Center>
-      <Center y={250}><Term f={lf} at={10} text="And this?" size={96} /></Center>
+      <Center y={250}><Term f={lf} at={10} text="And your to-do list?" size={96} /></Center>
     </AbsoluteFill>
   );
 };
@@ -157,11 +157,11 @@ export const Hook2: React.FC = () => {
     return (
       <AbsoluteFill style={{background: '#000'}}>
         <AbsoluteFill style={{background: BLACK, transform: `scaleY(${0.004 + 0.996 * on})`, filter: `brightness(${1 + 2 * (1 - on)})`}}>
-          {f < 78 && <Center><Term f={f} at={H2.line1} text="Everything we make evolves." step={7} size={124} /></Center>}
-          {f >= 78 && (
+          {f < 86 && <Center><Term f={f} at={H2.line1} text="Every tool we love got better." step={7} size={124} /></Center>}
+          {f >= 86 && (
             <Center>
               <div style={{transform: `scale(${1 + 14 * sm})`, filter: `blur(${sm * 14}px)`, opacity: 1 - prog(f, H2.smash[1] - 3, H2.smash[1])}}>
-                <Term f={f} at={H2.line2} text="It's not a choice." step={9} size={124} cursor={sm === 0} />
+                <Term f={f} at={H2.line2} text="Nobody asked it to." step={9} size={124} cursor={sm === 0} />
               </div>
             </Center>
           )}

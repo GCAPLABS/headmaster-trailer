@@ -20,6 +20,12 @@ const W = WORDS as [number, number, string][];
 // Film frame where each narration line starts, and how long it runs.
 const VO = (TL.vo as [number, number, number, string | null][]).map(([a, b, t, sub]) => ({at: Math.round(t * FPS), len: Math.round((W[b][1] - W[a][0]) * FPS), sub}));
 const voAt = (i: number) => VO[i].at;
+// Film frame where a given word inside a narration line starts.
+const wordAt = (i: number, word: string) => {
+  const [a, b, t] = TL.vo[i] as [number, number, number, string | null];
+  const k = W.slice(a, b + 1).findIndex((w) => w[2].toLowerCase().startsWith(word.toLowerCase()));
+  return Math.round((t + (k < 0 ? 0 : W[a + k][0] - W[a][0])) * FPS);
+};
 
 const useHand = () => {
   const [h] = React.useState(() => delayRender('caveat'));
@@ -145,7 +151,7 @@ const Nag: React.FC<{f: number}> = ({f}) => {
   );
 };
 
-// "Every one of those steps made the list better at remembering." Real Reminders icons snow down and pile up.
+// "Each version got better at keeping score." Real Reminders icons snow down and pile up.
 const Snow: React.FC<{f: number}> = ({f}) => (
   <AbsoluteFill style={{background: 'linear-gradient(#2f7fe0, #8cc4f5)', overflow: 'hidden'}}>
     {Array.from({length: 80}).map((_, i) => {
@@ -157,7 +163,7 @@ const Snow: React.FC<{f: number}> = ({f}) => (
       const rot = (random(`o${i}`) - 0.5) * 60 + (y < rest ? Math.sin(t / 6 + i) * 18 : 0);
       return <Img key={i} src={staticFile('apple/reminders-icon.png')} style={{position: 'absolute', left: x, top: y, width: 120, height: 120, transform: `rotate(${rot}deg)`}} />;
     })}
-    <div style={{position: 'absolute', left: 0, right: 0, top: 300, textAlign: 'center', opacity: prog(f, 10, 24), zIndex: 2}}><span style={{fontFamily: FONT.body, fontWeight: 600, fontSize: 64, color: '#fff', background: '#1d5fc4', borderRadius: 18, padding: '8px 30px'}}>better at remembering.</span></div>
+    <div style={{position: 'absolute', left: 0, right: 0, top: 300, textAlign: 'center', opacity: prog(f, 10, 24), zIndex: 2}}><span style={{fontFamily: FONT.body, fontWeight: 600, fontSize: 64, color: '#fff', background: '#1d5fc4', borderRadius: 18, padding: '8px 30px'}}>better at keeping score.</span></div>
   </AbsoluteFill>
 );
 
@@ -248,7 +254,7 @@ const Wait: React.FC<{f: number}> = ({f}) => {
 // "Until now." Small type on black; the "o" grows into the Headmaster mark, which lights up.
 const Until: React.FC<{f: number}> = ({f}) => {
   const typeAt = voAt(22) - S.until[0];
-  const shown = 'Until now.'.slice(0, Math.max(0, Math.floor((f - typeAt) / 1.6)));
+  const shown = 'Not anymore.'.slice(0, Math.max(0, Math.floor((f - typeAt) / 1.6)));
   const go = 50;
   const m = springAt(f, go, {damping: 14, stiffness: 90, mass: 1.1});
   const fade = prog(f, go - 6, go + 4);
@@ -273,7 +279,7 @@ const Until: React.FC<{f: number}> = ({f}) => {
 
 // "This is the first to-do list that does itself. Headmaster." The app window opens; the name types in on the word.
 const App: React.FC<{f: number}> = ({f}) => {
-  const nameAt = voAt(24) - S.app[0];
+  const nameAt = wordAt(23, 'Headmaster') - S.app[0];
   const name = 'Headmaster'.slice(0, Math.max(0, Math.floor((f - nameAt) / 1.5)));
   const slide = prog(f, nameAt - 4, nameAt + 10);
   const home = f >= 120;
@@ -342,9 +348,9 @@ const Aura: React.FC<{f: number; pulse?: number}> = ({f, pulse = 0}) => {
   );
 };
 const RES = [
-  {k: 'The booking.', v: 'Found.', title: 'Team dinner', rows: ['Friday · 7:30 pm · table for 8', 'Olive House, near the office', 'Held until 6 pm today']},
-  {k: 'The form.', v: 'Filled.', title: 'Supplier form', rows: ['Company details · from last year', 'Bank details · from your files', '2 fields left for you']},
-  {k: 'The reply.', v: 'Drafted.', title: 'Reply to Sam', rows: ['"Hi Sam! Three venues that fit 40:', 'the Loft, Harbour Room, Studio 9.', 'All free Friday. Pick one?"']},
+  {k: 'The booking,', v: 'ready.', title: 'Team dinner', rows: ['Friday · 7:30 pm · table for 8', 'Olive House, near the office', 'Held until 6 pm today']},
+  {k: 'The research,', v: 'done.', title: 'Venues for Friday', rows: ['3 venues fit 40 people', 'All free Friday evening', 'Menus and prices compared']},
+  {k: 'The reply to Sam,', v: 'drafted.', title: 'Reply to Sam', rows: ['"Hi Sam! Three venues that fit 40:', 'the Loft, Harbour Room, Studio 9.', 'All free Friday. Pick one?"']},
 ];
 const Results: React.FC<{f: number}> = ({f}) => {
   const base = S.results[0];
@@ -374,7 +380,7 @@ const Results: React.FC<{f: number}> = ({f}) => {
       ) : (
         <Center>
           <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 110, letterSpacing: '-0.035em', color: C.ink, opacity: prog(f, f < none ? ready : none, (f < none ? ready : none) + 8), filter: `blur(${(1 - prog(f, f < none ? ready : none, (f < none ? ready : none) + 8)) * 8}px)`}}>
-            {f < none ? 'All of it ready.' : <>None of it <span style={{color: C.blue}}>sent.</span></>}
+            {f < none ? 'Everything prepared.' : <>Nothing goes <span style={{color: C.blue}}>out</span></>}
           </div>
         </Center>
       )}
@@ -382,7 +388,7 @@ const Results: React.FC<{f: number}> = ({f}) => {
   );
 };
 
-// "That part is still you." The draft waits; your click sends it.
+// "...until you make the call." The draft waits; your click sends it.
 const Approve: React.FC<{f: number}> = ({f}) => {
   const tap = 70;
   const mv = springAt(f, 20, {damping: 20, stiffness: 120, mass: 1});
@@ -393,7 +399,7 @@ const Approve: React.FC<{f: number}> = ({f}) => {
   return (
     <AbsoluteFill>
       <Aura f={f + 285} />
-      <Title f={f} a="That part" b="is still you." at={4} x={600} y={110} size={92} />
+      <Title f={f} a="Until you" b="make the call." at={4} x={600} y={110} size={92} />
       <AbsoluteFill style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <div style={{width: 900, background: C.white, borderRadius: 30, border: `2px solid ${C.line}`, boxShadow: '0 30px 80px rgba(60,60,160,0.16)', padding: '36px 44px', marginTop: 80}}>
           <div style={{display: 'flex', alignItems: 'center', gap: 18}}>
