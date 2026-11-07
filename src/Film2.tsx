@@ -391,7 +391,7 @@ const Results: React.FC<{f: number}> = ({f}) => {
 const Approve: React.FC<{f: number}> = ({f}) => {
   const tap = 70;
   const mv = springAt(f, 20, {damping: 20, stiffness: 120, mass: 1});
-  const cx = 1700 + (1255 - 1700) * mv, cy = 1000 + (772 - 1000) * mv;
+  const cx = 1700 + (1250 - 1700) * mv, cy = 1000 + (676 - 1000) * mv; // the tip lands on Approve (button centre 1262, 683)
   const press = prog(f, tap - 4, tap) * (1 - prog(f, tap + 2, tap + 8));
   const sent = f >= tap + 2;
   const ok = springAt(f, tap + 2, {damping: 12, stiffness: 240, mass: 0.6});
@@ -460,18 +460,14 @@ const Gallery: React.FC<{f: number}> = ({f}) => {
   );
 };
 
-// App showcase (replaces the 3D museum, owner: it read as AI). Five real recordings of our own app's mock UI
-// (feedback.gcaplabs.com, recorded at 2x by tools/app-showcase.md), each one a state changing on screen:
-// the job typed, the approval menu, memory loading, a new automation, hiring an agent. Hard cuts on the 2 s grid, a slow push on each.
-const SHOW = ['app/show-1.mp4', 'app/show-2.mp4', 'app/show-3.mp4', 'app/show-4.mp4', 'app/show-5.mp4'];
-// Camera keys per clip, in clip seconds: [t, focusX, focusY, zoom] in 1920x1080 clip pixels. The camera follows the real cursor
-// and the thing that changes: the typed ask, the Ask first menu, the memory list, the New automation panel, Hire Emily.
-const CAM: [number, number, number, number][][] = [
-  [[0, 720, 780, 1.14], [2, 820, 840, 1.34]],
-  [[0, 380, 940, 1.3], [2, 600, 720, 1.26]],
-  [[0, 760, 430, 1.06], [2, 720, 460, 1.24]],
-  [[0, 1350, 420, 1.14], [2, 1580, 340, 1.34]],
-  [[0, 900, 610, 1.26], [2, 960, 570, 1.16]],
+// App showcase (replaces the 3D museum, owner: it read as AI): ONE real chat turn in our app's mock UI (feedback.gcaplabs.com,
+// recorded at 2x with the cursor's name label hidden, see docs/app-showcase.md). You send the ask, it works through the steps,
+// it asks before booking and you click Allow, then it answers. Four cuts on the half-second grid, one gentle camera move each.
+const TURN: {src: string; len: number; cam: [number, number, number, number][]}[] = [
+  {src: 'app/turn-1.mp4', len: 75, cam: [[0, 760, 640, 1.18], [2.5, 820, 600, 1.3]]},
+  {src: 'app/turn-2.mp4', len: 75, cam: [[0, 700, 260, 1.16], [2.5, 740, 320, 1.26]]},
+  {src: 'app/turn-3.mp4', len: 60, cam: [[0, 560, 700, 1.24], [2, 520, 760, 1.34]]},
+  {src: 'app/turn-4.mp4', len: 90, cam: [[0, 860, 560, 1.12], [3, 860, 640, 1.2]]},
 ];
 // One continuous move per shot, sine in-out, so the camera never stops and restarts inside a shot.
 const camAt = (keys: [number, number, number, number][], t: number) => {
@@ -480,21 +476,22 @@ const camAt = (keys: [number, number, number, number][], t: number) => {
   return [x0 + (x1 - x0) * e, y0 + (y1 - y0) * e, z0 + (z1 - z0) * e];
 };
 const Museum: React.FC<{f: number}> = ({f}) => {
-  const per = 60, i = Math.min(SHOW.length - 1, Math.floor(f / per)), lf = f - i * per;
-  const [cx, cy, z] = camAt(CAM[i], lf / 30);
+  let i = 0, start = 0;
+  while (i < TURN.length - 1 && f >= start + TURN[i].len) { start += TURN[i].len; i++; }
+  const lf = f - start, [cx, cy, z] = camAt(TURN[i].cam, lf / 30);
   const tx = Math.min(0, Math.max(1920 - 1920 * z, 960 - cx * z)), ty = Math.min(0, Math.max(1080 - 1080 * z, 540 - cy * z));
   return (
     <AbsoluteFill style={{background: '#FAFAFC', overflow: 'hidden'}}>
-      <Sequence from={i * per} durationInFrames={per} layout="none">
+      <Sequence from={start} durationInFrames={TURN[i].len} layout="none">
         <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, transformOrigin: '0 0', transform: `translate(${tx}px, ${ty}px) scale(${z})`}}>
-          <OffthreadVideo src={staticFile(SHOW[i])} muted style={{width: 1920, height: 1080}} />
+          <OffthreadVideo src={staticFile(TURN[i].src)} muted style={{width: 1920, height: 1080}} />
         </div>
       </Sequence>
     </AbsoluteFill>
   );
 };
 
-// End card, white: the icon lands, "Free in beta" and the address either side.
+// End card, white: the icon lands, what it is and the address either side.
 const End: React.FC<{f: number}> = ({f}) => {
   const land = springAt(f, 4, {damping: 14, stiffness: 120, mass: 1.1});
   const side = prog(f, 22, 40);
@@ -502,7 +499,7 @@ const End: React.FC<{f: number}> = ({f}) => {
     <AbsoluteFill style={{background: C.white}}>
       <Center>
         <div style={{display: 'flex', alignItems: 'center', gap: 120}}>
-          <div style={{fontFamily: FONT.body, fontWeight: 600, fontSize: 52, color: C.ink2, opacity: side, transform: `translateX(${(1 - side) * 30}px)`}}>Free in beta</div>
+          <div style={{fontFamily: FONT.body, fontWeight: 600, fontSize: 52, color: C.ink2, opacity: side, transform: `translateX(${(1 - side) * 30}px)`}}>Your own AI agent.</div>
           <Img src={staticFile('headmaster-icon-dark.svg')} style={{width: 240, height: 240, borderRadius: 54, opacity: Math.min(1, land * 1.5), transform: `translateY(${(1 - land) * 40}px) scale(${0.95 + 0.05 * Math.min(1, land)})`}} />
           <div style={{fontFamily: FONT.body, fontWeight: 700, fontSize: 52, color: C.blue, opacity: side, transform: `translateX(${(1 - side) * -30}px)`}}>headmaster.app</div>
         </div>

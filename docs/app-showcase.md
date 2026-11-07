@@ -1,15 +1,14 @@
-# App showcase (85-95 s)
+# App showcase (85-95 s): one chat turn
 
-Replaces the 3D museum (owner: it read as AI). Five real recordings of our app's mock UI from feedback.gcaplabs.com, in `public/app/show-1..5.mp4`.
+Replaces the 3D museum (owner: it read as AI). One real chat turn in our app's mock UI (feedback.gcaplabs.com, Do a job tab), in `public/app/turn-1..4.mp4`.
 
-How they were recorded: Playwright, a 2880x1920 window, the `#demo` panel pinned to the top left with CSS `zoom: 2` (Playwright's video ignores deviceScaleFactor, so the zoom is what makes it sharp), the tabs clicked in turn (Do a job, Asks first, Memory, Automations, Hire a team), 7 s each. Each clip is a 2.2 s crop of the moment a state changes, scaled to 1920x1080:
+How it was recorded: Playwright, a 2880x1920 window, the `#demo` panel pinned top left with CSS `zoom: 2` (Playwright's video ignores deviceScaleFactor, so the zoom is what makes it sharp). The demo runs in an iframe (`/demo/index.html`); an init script hides the cursor's name label (`div.pointer-events-none.absolute div[class*="origin-top-left"][class*="bg-fg"]`). The Do a job run is about 24 s; four moments are cut from it and scaled to 1920x1080:
 
-| Clip | Tab | Moment |
-|---|---|---|
-| show-1 | Do a job | the ask being typed |
-| show-2 | Asks first | the Approval mode menu opening |
-| show-3 | Memory | the memory list loading |
-| show-4 | Automations | New automation opening |
-| show-5 | Hire a team | Hire Emily dialog |
+| Clip | Source (s) | Moment | Film length |
+|---|---|---|---|
+| turn-1 | 8.0 | the ask typed and sent | 2.5 s |
+| turn-2 | 16.15 | the steps tick off (mail, price list, Thursday) | 2.5 s |
+| turn-3 | 18.65 | it asks first; the cursor clicks Allow | 2.0 s |
+| turn-4 | 22.3 | the answer: the week in short, the call booked | 3.0 s |
 
-`Museum` in `src/Film2.tsx` plays them as hard cuts on the 2 s grid with a slow push. `Gallery3D.tsx` is no longer used.
+`Museum` in `src/Film2.tsx` (the `TURN` list) plays them with one sine-eased camera move per shot. `Gallery3D.tsx` is no longer used.

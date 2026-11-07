@@ -25,9 +25,25 @@ for m in TL['music']:
     fi, fo = int(m.get('fadeIn', 0.01) * R), int(m.get('fadeOut', 0.01) * R)
     seg[:fi] *= ramp(fi, 0, 1)[:len(seg[:fi])]; seg[-fo:] *= ramp(fo, 1, 0)[-len(seg[-fo:]):]
     e = min(N, t + len(seg)); mus[t:e] += seg[:e - t]
+_ve = 10 * np.log10(np.convolve((vo.mean(1) if vo.ndim > 1 else vo) ** 2, np.ones(int(0.01 * R)) / int(0.01 * R), 'same') + 1e-10)
+_runL = None
+def snap(lo, hi, back):
+    """Time of the first silent moment (under -45 dB) between lo and hi, searching from the word outward; else the quietest one."""
+    i0, i1 = int(max(0, lo) * R), int(max(lo, hi) * R)
+    if i1 <= i0: return lo if back else hi
+    # a real pause: at least 80 ms under -45 dB (a short dip inside a word, as between "ma" and "ps", does not count)
+    L = int(0.08 * R); q = (_ve < -45).astype(np.int32); run = np.convolve(q, np.ones(L, np.int32), 'full')[L - 1:L - 1 + len(q)] == L
+    w = _ve[i0:i1]; quiet = np.flatnonzero(run[i0:i1])
+    if len(quiet): return (i0 + (quiet[-1] + L if back else quiet[0])) / R
+    return (i0 + int(np.argmin(w))) / R
 for a, b, at, _ in TL['vo']:
     nxt = W[b + 1][0] if b + 1 < len(W) else W[b][1] + 0.4
-    s0, s1 = int(max(0, W[a][0] - 0.06) * R), int(min(W[b][1] + 0.3, nxt - 0.04) * R)
+    # Snap both cut points to real silence in the take (Whisper's word edges can sit inside a word): look back up to
+    # 0.3 s for the start and forward up to 0.45 s for the end, never into the neighbouring words.
+    prv = W[a - 1][1] if a > 0 else 0.0
+    s0 = snap(max(prv + 0.02, W[a][0] - 0.3), W[a][0] - 0.02, back=True)
+    s1 = snap(W[b][1] + 0.02, min(W[b][1] + 0.45, nxt - 0.02), back=False)
+    s0, s1 = int(s0 * R), int(s1 * R)
     seg = vo[s0:s1].copy(); f = int(0.012 * R); seg[:f] *= ramp(f, 0, 1); seg[-f * 3:] *= ramp(f * 3, 1, 0)
     t = int(at * R); e = min(N, t + len(seg)); voice[t:e] += seg[:e - t]
     if at >= TL['duck']['from']: mask[t:e] = 1
