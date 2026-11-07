@@ -123,14 +123,16 @@ const Stage: React.FC<{f: number; len: number; origin?: string; children: React.
 
 // A real capture (public/rec/, recorded on the owner's Mac, docs/capture-note.md), cropped to a 16:9 window
 // [x, y, w, h in source pixels] and pushed in slowly.
-const Rec: React.FC<{src: string; f: number; from?: number; sw: number; sh: number; crop: [number, number, number, number]; push?: number; bg?: string}> = ({src, f, from = 0, sw, sh, crop, push = 0.05, bg = '#ffffff'}) => {
+const Rec: React.FC<{src: string; f: number; from?: number; sw: number; sh: number; crop: [number, number, number, number]; push?: number; origin?: string; bg?: string; marks?: {x0: number; x1: number; y0: number; y1: number; on: number}[]}> = ({src, f, from = 0, sw, sh, crop, push = 0.05, origin = '50% 40%', bg = '#ffffff', marks = []}) => {
   const [cx, cy, cw, ch] = crop;
   const k = 1920 / cw, z = 1 + push * prog(f, 0, 90, inOut);
   return (
     <AbsoluteFill style={{background: bg, overflow: 'hidden'}}>
-      <AbsoluteFill style={{transform: `scale(${z})`, transformOrigin: '50% 40%'}}>
+      <AbsoluteFill style={{transform: `scale(${z})`, transformOrigin: origin}}>
         <div style={{position: 'absolute', left: -cx * k, top: -cy * k + (1080 - ch * k) / 2, width: sw * k, height: sh * k}}>
           <OffthreadVideo src={staticFile(src)} muted startFrom={Math.round(from * FPS)} style={{width: '100%', height: '100%'}} />
+          {/* highlighter marks over real words, in source pixels; multiply keeps the real text crisp underneath */}
+          {marks.map((m, i) => <div key={i} style={{position: 'absolute', left: (m.x0 - 3) * k, top: m.y0 * k, width: (m.x1 - m.x0 + 6) * k * m.on, height: (m.y1 - m.y0) * k, background: '#fde293', mixBlendMode: 'multiply', borderRadius: 2}} />)}
         </div>
       </AbsoluteFill>
     </AbsoluteFill>
@@ -228,24 +230,24 @@ const MailHead: React.FC<{ago: string}> = ({ago}) => (
     </div>
   </>
 );
+// "The asks are in your messages. The details are right there." Real Gmail (owner's Mac capture): each ask is
+// highlighted as it is spoken, then the rest on "details".
+const MARKS = [[489, 631], [637, 761], [793, 967], [973, 1184]];
 const Message: React.FC<{f: number}> = ({f}) => {
   const base = S.message[0];
-  // each highlight lands on its spoken word, like the reference's: "asks", "your", "messages", then "details"
-  const hl = [0, wordAt(19, 'asks') - base - 2, wordAt(19, 'your') - base - 2, wordAt(19, 'messages') - base - 2, wordAt(20, 'details') - base - 2];
+  const at = [wordAt(19, 'asks'), wordAt(19, 'your'), wordAt(19, 'messages'), wordAt(20, 'details')].map((t) => t - base - 2);
+  const marks = MARKS.map(([x0, x1], i) => ({x0, x1, y0: 329, y1: 351, on: prog(f, at[i], at[i] + 8, inOut)}));
+  // the camera follows the highlights along the line (focus in frame pixels; the line sits at y 240), zoom 1.45
+  const fx = [520, 798, 1160, 1556].map((x, i) => [at[i], x] as [number, number]);
+  let cx = 960;
+  for (const [t, x] of fx) cx += (x - cx) * prog(f, t - 6, t + 14, inOut);
+  const z = 1 + 0.45 * prog(f, 0, 30, inOut), cy = 240 + (540 - 240) * (1 - prog(f, 0, 30, inOut));
+  const tx = Math.min(0, Math.max(1920 - 1920 * z, 960 - cx * z)), ty = Math.min(0, Math.max(1080 - 1080 * z, 540 - cy * z));
   return (
-    <AbsoluteFill style={{background: '#f8fafd', overflow: 'hidden', perspective: 2400}}>
-      <AbsoluteFill style={{transformOrigin: '22% 52%', transform: `rotateY(${6 - 4 * prog(f, 0, 120, inOut)}deg) rotateX(3deg) scale(${1.55 - 0.1 * prog(f, 0, 120, inOut)}) translateX(${-40 * prog(f, 0, 120, inOut)}px)`}}>
-        <div style={{position: 'absolute', left: 170, top: 120, width: 1580, height: 980, padding: '56px 70px', boxSizing: 'border-box', background: '#fff', borderRadius: 28}}>
-          <MailHead ago="9:02 AM (0 minutes ago)" />
-          <div style={{fontFamily: GMAIL, fontWeight: 400, fontSize: 54, lineHeight: 1.55, color: '#1f1f1f', marginTop: 46, marginLeft: 102}}>
-            {ASK.map((p, i) => {
-              const on = p.h ? prog(f, hl[p.h], hl[p.h] + 8) : 0;
-              return <span key={i} style={{backgroundImage: 'linear-gradient(#fde293, #fde293)', backgroundRepeat: 'no-repeat', backgroundSize: `${on * 100}% 100%`, padding: p.h ? '0 4px' : 0}}>{p.t}</span>;
-            })}
-            <div style={{marginTop: 30}}>Thanks!<br />Dana</div>
-          </div>
-        </div>
-      </AbsoluteFill>
+    <AbsoluteFill style={{background: '#fff', overflow: 'hidden'}}>
+      <div style={{position: 'absolute', inset: 0, transformOrigin: '0 0', transform: `translate(${tx}px, ${ty}px) scale(${z})`}}>
+        <Rec src="rec/gmail-read.mov" f={f} from={0.5} sw={1920} sh={1080} crop={[300, 220, 960, 540]} push={0} marks={marks} />
+      </div>
     </AbsoluteFill>
   );
 };
@@ -254,9 +256,8 @@ const Message: React.FC<{f: number}> = ({f}) => {
 const Wait: React.FC<{f: number}> = ({f}) => {
   const cut = 66;
   return f < cut ? (
-    <Stage f={f} len={cut} origin="62% 40%" zoom={1.6}>
-      <Shot src="google/gmail-nudge-laptop.png" f={f} x={960 - 780} y={-30} w={1560} shadow={false} />
-    </Stage>
+    // real Gmail: Reply is clicked and the empty reply waits
+    <Rec src="rec/gmail-reply.mov" f={f} from={1.6} sw={1920} sh={1080} crop={[300, 220, 960, 540]} push={0.2} origin="15% 50%" />
   ) : (
     <Stage f={f - cut} len={150 - cut} origin="48% 38%" bg="#f6f8fc" zoom={1.25}>
       <Img src={staticFile('google/gmail-nudge.png')} style={{position: 'absolute', left: 960 - 739, top: 540 - 415, width: 1478}} />
