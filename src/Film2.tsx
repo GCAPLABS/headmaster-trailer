@@ -460,8 +460,22 @@ const Gallery: React.FC<{f: number}> = ({f}) => {
   );
 };
 
-// The museum ending is real 3D (Gallery3D.tsx): plinths, CC0 objects, our icon last.
-const Museum: React.FC<{f: number}> = ({f}) => <Gallery3D f={f} />;
+// App showcase (replaces the 3D museum, owner: it read as AI). Five real recordings of our own app's mock UI
+// (feedback.gcaplabs.com, recorded at 2x by tools/app-showcase.md), each one a state changing on screen:
+// the job typed, the approval menu, memory loading, a new automation, hiring an agent. Hard cuts on the 2 s grid, a slow push on each.
+const SHOW = ['app/show-1.mp4', 'app/show-2.mp4', 'app/show-3.mp4', 'app/show-4.mp4', 'app/show-5.mp4'];
+const Museum: React.FC<{f: number}> = ({f}) => {
+  const per = 60, i = Math.min(SHOW.length - 1, Math.floor(f / per)), lf = f - i * per;
+  return (
+    <AbsoluteFill style={{background: '#FAFAFC'}}>
+      <Sequence from={i * per} durationInFrames={per} layout="none">
+        <AbsoluteFill style={{transform: `scale(${1.0 + 0.035 * (lf / per)})`, transformOrigin: i === 1 ? '45% 60%' : '50% 50%'}}>
+          <OffthreadVideo src={staticFile(SHOW[i])} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+        </AbsoluteFill>
+      </Sequence>
+    </AbsoluteFill>
+  );
+};
 
 // End card, white: the icon lands, "Free in beta" and the address either side.
 const End: React.FC<{f: number}> = ({f}) => {
