@@ -552,20 +552,23 @@ const End: React.FC<{f: number}> = ({f}) => {
 };
 
 // Subtitles for the narrated lines a scene does not already spell out. Dark scenes get light type and vice versa.
-// Captions, styled apart from the product (brand lime #e0ef7c, no background, a soft shadow, Archivo; the reference's are a similar yellow-green) so they never read as part of the app's UI. Like the
+// Captions: small Figtree, no background; near-white on dark scenes, ink on light ones so they never read as part of the app's UI. Like the
 // reference, each word appears as it is spoken (word times from src/vo-words.json).
+const LIGHT = new Set(['remind', 'sync', 'share', 'message', 'wait', 'app', 'end']);
 const CAP = (TL.vo as [number, number, number, string | null][]).map(([a, b, t]) => W.slice(a, b + 1).map((w) => Math.round((t + w[0] - W[a][0]) * FPS)));
 const Subtitle: React.FC = () => {
   const f = useCurrentFrame();
   const i = VO.findIndex((v, k) => v.sub && f >= v.at && f < Math.min(v.at + v.len + 12, k + 1 < VO.length ? VO[k + 1].at : 1e9));
   if (i < 0) return null;
   const v = VO[i];
+  const scene = Object.entries(S).find(([, [a, b]]) => f >= a && f < b)?.[0] ?? '';
+  const light = LIGHT.has(scene);
   const words = (v.sub as string).split(' '), times = CAP[i];
   const spoken = times.filter((t) => f >= t).length;
   const n = Math.max(1, Math.round((spoken / times.length) * words.length));
   return (
     <div style={{position: 'absolute', left: 0, right: 0, bottom: 46, display: 'flex', justifyContent: 'center'}}>
-      <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 34, color: '#e0ef7c', WebkitTextStroke: '5px rgba(17,17,21,0.92)', paintOrder: 'stroke fill', textShadow: '0 2px 6px rgba(0,0,0,0.35)', padding: '6px 18px'}}>
+      <div style={{fontFamily: FONT.body, fontWeight: 500, fontSize: 32, letterSpacing: '0.005em', color: light ? 'rgba(17,17,21,0.88)' : 'rgba(255,255,255,0.94)', textShadow: light ? '0 0 12px rgba(255,255,255,0.9)' : '0 1px 3px rgba(0,0,0,0.6)', padding: '6px 18px'}}>
         {words.slice(0, n).join(' ')}
       </div>
     </div>
