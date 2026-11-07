@@ -552,7 +552,7 @@ const End: React.FC<{f: number}> = ({f}) => {
 };
 
 // Subtitles for the narrated lines a scene does not already spell out. Dark scenes get light type and vice versa.
-// Captions, styled apart from the product (brand lime #e0ef7c on a dark pill, Archivo; the reference's are a similar yellow-green) so they never read as part of the app's UI. Like the
+// Captions, styled apart from the product (brand lime #e0ef7c, no background, a soft shadow, Archivo; the reference's are a similar yellow-green) so they never read as part of the app's UI. Like the
 // reference, each word appears as it is spoken (word times from src/vo-words.json).
 const CAP = (TL.vo as [number, number, number, string | null][]).map(([a, b, t]) => W.slice(a, b + 1).map((w) => Math.round((t + w[0] - W[a][0]) * FPS)));
 const Subtitle: React.FC = () => {
@@ -565,7 +565,7 @@ const Subtitle: React.FC = () => {
   const n = Math.max(1, Math.round((spoken / times.length) * words.length));
   return (
     <div style={{position: 'absolute', left: 0, right: 0, bottom: 46, display: 'flex', justifyContent: 'center'}}>
-      <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 34, color: '#e0ef7c', background: 'rgba(12,12,22,0.66)', borderRadius: 10, padding: '6px 18px'}}>
+      <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 34, color: '#e0ef7c', WebkitTextStroke: '5px rgba(17,17,21,0.92)', paintOrder: 'stroke fill', textShadow: '0 2px 6px rgba(0,0,0,0.35)', padding: '6px 18px'}}>
         {words.slice(0, n).join(' ')}
       </div>
     </div>
