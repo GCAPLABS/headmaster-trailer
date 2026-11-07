@@ -307,8 +307,10 @@ const RealShot: React.FC<{src: string; f: number; skip?: number; cam: [number, n
 };
 // Camera keys for the chat turn, [clip seconds, focusX, focusY, zoom] in 1920x1080 clip pixels.
 const TURN_CAM: [number, number, number, number][] = [
-  [0, 960, 540, 1.0], [4.2, 1150, 860, 1.3], [5.8, 1240, 640, 1.42], [7.4, 1240, 380, 1.44], [12.8, 1240, 420, 1.44],
-  [14.6, 1150, 520, 1.42], [18.9, 1130, 540, 1.44], [21.8, 1300, 520, 1.47], [31.7, 1300, 560, 1.47],
+  // gentle: never past 1.3x (sharp, and just enough to keep the mock's half-hidden sidebar out of frame), one steady hold
+  // through the steps, the approval and the answer, then a pull back to the whole app on "fifty years"
+  [0, 960, 540, 1.0], [4.0, 1150, 840, 1.22], [5.6, 1480, 600, 1.3], [7.0, 1480, 430, 1.3], [13.0, 1480, 450, 1.3],
+  [14.6, 1480, 520, 1.3], [19.6, 1480, 540, 1.3], [25.7, 1480, 560, 1.3], [28.5, 960, 540, 1.0], [31.7, 960, 540, 1.0],
 ];
 const App: React.FC<{f: number}> = ({f}) => {
   const nameAt = wordAt(23, 'Headmaster') - S.app[0];
