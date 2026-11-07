@@ -11,9 +11,9 @@ export const H2 = {
   on: 0, line1: 18, line2: 84, smash: [138, 150], montage: 150, img: 15,
   words: [
     {w: 'Light', imgs: ['clips/48919.mp4', 'clips/41740.mp4', 'clips/47241.mp4', 'clips/48298.mp4', 'clips/6754.mp4']},
-    {w: 'Maps', imgs: ['clips/21612.mp4', 'clips/21621.mp4', 'clips/21607.mp4', 'clips/45032.mp4', 'brand/maps-today.jpg']},
+    {w: 'Maps', imgs: ['clips/21612.mp4', 'clips/21621.mp4', 'clips/45032.mp4', 'brand/google-maps.jpg', 'brand/maps-today.jpg']},
     {w: 'Money', imgs: ['clips/31100.mp4', 'clips/18249.mp4', 'clips/18297.mp4', 'brand/money-today.jpg']},
-    {w: 'Computers', imgs: ['clips/41266.mp4', 'clips/50748.mp4', 'clips/46635.mp4', 'clips/308.mp4']},
+    {w: 'Computers', imgs: ['brand/ibm-pc.jpg', 'clips/41266.mp4', 'clips/308.mp4', 'brand/imac-today.jpg']},
     {w: 'Music', imgs: ['clips/42920.mp4', 'clips/48459.mp4', 'clips/48532.mp4', 'brand/music-today.jpg']},
   ],
  gag: 0, ask: 0, end: 0,
@@ -53,12 +53,17 @@ const Clip: React.FC<{src: string; lf: number; fit?: 'cover'}> = ({src, lf}) => 
   );
 };
 
+// Real brand shots: tall phone screens sit whole on their own background; wide photos keep their subject in frame.
+const FIT: Record<string, {bg: string}> = {};
+const POS: Record<string, string> = {'brand/ibm-pc.jpg': '72% 50%', 'brand/imac-today.jpg': '60% 50%'};
 const Shot: React.FC<{src: string; lf: number; seed: number}> = ({src, lf, seed}) => (
   <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
     <Punch lf={lf} seed={seed}>
       {src.endsWith('.mp4')
         ? <Clip src={src} lf={lf} />
-        : <Img src={staticFile(src)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />}
+        : FIT[src]
+          ? <AbsoluteFill style={{background: FIT[src].bg}}><Img src={staticFile(src)} style={{width: '100%', height: '100%', objectFit: 'contain'}} /></AbsoluteFill>
+          : <Img src={staticFile(src)} style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: POS[src] ?? '50% 50%'}} />}
 
     </Punch>
     <AbsoluteFill style={{background: 'radial-gradient(120% 95% at 50% 50%, transparent 45%, rgba(0,0,0,0.62) 100%)'}} />
