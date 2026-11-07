@@ -78,23 +78,45 @@ const Paper: React.FC<{f: number}> = ({f}) => <Footage src="clips/42655.mp4" fro
 // "It moved into your pocket." A real phone in real hands.
 const Pocket: React.FC<{f: number}> = ({f}) => <Footage src="clips/4915.mp4" from={1} f={f} len={60} pos="50% 55%" />;
 
-// Real Apple screens on a dark stage, pushed in slowly.
-const Stage: React.FC<{f: number; len: number; origin?: string; children: React.ReactNode; bg?: string}> = ({f, len, origin = '50% 50%', children, bg = '#ffffff'}) => (
-  <AbsoluteFill style={{background: bg, overflow: 'hidden'}}>
-    <AbsoluteFill style={{transformOrigin: origin, transform: `scale(${1 + 0.08 * prog(f, 0, len, inOut)})`}}>{children}</AbsoluteFill>
-  </AbsoluteFill>
-);
+// OFF by default (owner: faking it over real screenshots looks fake; use real filmed-screen footage instead).
+// A screen filmed with a phone, like the reference's screen shots: a macro close-up, fine scanlines,
+// drifting ring moiré, lifted soft image, cool cast, dark falloff and a slight handheld tilt.
+const Filmed: React.FC<{f: number; children: React.ReactNode; strength?: number}> = ({f, children, strength = 1}) => {
+  const t = f / FPS;
+  const cx = 120 + 18 * Math.sin(t * 0.7), cy = -30 + 14 * Math.cos(t * 0.5);
+  return (
+    <AbsoluteFill style={{background: '#0a0a0c', overflow: 'hidden'}}>
+      <AbsoluteFill style={{transform: `perspective(2200px) rotateY(${-2.5 + 1.2 * Math.sin(t * 0.4)}deg) rotateX(${1.5 + 0.6 * Math.cos(t * 0.3)}deg) translate(${4 * Math.sin(t * 1.3)}px, ${3 * Math.cos(t * 1.1)}px)`, filter: `contrast(${1 - 0.14 * strength}) brightness(${1 - 0.06 * strength}) saturate(${1 - 0.18 * strength}) blur(${0.7 * strength}px)`}}>
+        {children}
+        <AbsoluteFill style={{background: `repeating-radial-gradient(circle at ${cx}% ${cy}%, rgba(40,40,60,0) 0px, rgba(40,40,60,${0.14 * strength}) 12px, rgba(40,40,60,0) 26px)`, mixBlendMode: 'multiply'}} />
+        <AbsoluteFill style={{background: `repeating-linear-gradient(to bottom, rgba(0,0,0,${0.13 * strength}) 0px, rgba(0,0,0,${0.13 * strength}) 1px, transparent 1px, transparent 3px)`}} />
+        <AbsoluteFill style={{background: 'rgba(190,205,230,0.10)', mixBlendMode: 'multiply'}} />
+      </AbsoluteFill>
+      <AbsoluteFill style={{background: `radial-gradient(130% 115% at 50% 50%, transparent 52%, rgba(0,0,0,${0.62 * strength}) 100%)`}} />
+    </AbsoluteFill>
+  );
+};
+
+// Real Apple screens, filmed close up, pushed in slowly.
+const Stage: React.FC<{f: number; len: number; origin?: string; children: React.ReactNode; bg?: string; zoom?: number; filmed?: boolean}> = ({f, len, origin = '50% 50%', children, bg = '#ffffff', zoom = 1, filmed = false}) => {
+  const inner = (
+    <AbsoluteFill style={{background: bg, overflow: 'hidden'}}>
+      <AbsoluteFill style={{transformOrigin: origin, transform: `scale(${zoom * (1 + 0.08 * prog(f, 0, len, inOut))})`}}>{children}</AbsoluteFill>
+    </AbsoluteFill>
+  );
+  return filmed ? <Filmed f={f}>{inner}</Filmed> : inner;
+};
 
 // "It learned to remind you." iOS Reminders: the urgent alarm.
 const Remind: React.FC<{f: number}> = ({f}) => (
-  <Stage f={f} len={60} origin="50% 20%">
+  <Stage f={f} len={60} origin="50% 22%" zoom={1.9}>
     <Shot src="apple/ios-reminders-urgent.png" f={f} x={960 - 380} y={40} w={760} shadow={false} />
   </Stage>
 );
 
 // "To sync." The same grocery list on a Mac and an iPhone.
 const Sync: React.FC<{f: number}> = ({f}) => (
-  <Stage f={f} len={36}>
+  <Stage f={f} len={60} zoom={1.3} origin="45% 45%">
     <Shot src="apple/mac-reminders-groceries.png" f={f} at={0} x={110} y={170} w={1100} radius={14} soft />
     <Shot src="apple/ios-reminders-groceries.png" f={f} at={5} x={1250} y={110} w={600} shadow={false} />
   </Stage>
@@ -102,7 +124,7 @@ const Sync: React.FC<{f: number}> = ({f}) => (
 
 // "To share." A family list on the Mac, one column per person.
 const Share: React.FC<{f: number}> = ({f}) => (
-  <Stage f={f} len={36} origin="60% 20%">
+  <Stage f={f} len={60} origin="40% 22%" zoom={1.7}>
     <Shot src="apple/mac-reminders-family-tasks.png" f={f} x={960 - 760} y={40} w={1520} radius={16} soft />
   </Stage>
 );
@@ -193,7 +215,7 @@ const Message: React.FC<{f: number}> = ({f}) => {
   const hl = [0, voAt(19) - base + 4, voAt(19) - base + 14, voAt(19) - base + 24, voAt(20) - base + 6];
   return (
     <AbsoluteFill style={{background: '#f8fafd', overflow: 'hidden', perspective: 2400}}>
-      <AbsoluteFill style={{transformOrigin: '30% 50%', transform: `rotateY(${8 - 4 * prog(f, 0, 120, inOut)}deg) rotateX(3deg) scale(${1.18 - 0.08 * prog(f, 0, 120, inOut)}) translateX(${-40 * prog(f, 0, 120, inOut)}px)`}}>
+      <AbsoluteFill style={{transformOrigin: '22% 52%', transform: `rotateY(${6 - 4 * prog(f, 0, 120, inOut)}deg) rotateX(3deg) scale(${1.55 - 0.1 * prog(f, 0, 120, inOut)}) translateX(${-40 * prog(f, 0, 120, inOut)}px)`}}>
         <div style={{position: 'absolute', left: 170, top: 120, width: 1580, height: 980, padding: '56px 70px', boxSizing: 'border-box', background: '#fff', borderRadius: 28}}>
           <MailHead ago="9:02 AM (0 minutes ago)" />
           <div style={{fontFamily: GMAIL, fontWeight: 400, fontSize: 54, lineHeight: 1.55, color: '#1f1f1f', marginTop: 46, marginLeft: 102}}>
@@ -213,11 +235,11 @@ const Message: React.FC<{f: number}> = ({f}) => {
 const Wait: React.FC<{f: number}> = ({f}) => {
   const cut = 66;
   return f < cut ? (
-    <Stage f={f} len={cut} origin="70% 42%">
+    <Stage f={f} len={cut} origin="62% 40%" zoom={1.6}>
       <Shot src="google/gmail-nudge-laptop.png" f={f} x={960 - 780} y={-30} w={1560} shadow={false} />
     </Stage>
   ) : (
-    <Stage f={f - cut} len={150 - cut} origin="45% 35%" bg="#f6f8fc">
+    <Stage f={f - cut} len={150 - cut} origin="48% 38%" bg="#f6f8fc" zoom={1.25}>
       <Img src={staticFile('google/gmail-nudge.png')} style={{position: 'absolute', left: 960 - 739, top: 540 - 415, width: 1478}} />
     </Stage>
   );
