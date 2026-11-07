@@ -148,16 +148,16 @@ export const Badge: React.FC<{n: number; size: number}> = ({n, size}) => (
 );
 const Ask: React.FC<{lf: number}> = ({lf}) => {
   const e = out(prog(lf, 0, 24));
-  const badge = lf < 34 ? 0 : Math.min(47, 3 + Math.floor((lf - 34) / 1.6));
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-      <Center y={-70}>
-        <div style={{position: 'relative', width: 300, height: 300, opacity: e, transform: `scale(${0.94 + 0.06 * e + 0.05 * prog(lf, 24, 103, (t) => t)})`}}>
-          <Img src={staticFile('apple/reminders-icon.png')} style={{width: 300, height: 300, borderRadius: 68}} />
-          {badge > 0 && <Badge n={badge} size={300} />}
+      {/* the real iPhone Home Screen (owner's Simulator capture), pushing in on Reminders and its badge */}
+      <AbsoluteFill style={{opacity: e, transform: `scale(${1.0 + 0.35 * prog(lf, 0, 103, (t) => 1 - Math.pow(1 - t, 2))})`, transformOrigin: '61% 52%'}}>
+        <div style={{position: 'absolute', left: 0, top: -960 * (1920 / 1206) + 540, width: 1920, height: 2622 * (1920 / 1206)}}>
+          <OffthreadVideo src={staticFile('rec/ios-home-badge.mov')} muted style={{width: '100%', height: '100%'}} />
         </div>
-      </Center>
-      <Center y={250}><Clean f={lf + H2.ask} line={7} text="And your to-do list?" size={64} /></Center>
+      </AbsoluteFill>
+      <AbsoluteFill style={{background: 'linear-gradient(transparent 55%, rgba(0,0,0,0.55))'}} />
+      <Center y={420}><Clean f={lf + H2.ask} line={7} text="And your to-do list?" size={64} /></Center>
     </AbsoluteFill>
   );
 };

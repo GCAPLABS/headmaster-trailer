@@ -121,27 +121,30 @@ const Stage: React.FC<{f: number; len: number; origin?: string; children: React.
   return filmed ? <Filmed f={f}>{inner}</Filmed> : inner;
 };
 
-// "It learned to remind you." iOS Reminders: the urgent alarm.
-const Remind: React.FC<{f: number}> = ({f}) => (
-  <Stage f={f} len={60} origin="50% 22%" zoom={1.9}>
-    <Shot src="apple/ios-reminders-urgent.png" f={f} x={960 - 380} y={40} w={760} shadow={false} />
-  </Stage>
-);
+// A real capture (public/rec/, recorded on the owner's Mac, docs/capture-note.md), cropped to a 16:9 window
+// [x, y, w, h in source pixels] and pushed in slowly.
+const Rec: React.FC<{src: string; f: number; from?: number; sw: number; sh: number; crop: [number, number, number, number]; push?: number; bg?: string}> = ({src, f, from = 0, sw, sh, crop, push = 0.05, bg = '#ffffff'}) => {
+  const [cx, cy, cw, ch] = crop;
+  const k = 1920 / cw, z = 1 + push * prog(f, 0, 90, inOut);
+  return (
+    <AbsoluteFill style={{background: bg, overflow: 'hidden'}}>
+      <AbsoluteFill style={{transform: `scale(${z})`, transformOrigin: '50% 40%'}}>
+        <div style={{position: 'absolute', left: -cx * k, top: -cy * k + (1080 - ch * k) / 2, width: sw * k, height: sh * k}}>
+          <OffthreadVideo src={staticFile(src)} muted startFrom={Math.round(from * FPS)} style={{width: '100%', height: '100%'}} />
+        </div>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
 
-// "To sync." The same grocery list on a Mac and an iPhone.
-const Sync: React.FC<{f: number}> = ({f}) => (
-  <Stage f={f} len={60} zoom={1.3} origin="45% 45%">
-    <Shot src="apple/mac-reminders-groceries.png" f={f} at={0} x={110} y={170} w={1100} radius={14} soft />
-    <Shot src="apple/ios-reminders-groceries.png" f={f} at={5} x={1250} y={110} w={600} shadow={false} />
-  </Stage>
-);
+// "Then reminders." The real iPhone Reminders list; the "Supplier form" reminder drops in from the top.
+const Remind: React.FC<{f: number}> = ({f}) => <Rec src="rec/ios-reminders-alert.mov" f={f} from={0.9} sw={1206} sh={2622} crop={[0, 0, 1206, 678]} />;
 
-// "To share." A family list on the Mac, one column per person.
-const Share: React.FC<{f: number}> = ({f}) => (
-  <Stage f={f} len={60} origin="40% 22%" zoom={1.7}>
-    <Shot src="apple/mac-reminders-family-tasks.png" f={f} x={960 - 760} y={40} w={1520} radius={16} soft />
-  </Stage>
-);
+// "Syncing." The same Friday list in the Mac's Reminders app, a new item arriving.
+const Sync: React.FC<{f: number}> = ({f}) => <Rec src="rec/reminders-sync.mov" f={f} from={1.0} sw={1920} sh={1080} crop={[300, 90, 440, 248]} />;
+
+// "Sharing." A real shared list, scrolled slowly.
+const Share: React.FC<{f: number}> = ({f}) => <Rec src="rec/ios-reminders-shared.mov" f={f} from={0.5} sw={1206} sh={2622} crop={[0, 0, 1206, 678]} />;
 
 // "To nag." The real Reminders icon, its badge climbing to 99; the icon jolts on every jump.
 const Nag: React.FC<{f: number}> = ({f}) => {
