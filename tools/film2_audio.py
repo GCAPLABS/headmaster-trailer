@@ -26,13 +26,15 @@ for m in TL['music']:
     seg[:fi] *= ramp(fi, 0, 1)[:len(seg[:fi])]; seg[-fo:] *= ramp(fo, 1, 0)[-len(seg[-fo:]):]
     e = min(N, t + len(seg)); mus[t:e] += seg[:e - t]
 _ve = 10 * np.log10(np.convolve((vo.mean(1) if vo.ndim > 1 else vo) ** 2, np.ones(int(0.01 * R)) / int(0.01 * R), 'same') + 1e-10)
-_runL = None
+# run[i]: the 80 ms starting at sample i are all under -45 dB (computed once, with a running sum)
+_q = np.concatenate([[0], np.cumsum(_ve < -45)]); _L = int(0.08 * R)
+_RUN = np.zeros(len(_ve), bool); _RUN[:len(_ve) - _L + 1] = (_q[_L:] - _q[:-_L]) == _L
 def snap(lo, hi, back):
     """Time of the first silent moment (under -45 dB) between lo and hi, searching from the word outward; else the quietest one."""
     i0, i1 = int(max(0, lo) * R), int(max(lo, hi) * R)
     if i1 <= i0: return lo if back else hi
     # a real pause: at least 80 ms under -45 dB (a short dip inside a word, as between "ma" and "ps", does not count)
-    L = int(0.08 * R); q = (_ve < -45).astype(np.int32); run = np.convolve(q, np.ones(L, np.int32), 'full')[L - 1:L - 1 + len(q)] == L
+    L = int(0.08 * R); run = _RUN
     w = _ve[i0:i1]; quiet = np.flatnonzero(run[i0:i1])
     if len(quiet): return (i0 + (quiet[-1] + L if back else quiet[0])) / R
     return (i0 + int(np.argmin(w))) / R

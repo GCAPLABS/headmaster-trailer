@@ -79,7 +79,8 @@ const Evolved: React.FC<{f: number}> = ({f}) => {
   const line = words.filter(([, t]) => g >= t).map(([w]) => w).join(' ');
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-      {COLLAGE.map((c, i) => <Shot key={c.src} src={c.src} f={f} at={4 + i * 12} x={c.x} y={c.y} w={c.w} rot={c.rot} radius={6} />)}
+      {/* one picture per spoken word: each lands on its word (the spring settles about 3 frames after it starts) */}
+      {COLLAGE.map((c, i) => <Shot key={c.src} src={c.src} f={f} at={Math.max(0, words[Math.min(i, words.length - 1)][1] - S.evolved[0] - 3)} x={c.x} y={c.y} w={c.w} rot={c.rot} radius={6} />)}
       <div style={{position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center', fontFamily: FONT.body, fontWeight: 600, fontSize: 64, letterSpacing: '-0.01em', color: '#fff', zIndex: 2}}>{line}</div>
     </AbsoluteFill>
   );
