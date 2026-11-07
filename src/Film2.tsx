@@ -289,8 +289,11 @@ const Until: React.FC<{f: number}> = ({f}) => {
 // "This is the first to-do list that does itself. Headmaster." The app window opens; the name types in on the word.
 // A real recording of our app with one gentle camera move (sine in-out), keys [t, focusX, focusY, zoom] in clip pixels.
 const RealShot: React.FC<{src: string; f: number; skip?: number; cam: [number, number, number, number][]}> = ({src, f, skip = 0, cam}) => {
-  const [t0, x0, y0, z0] = cam[0], [t1, x1, y1, z1] = cam[cam.length - 1];
-  const u = Math.min(1, Math.max(0, (f / 30 - t0) / (t1 - t0))), e = 0.5 - 0.5 * Math.cos(Math.PI * u);
+  const t = f / 30;
+  let k = 0;
+  while (k < cam.length - 2 && t > cam[k + 1][0]) k++;
+  const [t0, x0, y0, z0] = cam[k], [t1, x1, y1, z1] = cam[Math.min(k + 1, cam.length - 1)];
+  const u = t1 > t0 ? Math.min(1, Math.max(0, (t - t0) / (t1 - t0))) : 1, e = 0.5 - 0.5 * Math.cos(Math.PI * u);
   const cx = x0 + (x1 - x0) * e, cy = y0 + (y1 - y0) * e, z = z0 + (z1 - z0) * e;
   const tx = Math.min(0, Math.max(1920 - 1920 * z, 960 - cx * z)), ty = Math.min(0, Math.max(1080 - 1080 * z, 540 - cy * z));
   return (
@@ -301,12 +304,19 @@ const RealShot: React.FC<{src: string; f: number; skip?: number; cam: [number, n
     </AbsoluteFill>
   );
 };
+// Camera keys for the chat turn, [clip seconds, focusX, focusY, zoom] in 1920x1080 clip pixels.
+const TURN_CAM: [number, number, number, number][] = [
+  [0, 960, 540, 1.0], [4.2, 1150, 860, 1.3], [5.8, 1240, 640, 1.42], [7.4, 1240, 380, 1.44], [12.8, 1240, 420, 1.44],
+  [14.6, 1230, 520, 1.46], [18.9, 1230, 540, 1.48], [21.8, 1300, 520, 1.47], [31.7, 1300, 560, 1.47],
+];
 const App: React.FC<{f: number}> = ({f}) => {
   const nameAt = wordAt(23, 'Headmaster') - S.app[0];
   const name = 'Headmaster'.slice(0, Math.max(0, Math.floor((f - nameAt) / 1.5)));
   const slide = prog(f, nameAt - 4, nameAt + 10);
   const REAL = 40; // after the name reveal: the real app (our mock UI, recorded), see docs/app-showcase.md
-  if (f >= REAL) return <Sequence from={REAL} layout="none"><RealShot src="app/ask-1.mp4" f={f - REAL} skip={39} cam={[[0, 960, 560, 1.0], [3.2, 900, 600, 1.08]]} /></Sequence>;
+  // One real chat turn, continuous and in real time (public/app/turn.mp4, docs/app-showcase.md): the ask is typed and sent on
+  // "It gets to work.", each step checks on its line, it waits on "Send the reply to Sam" and Allow is clicked after "make the call".
+  if (f >= REAL) return <Sequence from={REAL} layout="none"><RealShot src="app/turn.mp4" f={f - REAL} cam={TURN_CAM} /></Sequence>;
   const home = f >= 120;
   const hs = springAt(f, 120);
   const open = springAt(f, 0, {damping: 18, stiffness: 120, mass: 1});
@@ -563,6 +573,7 @@ const SCENES: [string, React.FC<{f: number}>][] = [
   ['snow', Snow], ['archive', Archive], ['notif', Notif], ['message', Message], ['wait', Wait], ['until', Until], ['app', App],
   ['ask', Ask], ['results', Results], ['approve', Approve], ['gallery', Museum], ['end', End],
 ];
+const SCENES_ON = SCENES.filter(([k]) => S[k] && S[k][1] > S[k][0]);
 const Run: React.FC<{C: React.FC<{f: number}>}> = ({C: Comp}) => <Comp f={useCurrentFrame()} />;
 
 export const Film2: React.FC = () => {
@@ -573,7 +584,7 @@ export const Film2: React.FC = () => {
     <AbsoluteFill style={{background: '#000'}}>
       <Audio src={staticFile('film2-mix.wav')} />
       <Sequence from={0} durationInFrames={S.hook[1]} layout="none"><AbsoluteFill><Hook2 /></AbsoluteFill></Sequence>
-      {SCENES.map(([k, Comp]) => (
+      {SCENES_ON.map(([k, Comp]) => (
         <Sequence key={k} from={S[k][0]} durationInFrames={S[k][1] - S[k][0]} layout="none"><AbsoluteFill><Run C={Comp} /></AbsoluteFill></Sequence>
       ))}
       <Subtitle />
