@@ -167,12 +167,11 @@ const Snow: React.FC<{f: number}> = ({f}) => (
   </AbsoluteFill>
 );
 
-// "Not one of them ever did a single thing on it." One long archive hold.
+// "None of them ever lifted a finger." A real webcore pin (a photographed CRT: "I love you, human"), framed small on black
+// the way the reference frames its clip in this slot, with a slow push.
 const Archive: React.FC<{f: number}> = ({f}) => (
-  <AbsoluteFill style={{background: '#000'}}>
-    <AbsoluteFill style={{transform: `scale(${1.0 + 0.1 * prog(f, 0, 120, (t) => t)})`, transformOrigin: '40% 55%'}}><Pic src="arch/office.jpg" /></AbsoluteFill>
-    <AbsoluteFill style={{background: '#000', opacity: 0.2}} />
-    <Crt f={f} />
+  <AbsoluteFill style={{background: '#000', alignItems: 'center', justifyContent: 'center'}}>
+    <Img src={staticFile('webcore/pin31.jpg')} style={{height: 760, width: 'auto', transform: `scale(${1.0 + 0.06 * prog(f, 0, 120, (t) => t)})`}} />
   </AbsoluteFill>
 );
 

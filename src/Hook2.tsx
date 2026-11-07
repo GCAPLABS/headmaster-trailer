@@ -11,10 +11,10 @@ export const H2 = {
   on: 0, line1: 18, line2: 90, smash: [138, 150], montage: 150, img: 15,
   words: [
     {w: 'Light', imgs: ['clips/48919.mp4', 'clips/41740.mp4', 'clips/47241.mp4', 'clips/48298.mp4', 'clips/6754.mp4']},
-    {w: 'Maps', imgs: ['clips/21612.mp4', 'clips/21621.mp4', 'clips/45032.mp4', 'brand/google-maps.jpg', 'brand/maps-today.jpg']},
-    {w: 'Money', imgs: ['clips/31100.mp4', 'clips/18249.mp4', 'clips/18297.mp4', 'brand/money-today.jpg']},
+    {w: 'Maps', imgs: ['clips/21612.mp4', 'clips/21621.mp4', 'clips/21619.mp4', 'brand/google-maps.jpg', 'brand/maps-today.jpg']},
+    {w: 'Money', imgs: ['clips/31100.mp4', 'clips/18249.mp4', 'clips/18297.mp4', 'brand/new/applepay-market.jpg']},
     {w: 'Computers', imgs: ['brand/ibm-pc.jpg', 'clips/41266.mp4', 'clips/308.mp4', 'brand/imac-today.jpg']},
-    {w: 'Music', imgs: ['clips/42920.mp4', 'clips/48459.mp4', 'clips/48532.mp4', 'brand/music-today.jpg']},
+    {w: 'Music', imgs: ['clips/42920.mp4', 'clips/48459.mp4', 'clips/48532.mp4', 'brand/new/music-room.jpg']},
   ],
  gag: 0, ask: 0, end: 0,
 };
@@ -43,7 +43,7 @@ const Punch: React.FC<{lf: number; seed: number; children: React.ReactNode}> = (
 };
 
 // A real clip on its own clock: the clip starts at its cut, from a hand-picked moment (START, seconds).
-const START: Record<string, number> = {'pokemon-evolve.mp4': 0, 'clips/18249.mp4': 2.2, 'clips/48532.mp4': 1, 'clips/47241.mp4': 1.5, 'clips/31100.mp4': 4, 'clips/7248.mp4': 2, 'clips/6833.mp4': 2};
+const START: Record<string, number> = {'pokemon-evolve.mp4': 0, 'clips/18249.mp4': 2.2, 'clips/48532.mp4': 1, 'clips/47241.mp4': 1.5, 'clips/31100.mp4': 4, 'clips/7248.mp4': 2, 'clips/6833.mp4': 2, 'clips/21619.mp4': 1.2};
 const Clip: React.FC<{src: string; lf: number; fit?: 'cover'}> = ({src, lf}) => {
   const f = useCurrentFrame();
   return (
