@@ -230,24 +230,62 @@ const MailHead: React.FC<{ago: string}> = ({ago}) => (
     </div>
   </>
 );
-// "The asks are in your messages. The details are right there." Real Gmail (owner's Mac capture): each ask is
-// highlighted as it is spoken, then the rest on "details".
-const MARKS = [[489, 631], [637, 761], [793, 967], [973, 1184]];
+// "The asks are in your messages. The details are right there." Gmail's reading view, rebuilt large and sharp in its own
+// layout and Roboto (the owner preferred this to the Mac capture); each ask is highlighted on its spoken word.
 const Message: React.FC<{f: number}> = ({f}) => {
   const base = S.message[0];
-  const at = [wordAt(19, 'asks'), wordAt(19, 'your'), wordAt(19, 'messages'), wordAt(20, 'details')].map((t) => t - base - 2);
-  const marks = MARKS.map(([x0, x1], i) => ({x0, x1, y0: 329, y1: 351, on: prog(f, at[i], at[i] + 8, inOut)}));
-  // the camera follows the highlights along the line (focus in frame pixels; the line sits at y 240), zoom 1.45
-  const fx = [520, 798, 1160, 1556].map((x, i) => [at[i], x] as [number, number]);
-  let cx = 960;
-  for (const [t, x] of fx) cx += (x - cx) * prog(f, t - 6, t + 14, inOut);
-  const z = 1 + 0.45 * prog(f, 0, 30, inOut), cy = 240 + (540 - 240) * (1 - prog(f, 0, 30, inOut));
-  const tx = Math.min(0, Math.max(1920 - 1920 * z, 960 - cx * z)), ty = Math.min(0, Math.max(1080 - 1080 * z, 540 - cy * z));
+  // each highlight lands on its spoken word, like the reference's: "asks", "your", "messages", then "details"
+  const hl = [0, wordAt(19, 'asks') - base - 2, wordAt(19, 'your') - base - 2, wordAt(19, 'messages') - base - 2, wordAt(20, 'details') - base - 2];
   return (
-    <AbsoluteFill style={{background: '#fff', overflow: 'hidden'}}>
-      <div style={{position: 'absolute', inset: 0, transformOrigin: '0 0', transform: `translate(${tx}px, ${ty}px) scale(${z})`}}>
-        <Rec src="rec/gmail-read.mov" f={f} from={0.5} sw={1920} sh={1080} crop={[300, 220, 960, 540]} push={0} marks={marks} />
-      </div>
+    <AbsoluteFill style={{background: '#f8fafd', overflow: 'hidden', perspective: 2400}}>
+      <AbsoluteFill style={{transformOrigin: '22% 52%', transform: `rotateY(${6 - 4 * prog(f, 0, 120, inOut)}deg) rotateX(3deg) scale(${1.55 - 0.1 * prog(f, 0, 120, inOut)}) translateX(${-40 * prog(f, 0, 120, inOut)}px)`}}>
+        <div style={{position: 'absolute', left: 170, top: 120, width: 1580, height: 980, padding: '56px 70px', boxSizing: 'border-box', background: '#fff', borderRadius: 28}}>
+          <MailHead ago="9:02 AM (0 minutes ago)" />
+          <div style={{fontFamily: GMAIL, fontWeight: 400, fontSize: 54, lineHeight: 1.55, color: '#1f1f1f', marginTop: 46, marginLeft: 102}}>
+            {ASK.map((p, i) => {
+              const on = p.h ? prog(f, hl[p.h], hl[p.h] + 8) : 0;
+              return <span key={i} style={{backgroundImage: 'linear-gradient(#fde293, #fde293)', backgroundRepeat: 'no-repeat', backgroundSize: `${on * 100}% 100%`, padding: p.h ? '0 4px' : 0}}>{p.t}</span>;
+            })}
+            <div style={{marginTop: 30}}>Thanks!<br />Dana</div>
+          </div>
+        </div>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
+const GmailReply: React.FC<{f: number}> = ({f}) => {
+  const click = 26, press = prog(f, click - 3, click) * (1 - prog(f, click + 1, click + 6));
+  const mv = springAt(f, 2, {damping: 22, stiffness: 90, mass: 1});
+  const open = springAt(f, click + 1, {damping: 20, stiffness: 160, mass: 0.8});
+  const cx = 1500 + (422 - 1500) * mv, cy = 980 + (640 - 980) * mv;
+  const caret = f > click + 8 && Math.floor((f - click) / 15) % 2 === 0;
+  return (
+    <AbsoluteFill style={{background: '#f8fafd', overflow: 'hidden'}}>
+      <AbsoluteFill style={{transformOrigin: '25% 70%', transform: `scale(${1.12 + 0.05 * prog(f, 0, 66, inOut)})`}}>
+        <div style={{position: 'absolute', left: 170, top: 60, width: 1580, height: 1100, padding: '56px 70px', boxSizing: 'border-box', background: '#fff', borderRadius: 28}}>
+          <MailHead ago="9:02 AM (3 days ago)" />
+          <div style={{fontFamily: GMAIL, fontWeight: 400, fontSize: 40, lineHeight: 1.5, color: '#1f1f1f', marginTop: 34, marginLeft: 102}}>
+            {ASK.map((p) => p.t).join('')}<div style={{marginTop: 18}}>Thanks!<br />Dana</div>
+          </div>
+          {open < 0.02 ? (
+            <div style={{display: 'flex', gap: 22, marginTop: 44, marginLeft: 102}}>
+              {['Reply', 'Forward'].map((b, i) => (
+                <div key={b} style={{fontFamily: GMAIL, fontWeight: 500, fontSize: 30, color: '#444746', border: '2px solid #747775', borderRadius: 40, padding: '14px 34px', background: i === 0 && f > 14 ? `rgba(68,71,70,${0.08 + 0.1 * press})` : '#fff', transform: i === 0 ? `scale(${1 - 0.03 * press})` : 'none'}}>{i === 0 ? '↩  ' : '↪  '}{b}</div>
+              ))}
+            </div>
+          ) : (
+            <div style={{marginTop: 40, marginLeft: 102, marginRight: 20, border: '1px solid #dadce0', borderRadius: 18, boxShadow: '0 2px 10px rgba(60,64,67,0.18)', padding: '26px 34px', opacity: Math.min(1, open * 1.4), transform: `translateY(${(1 - open) * 20}px)`}}>
+              <div style={{fontFamily: GMAIL, fontSize: 28, color: '#444746'}}>↩ ▾  Dana Haddad</div>
+              <div style={{height: 170, marginTop: 20, position: 'relative'}}>
+                {caret && <div style={{position: 'absolute', left: 0, top: 4, width: 3, height: 40, background: '#1f1f1f'}} />}
+              </div>
+              <div style={{display: 'inline-flex', alignItems: 'center', gap: 14, fontFamily: GMAIL, fontWeight: 500, fontSize: 28, color: '#fff', background: '#0b57d0', borderRadius: 40, padding: '14px 36px'}}>Send</div>
+            </div>
+          )}
+        </div>
+      </AbsoluteFill>
+      {f < click + 18 && <Cursor x={cx} y={cy} press={press} fill={C.ink} scale={1.4} />}
     </AbsoluteFill>
   );
 };
@@ -256,8 +294,8 @@ const Message: React.FC<{f: number}> = ({f}) => {
 const Wait: React.FC<{f: number}> = ({f}) => {
   const cut = 66;
   return f < cut ? (
-    // real Gmail: Reply is clicked and the empty reply waits
-    <Rec src="rec/gmail-reply.mov" f={f} from={1.6} sw={1920} sh={1080} crop={[300, 220, 960, 540]} push={0.2} origin="15% 50%" />
+    // the same email: the cursor clicks Reply, the empty reply box opens and its caret blinks, and nothing gets written
+    <GmailReply f={f} />
   ) : (
     <Stage f={f - cut} len={150 - cut} origin="48% 38%" bg="#f6f8fc" zoom={1.25}>
       <Img src={staticFile('google/gmail-nudge.png')} style={{position: 'absolute', left: 960 - 739, top: 540 - 415, width: 1478}} />
