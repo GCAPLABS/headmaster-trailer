@@ -65,14 +65,21 @@ const Shot: React.FC<{src: string; f: number; at?: number; x: number; y: number;
 
 // "It changed too. Again and again." Like the reference's history of email: on black, the line types in the centre on the
 // spoken words while real to-do apps through the years drop in around it, oldest first (public/todo/, see docs/todo-history.md).
-const COLLAGE: {src: string; x: number; y: number; w: number; rot: number}[] = [];
+const COLLAGE: {src: string; x: number; y: number; w: number; rot: number}[] = [
+  {src: 'todo/1947-secretarys-day-planner.jpg', x: 110, y: 70, w: 430, rot: -6},
+  {src: 'todo/2008-todoist.jpg', x: 120, y: 650, w: 520, rot: 4},
+  {src: 'todo/2009-things.jpg', x: 760, y: 40, w: 380, rot: 3},
+  {src: 'todo/2013-google-tasks.jpg', x: 1330, y: 80, w: 500, rot: 5},
+  {src: 'todo/2017-microsoft-to-do.jpg', x: 1300, y: 660, w: 520, rot: -4},
+  {src: 'apple/mac-reminders-camping.png', x: 700, y: 660, w: 520, rot: -2},
+];
 const Evolved: React.FC<{f: number}> = ({f}) => {
   const g = f + S.evolved[0];
   const words = [['It', wordAt(8, 'It')], ['changed', wordAt(8, 'changed')], ['too.', wordAt(8, 'too')], ['Again', wordAt(9, 'Again')], ['and', wordAt(9, 'and')], ['again.', wordAt(9, 'again') + 6]] as [string, number][];
   const line = words.filter(([, t]) => g >= t).map(([w]) => w).join(' ');
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-      {COLLAGE.map((c, i) => <Shot key={c.src} f={f} at={2 + i * 10} x={c.x} y={c.y} w={c.w} rot={c.rot} radius={6} />)}
+      {COLLAGE.map((c, i) => <Shot key={c.src} src={c.src} f={f} at={4 + i * 12} x={c.x} y={c.y} w={c.w} rot={c.rot} radius={6} />)}
       <div style={{position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center', fontFamily: FONT.body, fontWeight: 600, fontSize: 64, letterSpacing: '-0.01em', color: '#fff', zIndex: 2}}>{line}</div>
     </AbsoluteFill>
   );
