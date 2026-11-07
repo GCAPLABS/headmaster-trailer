@@ -46,6 +46,88 @@ async function sizeChrome() {
   ]);
 }
 
+async function hideDock(hide) {
+  await run("defaults", ["write", "com.apple.dock", "autohide", "-bool", hide ? "true" : "false"]);
+  await run("killall", ["Dock"]).catch(() => "");
+  await sleep(1500);
+}
+
+async function chromeFullscreen(on) {
+  await run("osascript", [
+    "-e",
+    'tell application "Google Chrome" to activate',
+    "-e",
+    "delay 0.4",
+    "-e",
+    `tell application "System Events" to tell process "Google Chrome"
+      set isFS to value of attribute "AXFullScreen" of window 1
+      if ${on ? "not isFS" : "isFS"} then
+        keystroke "f" using {control down, command down}
+      end if
+    end tell`,
+  ]);
+  await sleep(1500);
+}
+
+async function setZoom175(page) {
+  // Chrome zoom steps from 100%: 110 → 125 → 150 → 175
+  await page.bringToFront();
+  await page.keyboard.press("Meta+0");
+  await sleep(250);
+  for (let i = 0; i < 4; i++) {
+    await page.keyboard.press("Meta+Equal");
+    await sleep(180);
+  }
+  await sleep(400);
+}
+
+async function dismissGmailPopups(page) {
+  const labels = [
+    /No thanks/i,
+    /Not now/i,
+    /No, thanks/i,
+    /Got it/i,
+    /Dismiss/i,
+  ];
+  for (const re of labels) {
+    const btn = page.getByRole("button", { name: re }).first();
+    if (await btn.count()) {
+      try {
+        await btn.click({ timeout: 2000 });
+        console.log("dismissed popup", re);
+        await sleep(600);
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+  // Also try text links
+  for (const text of ["No thanks", "Not now", "No, thanks"]) {
+    const el = page.getByText(text, { exact: false }).first();
+    if (await el.count()) {
+      try {
+        await el.click({ timeout: 1500 });
+        console.log("dismissed text", text);
+        await sleep(500);
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+}
+
+async function prepCleanChrome(page) {
+  await hideDock(true);
+  await sizeChrome();
+  await sleep(500);
+  await dismissGmailPopups(page);
+  await setZoom175(page);
+  await dismissGmailPopups(page);
+  await chromeFullscreen(true);
+  await sleep(800);
+  await dismissGmailPopups(page);
+}
+
 async function slowMove(page, x, y, steps = 45) {
   await page.mouse.move(x, y, { steps });
   await sleep(1000);
@@ -98,12 +180,13 @@ async function launch() {
     headless: false,
     viewport: null,
     args: [
-      "--disable-blink-features=AutomationControlled",
+      "--disable-infobars",
       "--profile-directory=Default",
       "--no-first-run",
       "--no-default-browser-check",
     ],
-    ignoreDefaultArgs: ["--enable-automation"],
+    // Drop Playwright flags that paint the grey "unsupported command-line flag" bar.
+    ignoreDefaultArgs: ["--no-sandbox", "--enable-automation"],
   });
   const page = context.pages()[0] || (await context.newPage());
   return { context, page };
@@ -253,7 +336,7 @@ async function findFridayRow(page) {
 
 async function recordInbox(page) {
   await gotoMail(page, 0);
-  await sizeChrome();
+  await prepCleanChrome(page);
   await sleep(2000);
 
   // Wait for delivery: refresh + search a few times
@@ -297,7 +380,7 @@ async function recordInbox(page) {
     // Stay on search if that's where it is; still fine for the shot if unread at top
   }
 
-  await sizeChrome();
+  await dismissGmailPopups(page);
   const box = await row.boundingBox();
   await sleep(1000);
   const rec = startRec("gmail-inbox.mov");
@@ -314,7 +397,7 @@ async function recordInbox(page) {
 }
 
 async function recordRead(page) {
-  await sizeChrome();
+  await dismissGmailPopups(page);
   // Ensure thread open
   const heading = page.locator(`h2:has-text("${SUBJECT}")`).first();
   if (!(await heading.count())) {
@@ -324,6 +407,7 @@ async function recordRead(page) {
       await sleep(2000);
     }
   }
+  await dismissGmailPopups(page);
   const rec = startRec("gmail-read.mov");
   await sleep(1000);
   await sleep(6000);
@@ -333,8 +417,7 @@ async function recordRead(page) {
 }
 
 async function recordReply(page) {
-  await sizeChrome();
-  const reply = page.locator('div[role="button"][aria-label*="Reply"], span:text-is("Reply")').first();
+  await dismissGmailPopups(page);
   // Prefer toolbar Reply
   let target = page.getByRole("button", { name: /^Reply$/ }).first();
   if (!(await target.count())) target = page.locator('[aria-label="Reply"]').first();
@@ -363,7 +446,7 @@ try {
     await sleep(90000);
   } else if (mode === "send") {
     await sendEmail(page);
-  } else if (mode === "record") {
+  } else if (mode === "record" || mode === "retake") {
     await recordInbox(page);
     await recordRead(page);
     await recordReply(page);
@@ -379,5 +462,7 @@ try {
   await sleep(15000);
   process.exitCode = 1;
 } finally {
+  await chromeFullscreen(false).catch(() => {});
+  await hideDock(false).catch(() => {});
   await context.close().catch(() => {});
 }

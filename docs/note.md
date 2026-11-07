@@ -6,9 +6,9 @@ Against `docs/mac-capture-prompt.md`. Branch `v4-captures`, pushed to GitLab.
 
 | File | Notes |
 |---|---|
-| `public/rec/gmail-inbox.mov` | 1920×1080 |
-| `public/rec/gmail-read.mov` | 1920×1080 |
-| `public/rec/gmail-reply.mov` | 1920×1080 |
+| `public/rec/gmail-inbox.mov` | Re-take: cropped to Chrome only, no grey bar / Dock. Search view of "Friday plans" (sender shows "me" on glitchcaplabs account). |
+| `public/rec/gmail-read.mov` | Re-take: Glitch Labs → mutvayzz, large text, clean frame. |
+| `public/rec/gmail-reply.mov` | Re-take: empty reply box open, cursor ready, type nothing. |
 | `public/rec/ios-reminders-alert.mov` | Friday list + “Supplier form” banner |
 | `public/rec/ios-reminders-check.mov` | scroll + tick |
 | `public/rec/reminders-sync.mov` | Mac ↔ Simulator, iCloud on |
@@ -19,8 +19,9 @@ Against `docs/mac-capture-prompt.md`. Branch `v4-captures`, pushed to GitLab.
 
 Part 2 phone films: `filmed-gmail.mov`, `filmed-reminders.mov`, `filmed-todo.mov`.
 
-## Partial
+## Partial / notes
 
-- **Dana Haddad** as Gmail display name — left as-is after rename attempt.
-- **Team shared avatars** — Team list is on iCloud; no second Apple ID for invitees, so no header avatars.
-- **Badge** — holds at 16; does not animate counting up.
+- Gmail re-take used Chrome window crop + zoom (OS fullscreen was flaky under automation). No `--no-sandbox` grey bar.
+- Inbox list shows sender **"me"** because the trailer profile is signed into **glitchcaplabs**; open thread still shows **Glitch Labs**. Sign into mutvayzz on that profile if the inbox row must say Glitch Labs.
+- Team shared avatars — Team list on iCloud; no second Apple ID for invitees.
+- Badge holds at 16; does not animate counting up.
