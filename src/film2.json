@@ -320,7 +320,8 @@
    "film": 0.0,
    "src": 11.0,
    "dur": 21.5,
-   "fadeOut": 1.5
+   "fadeOut": 1.5,
+   "gain": -14
   },
   {
    "src_file": "music-bed.mp3",
@@ -328,7 +329,8 @@
    "src": 0.0,
    "dur": 32.0,
    "fadeIn": 1.5,
-   "fadeOut": 2.0
+   "fadeOut": 2.0,
+   "gain": 5.5
   },
   {
    "src_file": "music-a.mp3",
@@ -336,7 +338,8 @@
    "src": 48.5,
    "dur": 21.5,
    "fadeIn": 1.0,
-   "fadeOut": 2.0
+   "fadeOut": 2.0,
+   "gain": 4
   },
   {
    "src_file": "music-bed.mp3",
@@ -344,7 +347,8 @@
    "src": 34.0,
    "dur": 23.5,
    "fadeIn": 2.0,
-   "fadeOut": 3.0
+   "fadeOut": 3.0,
+   "gain": 4
   }
  ],
  "duck": {
@@ -370,7 +374,7 @@
   {
    "file": "sfx/evolve.mp3",
    "film": 14.6,
-   "db": -6
+   "db": -16
   },
   {
    "file": "sfx/whoosh.mp3",
