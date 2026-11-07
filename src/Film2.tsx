@@ -279,10 +279,26 @@ const Until: React.FC<{f: number}> = ({f}) => {
 };
 
 // "This is the first to-do list that does itself. Headmaster." The app window opens; the name types in on the word.
+// A real recording of our app with one gentle camera move (sine in-out), keys [t, focusX, focusY, zoom] in clip pixels.
+const RealShot: React.FC<{src: string; f: number; skip?: number; cam: [number, number, number, number][]}> = ({src, f, skip = 0, cam}) => {
+  const [t0, x0, y0, z0] = cam[0], [t1, x1, y1, z1] = cam[cam.length - 1];
+  const u = Math.min(1, Math.max(0, (f / 30 - t0) / (t1 - t0))), e = 0.5 - 0.5 * Math.cos(Math.PI * u);
+  const cx = x0 + (x1 - x0) * e, cy = y0 + (y1 - y0) * e, z = z0 + (z1 - z0) * e;
+  const tx = Math.min(0, Math.max(1920 - 1920 * z, 960 - cx * z)), ty = Math.min(0, Math.max(1080 - 1080 * z, 540 - cy * z));
+  return (
+    <AbsoluteFill style={{background: '#FAFAFC', overflow: 'hidden'}}>
+      <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, transformOrigin: '0 0', transform: `translate(${tx}px, ${ty}px) scale(${z})`}}>
+        <OffthreadVideo src={staticFile(src)} muted startFrom={skip} style={{width: 1920, height: 1080}} />
+      </div>
+    </AbsoluteFill>
+  );
+};
 const App: React.FC<{f: number}> = ({f}) => {
   const nameAt = wordAt(23, 'Headmaster') - S.app[0];
   const name = 'Headmaster'.slice(0, Math.max(0, Math.floor((f - nameAt) / 1.5)));
   const slide = prog(f, nameAt - 4, nameAt + 10);
+  const REAL = 40; // after the name reveal: the real app (our mock UI, recorded), see docs/app-showcase.md
+  if (f >= REAL) return <Sequence from={REAL} layout="none"><RealShot src="app/ask-1.mp4" f={f - REAL} skip={39} cam={[[0, 960, 560, 1.0], [3.2, 900, 600, 1.08]]} /></Sequence>;
   const home = f >= 120;
   const hs = springAt(f, 120);
   const open = springAt(f, 0, {damping: 18, stiffness: 120, mass: 1});
@@ -322,20 +338,8 @@ const App: React.FC<{f: number}> = ({f}) => {
 
 // "Tell your agent what you need." The ask goes out on WhatsApp.
 const MSG = 'Book dinner for the team Friday, fill in the supplier form and reply to Sam about the venue.';
-const Ask: React.FC<{f: number}> = ({f}) => {
-  const ws = MSG.split(' ');
-  const sent = 66;
-  const typed = f < sent ? ws.filter((_, i) => f >= 8 + i * 3).join(' ') : '';
-  return (
-    <AbsoluteFill style={{background: C.ground}}>
-      <Title f={f} a="Tell your agent." b="On WhatsApp." at={4} x={170} y={400} size={120} stack />
-      <PhoneShell x={1080} y={44} scale={1.12} composer={typed} status={f > sent + 20 ? 'working' : 'idle'}>
-        <Bubble f={f} at={sent} top={24} out skin={GREEN} time="09:04">{MSG}</Bubble>
-        <Bubble f={f} at={sent + 22} top={286} skin={GREEN} time="09:04">On it. Nothing goes out until you say so.</Bubble>
-      </PhoneShell>
-    </AbsoluteFill>
-  );
-};
+// "Ask for what you need. It gets to work." Our ask typed into the real app and sent; it starts working.
+const Ask: React.FC<{f: number}> = ({f}) => <RealShot src="app/ask-2.mp4" f={f} cam={[[0, 900, 560, 1.06], [4, 860, 600, 1.16]]} />;
 
 // "The booking. Found. The form. Filled. The reply. Drafted. All of it ready. None of it sent."
 // One result at a time inside a soft lavender aura; then the two lines alone.
