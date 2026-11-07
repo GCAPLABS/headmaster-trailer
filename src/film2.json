@@ -1,6 +1,6 @@
 {
  "fps": 30,
- "total": 2880,
+ "total": 3210,
  "note": "One timeline for picture and sound. vo = [firstWord, lastWord, filmSeconds, subtitle or null]. v3: music in segments from two sources (A = driving take, bed = calm bed), ducked under every line; extra = lines from other takes; sfx = one-shots on the beat.",
  "scenes": {
   "hook": [
@@ -25,63 +25,63 @@
   ],
   "sync": [
    915,
-   951
+   975
   ],
   "share": [
-   951,
-   987
+   975,
+   1035
   ],
   "nag": [
-   987,
-   1050
+   1035,
+   1110
   ],
   "snow": [
-   1050,
-   1170
+   1110,
+   1260
   ],
   "archive": [
-   1170,
-   1290
+   1260,
+   1380
   ],
   "notif": [
-   1290,
-   1365
-  ],
-  "message": [
-   1365,
+   1380,
    1485
   ],
-  "wait": [
+  "message": [
    1485,
    1605
   ],
-  "until": [
+  "wait": [
    1605,
-   1710
+   1755
+  ],
+  "until": [
+   1755,
+   1860
   ],
   "app": [
-   1710,
-   1845
+   1860,
+   1995
   ],
   "ask": [
-   1845,
-   1965
+   1995,
+   2115
   ],
   "results": [
-   1965,
-   2250
-  ],
-  "approve": [
-   2250,
+   2115,
    2400
   ],
-  "gallery": [
+  "approve": [
    2400,
-   2700
+   2550
+  ],
+  "gallery": [
+   2550,
+   2850
   ],
   "end": [
-   2700,
-   2880
+   2850,
+   3210
   ]
  },
  "vo": [
@@ -172,145 +172,145 @@
   [
    35,
    36,
-   31.8,
+   32.6,
    "To share."
   ],
   [
    37,
    38,
-   33.0,
+   34.6,
    "To nag."
   ],
   [
    39,
    49,
-   35.0,
+   37.0,
    null
   ],
   [
    50,
    60,
-   39.5,
+   42.5,
    "Not one of them ever did a single thing on it."
   ],
   [
    61,
    67,
-   43.4,
+   46.4,
    "Your day hands you work all day."
   ],
   [
    68,
    72,
-   45.6,
+   49.6,
    "It knows what you promised."
   ],
   [
    73,
    77,
-   47.4,
+   51.4,
    "It has everything it needs."
   ],
   [
    78,
    83,
-   49.8,
+   53.8,
    "And it waits for you anyway."
   ],
   [
    84,
    85,
-   54.0,
+   59.0,
    null
   ],
   [
    86,
    95,
-   56.3,
+   61.3,
    "This is the first to-do list that does itself."
   ],
   [
    96,
    96,
-   60.0,
+   65.0,
    null
   ],
   [
    97,
    109,
-   61.8,
+   66.8,
    "Tell your agent what you need, and it gets it started for you."
   ],
   [
    110,
    111,
-   66.0,
+   71.0,
    null
   ],
   [
    112,
    112,
-   67.0,
+   72.0,
    null
   ],
   [
    113,
    114,
-   68.0,
+   73.0,
    null
   ],
   [
    115,
    115,
-   69.0,
+   74.0,
    null
   ],
   [
    116,
    117,
-   70.0,
+   75.0,
    null
   ],
   [
    118,
    118,
-   71.0,
+   76.0,
    null
   ],
   [
    119,
    122,
-   72.5,
+   77.5,
    null
   ],
   [
    123,
    126,
-   74.2,
+   79.2,
    null
   ],
   [
    127,
    131,
-   76.2,
+   81.2,
    null
   ],
   [
    132,
    138,
-   80.5,
+   85.5,
    "Everything we make finds its next form."
   ],
   [
    139,
    145,
-   84.0,
+   89.0,
    "Your to-do list waited fifty years."
   ],
   [
    146,
    150,
-   87.0,
+   92.0,
    "Its next form starts today."
   ]
  ],
@@ -336,7 +336,7 @@
   },
   {
    "src_file": "music-bed.mp3",
-   "film": 52.0,
+   "film": 57.0,
    "src": 23.0,
    "dur": 6.0,
    "fadeIn": 1.0,
@@ -346,7 +346,7 @@
   },
   {
    "src_file": "music-a.mp3",
-   "film": 56.0,
+   "film": 61.0,
    "src": 52.0,
    "dur": 18.0,
    "fadeIn": 0.05,
@@ -356,7 +356,7 @@
   },
   {
    "src_file": "music-bed.mp3",
-   "film": 72.0,
+   "film": 77.0,
    "src": 34.0,
    "dur": 24.0,
    "fadeIn": 0.25,
@@ -382,7 +382,7 @@
  "sfx": [
   {
    "file": "sfx/logo.mp3",
-   "film": 55.1,
+   "film": 60.1,
    "db": -6
   }
  ],
