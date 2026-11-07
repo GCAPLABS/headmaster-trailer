@@ -63,20 +63,20 @@ const Shot: React.FC<{src: string; f: number; at?: number; x: number; y: number;
   );
 };
 
-// "Oh, it evolved. Constantly." A collage on black, old web first, today's list last.
-const COLLAGE = [
-  {src: 'webcore/pin2.jpg', x: 120, y: 90, w: 430, rot: -5}, {src: 'webcore/pin16.jpg', x: 1380, y: 70, w: 420, rot: 4},
-  {src: 'webcore/pin27.jpg', x: 160, y: 600, w: 470, rot: 3}, {src: 'webcore/pin10.jpg', x: 1330, y: 640, w: 480, rot: -4},
-  {src: 'webcore/pin24.jpg', x: 600, y: 60, w: 330, rot: 6}, {src: 'webcore/pin45.jpg', x: 1000, y: 700, w: 400, rot: 5},
-  {src: 'apple/mac-reminders-camping.png', x: 560, y: 330, w: 640, rot: -2}, {src: 'apple/ios-reminders-home.png', x: 1080, y: 210, w: 330, rot: 3},
-];
-const Evolved: React.FC<{f: number}> = ({f}) => (
-  <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-    <AbsoluteFill style={{transform: `scale(${1 + 0.05 * prog(f, 0, 90, (t) => t)})`}}>
-      {COLLAGE.map((c, i) => <Shot key={c.src} f={f} at={4 + i * 9} {...c} radius={6} />)}
+// "It changed too. Again and again." Like the reference's history of email: on black, the line types in the centre on the
+// spoken words while real to-do apps through the years drop in around it, oldest first (public/todo/, see docs/todo-history.md).
+const COLLAGE: {src: string; x: number; y: number; w: number; rot: number}[] = [];
+const Evolved: React.FC<{f: number}> = ({f}) => {
+  const g = f + S.evolved[0];
+  const words = [['It', wordAt(8, 'It')], ['changed', wordAt(8, 'changed')], ['too.', wordAt(8, 'too')], ['Again', wordAt(9, 'Again')], ['and', wordAt(9, 'and')], ['again.', wordAt(9, 'again') + 6]] as [string, number][];
+  const line = words.filter(([, t]) => g >= t).map(([w]) => w).join(' ');
+  return (
+    <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+      {COLLAGE.map((c, i) => <Shot key={c.src} f={f} at={2 + i * 10} x={c.x} y={c.y} w={c.w} rot={c.rot} radius={6} />)}
+      <div style={{position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center', fontFamily: FONT.body, fontWeight: 600, fontSize: 64, letterSpacing: '-0.01em', color: '#fff', zIndex: 2}}>{line}</div>
     </AbsoluteFill>
-  </AbsoluteFill>
-);
+  );
+};
 
 // "It left the paper." A pen on a real notepad.
 const Paper: React.FC<{f: number}> = ({f}) => <Footage src="clips/42655.mp4" from={0.4} f={f} len={60} pos="50% 40%" />;
