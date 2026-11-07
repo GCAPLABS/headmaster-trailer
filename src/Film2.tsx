@@ -167,11 +167,13 @@ const Snow: React.FC<{f: number}> = ({f}) => (
   </AbsoluteFill>
 );
 
-// "None of them ever lifted a finger." A real webcore pin (a photographed CRT: "I love you, human"), framed small on black
-// the way the reference frames its clip in this slot, with a slow push.
+// "None of them ever lifted a finger." A real clip from Office Etiquette (Encyclopaedia Britannica Films, 1950, Prelinger Archives):
+// a secretary powders her nose while the papers on her desk wait. Framed small on black, the way the reference frames its office clip here.
 const Archive: React.FC<{f: number}> = ({f}) => (
   <AbsoluteFill style={{background: '#000', alignItems: 'center', justifyContent: 'center'}}>
-    <Img src={staticFile('webcore/pin31.jpg')} style={{height: 760, width: 'auto', transform: `scale(${1.0 + 0.06 * prog(f, 0, 120, (t) => t)})`}} />
+    <div style={{width: 880, height: 660, overflow: 'hidden', transform: `scale(${1.0 + 0.04 * prog(f, 0, 120, (t) => t)})`}}>
+      <OffthreadVideo src={staticFile('archive/office-etiquette-powder.mp4')} muted style={{width: 880, height: 660, objectFit: 'cover'}} />
+    </div>
   </AbsoluteFill>
 );
 
