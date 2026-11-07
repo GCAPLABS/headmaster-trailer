@@ -209,23 +209,17 @@ const Message: React.FC<{f: number}> = ({f}) => {
   );
 };
 
-// "And it waits for you anyway." The reply box stays empty while the day goes by.
+// "And it waits for you anyway." Gmail's own nudge, from Google's Gmail page: the inbox, then "Received 3 days ago. Reply?" close up.
 const Wait: React.FC<{f: number}> = ({f}) => {
-  const hours = Math.min(9, Math.floor(prog(f, 6, 110, (t) => t) * 9));
-  const blink = Math.floor(f / 15) % 2 === 0;
-  return (
-    <AbsoluteFill style={{background: '#f8fafd', overflow: 'hidden'}}>
-      <AbsoluteFill style={{transformOrigin: '25% 70%', transform: `scale(${1.05 + 0.1 * prog(f, 0, 120, (t) => t)})`}}>
-        <div style={{position: 'absolute', left: 170, top: 90, width: 1580, height: 940, padding: '50px 70px', boxSizing: 'border-box', background: '#fff', borderRadius: 28}}>
-          <MailHead ago={hours === 0 ? '9:02 AM (0 minutes ago)' : `9:02 AM (${hours} hour${hours > 1 ? 's' : ''} ago)`} />
-          <div style={{marginTop: 44, marginLeft: 102, border: '2px solid #dadce0', borderRadius: 20, height: 560, boxShadow: '0 2px 8px rgba(60,64,67,0.18)', position: 'relative'}}>
-            <div style={{padding: '30px 36px', fontFamily: GMAIL, fontSize: 30, color: '#444746'}}>↩&nbsp; Dana Haddad</div>
-            <div style={{position: 'absolute', left: 36, top: 110, width: 4, height: 56, background: '#1f1f1f', opacity: blink ? 1 : 0}} />
-            <div style={{position: 'absolute', left: 36, bottom: 32, height: 76, padding: '0 46px', borderRadius: 38, background: '#0b57d0', color: '#fff', fontFamily: GMAIL, fontWeight: 500, fontSize: 32, display: 'flex', alignItems: 'center'}}>Send</div>
-          </div>
-        </div>
-      </AbsoluteFill>
-    </AbsoluteFill>
+  const cut = 66;
+  return f < cut ? (
+    <Stage f={f} len={cut} origin="70% 42%">
+      <Shot src="google/gmail-nudge-laptop.png" f={f} x={960 - 780} y={-30} w={1560} shadow={false} />
+    </Stage>
+  ) : (
+    <Stage f={f - cut} len={150 - cut} origin="45% 35%" bg="#f6f8fc">
+      <Img src={staticFile('google/gmail-nudge.png')} style={{position: 'absolute', left: 960 - 739, top: 540 - 415, width: 1478}} />
+    </Stage>
   );
 };
 
