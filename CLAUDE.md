@@ -130,6 +130,6 @@ Latest cut: `renders/v4-board/v4-preview.mp4` (half size, 103.5 s). Audit agains
   - 42 s: 1950 Office Etiquette clip (`public/archive/`).
   - 62 to 95 s: ONE real-time chat turn recorded from the app mock (`public/app/turn.mp4`, `docs/app-showcase.md`). The mock's scripted text is swapped for our story in the page while recording (`story.js` approach), its cursor label hidden, the demo paused at the approval so Allow is clicked right after "until you make the call". Steps check on "ready", "done", "drafted".
   - End card: out now on Windows and Mac, coming soon on iOS (real marks in `public/brand/logos/`), "Your own AI agent."
-  - Captions: word by word, brand lime `#e0ef7c` with a thin dark outline, no background (owner didn't want a box). Cold open and "And your to-do list?" in clean Figtree, word by word (no CRT font).
+  - Captions: word by word, small Figtree, no background; white on dark scenes, ink on light ones (owner rejected the lime outline). Cold open and "And your to-do list?" in clean Figtree, word by word (no CRT font).
 - **Still open:** real Gmail reading view and reply (Mac capture, shot list), filmed-screen shots (owner films a monitor with a phone), moving Reminders recordings (Simulator), then the full-size render.
 - **Git:** push to GitLab only (`gitlab/v4-real-screens`). GitHub returns 403, so the stop hook's "unpushed commits" count is about GitHub and can be ignored.
