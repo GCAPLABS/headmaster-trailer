@@ -464,14 +464,31 @@ const Gallery: React.FC<{f: number}> = ({f}) => {
 // (feedback.gcaplabs.com, recorded at 2x by tools/app-showcase.md), each one a state changing on screen:
 // the job typed, the approval menu, memory loading, a new automation, hiring an agent. Hard cuts on the 2 s grid, a slow push on each.
 const SHOW = ['app/show-1.mp4', 'app/show-2.mp4', 'app/show-3.mp4', 'app/show-4.mp4', 'app/show-5.mp4'];
+// Camera keys per clip, in clip seconds: [t, focusX, focusY, zoom] in 1920x1080 clip pixels. The camera follows the real cursor
+// and the thing that changes: the typed ask, the Ask first menu, the memory list, the New automation panel, Hire Emily.
+const CAM: [number, number, number, number][][] = [
+  [[0, 720, 780, 1.14], [2, 820, 840, 1.34]],
+  [[0, 380, 940, 1.3], [2, 600, 720, 1.26]],
+  [[0, 760, 430, 1.06], [2, 720, 460, 1.24]],
+  [[0, 1350, 420, 1.14], [2, 1580, 340, 1.34]],
+  [[0, 900, 610, 1.26], [2, 960, 570, 1.16]],
+];
+// One continuous move per shot, sine in-out, so the camera never stops and restarts inside a shot.
+const camAt = (keys: [number, number, number, number][], t: number) => {
+  const [t0, x0, y0, z0] = keys[0], [t1, x1, y1, z1] = keys[keys.length - 1];
+  const u = Math.min(1, Math.max(0, (t - t0) / (t1 - t0))), e = 0.5 - 0.5 * Math.cos(Math.PI * u);
+  return [x0 + (x1 - x0) * e, y0 + (y1 - y0) * e, z0 + (z1 - z0) * e];
+};
 const Museum: React.FC<{f: number}> = ({f}) => {
   const per = 60, i = Math.min(SHOW.length - 1, Math.floor(f / per)), lf = f - i * per;
+  const [cx, cy, z] = camAt(CAM[i], lf / 30);
+  const tx = Math.min(0, Math.max(1920 - 1920 * z, 960 - cx * z)), ty = Math.min(0, Math.max(1080 - 1080 * z, 540 - cy * z));
   return (
-    <AbsoluteFill style={{background: '#FAFAFC'}}>
+    <AbsoluteFill style={{background: '#FAFAFC', overflow: 'hidden'}}>
       <Sequence from={i * per} durationInFrames={per} layout="none">
-        <AbsoluteFill style={{transform: `scale(${1.0 + 0.035 * (lf / per)})`, transformOrigin: i === 1 ? '45% 60%' : '50% 50%'}}>
-          <OffthreadVideo src={staticFile(SHOW[i])} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
-        </AbsoluteFill>
+        <div style={{position: 'absolute', left: 0, top: 0, width: 1920, height: 1080, transformOrigin: '0 0', transform: `translate(${tx}px, ${ty}px) scale(${z})`}}>
+          <OffthreadVideo src={staticFile(SHOW[i])} muted style={{width: 1920, height: 1080}} />
+        </div>
       </Sequence>
     </AbsoluteFill>
   );
