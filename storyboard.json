@@ -1,0 +1,215 @@
+{
+ "meta": {
+  "title": "Headmaster product demo, 60 s",
+  "durationSec": 60,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "narrativeStructure": "problem-solution (small problem: a task you would rather hand off)",
+  "direction": "Product stage: real app screens as the hero on a calm Studio set, Supademo-style guided zooms and cursor, kinetic Archivo line per scene, simple flat human moment in scene 1.",
+  "fonts": {
+   "display": {
+    "family": "Archivo",
+    "weights": [
+     "700",
+     "800"
+    ]
+   },
+   "body": {
+    "family": "Figtree",
+    "weights": [
+     "400",
+     "500",
+     "600",
+     "700"
+    ]
+   }
+  },
+  "colors": {
+   "background": "#e0e0fb",
+   "surface": "#ffffff",
+   "primary": "#0c0e1a",
+   "muted": "#6a7086",
+   "accent": "#0000da",
+   "highlight": "#dcf8c6 (chat green only)",
+   "field": "#f7f8fb",
+   "hairline": "#e3e5ec",
+   "dark": "#16181f"
+  }
+ },
+ "voice": {
+  "enabled": true,
+  "gender": "neutral",
+  "age": "middle-aged",
+  "tone": [
+   "calm",
+   "warm",
+   "clear"
+  ],
+  "accent": "neutral",
+  "pace": "moderate",
+  "note": "No TTS here; owner adds ElevenLabs takes later. Subtitles burned in."
+ },
+ "scenes": [
+  {
+   "id": "ask",
+   "act": "hook",
+   "startSec": 0,
+   "durationSec": 7.5,
+   "purpose": "Show the product in frame 1 and say the whole promise: you ask in plain words.",
+   "emotionalBeat": "calm, curious",
+   "voiceover": "Say you need a hotel. You just ask.",
+   "onScreenText": "Just ask.",
+   "layout": "Left column: title. Right: a person on a sofa holds a phone; the phone shows the green chat with Headmaster. The request types in and sends; the reply says it is on it.",
+   "elements": "Left column: title. Right: a person on a sofa holds a phone; the phone shows the green chat with Headmaster. The request types in and sends; the reply says it is on it.",
+   "animation": "Title lines rise 40px out of a mask with blur 10 to 0 over 0.6s, 0.12s stagger. Text types at 28 chars/s, send tap ripples, bubble springs up 24px. Phone floats 5px on a 3.2s sine, hands follow.",
+   "camera": "Static wide to 4.3s, then a 2.7s ease-in-out push to 2.1x on the thread; the title slides left 1.6x faster (parallax).",
+   "lighting": "Flat, even studio light. Depth only from opaque surfaces on lavender and hairline borders.",
+   "transitionOut": "The push lands on the phone screen, which becomes the laptop chat window of scene 2 (match cut on the same thread and bubble)."
+  },
+  {
+   "id": "works",
+   "act": "showcase",
+   "startSec": 7.5,
+   "durationSec": 8,
+   "purpose": "Prove it does real work on its own computer.",
+   "emotionalBeat": "impressed",
+   "voiceover": "It has its own private computer. It searches, compares, and finds the booking page.",
+   "onScreenText": "It works on its own computer.",
+   "layout": "Real chat window, wide. A task panel on the right lists steps: Searching 14 hotels, Comparing prices, Opening the booking page. Mini browser view shows result cards.",
+   "elements": "Real chat window, wide. A task panel on the right lists steps: Searching 14 hotels, Comparing prices, Opening the booking page. Mini browser view shows result cards.",
+   "animation": "Steps tick in sequence at 1.4s intervals; result cards fan out from a stack (fan/spread) with 90ms stagger; spinner becomes a check with a 0.3s spring.",
+   "camera": "Guided zoom 1.6x onto the task panel at 10s, cursor hotspot on the active step, callout 'Step 2 of 3'.",
+   "lighting": "Flat, even studio light. Depth only from opaque surfaces on lavender and hairline borders.",
+   "transitionOut": "Pan right along the thread to the approval card."
+  },
+  {
+   "id": "asks",
+   "act": "climax",
+   "startSec": 15.5,
+   "durationSec": 9,
+   "purpose": "Hero moment: it asks before it spends.",
+   "emotionalBeat": "reassured",
+   "voiceover": "Before it spends a single euro, it asks you. Approve once, always allow, or say no.",
+   "onScreenText": "It asks before it spends.",
+   "layout": "Approval card 'Pay 328 euros?' with Approve once, Always allow, Deny; the screen is dimmed 28% outside the card.",
+   "elements": "Approval card 'Pay 328 euros?' with Approve once, Always allow, Deny; the screen is dimmed 28% outside the card.",
+   "animation": "Cursor curves in, beacon pulses, click ripple, card flips to Booked with a spring check, border flashes blue for 4 frames.",
+   "camera": "Supademo zoom 1.35x to the card, ease-heavy 1.1s; holds; zooms out after the click.",
+   "lighting": "Flat, even studio light. Depth only from opaque surfaces on lavender and hairline borders.",
+   "transitionOut": "Confirmation row slides into Files in the sidebar; camera follows to the Memory page."
+  },
+  {
+   "id": "remembers",
+   "act": "showcase",
+   "startSec": 24.5,
+   "durationSec": 5.5,
+   "purpose": "Memory: less to explain each time.",
+   "emotionalBeat": "warm",
+   "voiceover": "It remembers how you like things. So next time, just say: book the usual.",
+   "onScreenText": "It remembers you.",
+   "layout": "Memory page list: Small hotels, Window seat, Under 180 euros. Composer types 'Book the usual.'",
+   "elements": "Memory page list: Small hotels, Window seat, Under 180 euros. Composer types 'Book the usual.'",
+   "animation": "List rows enter from the left as a staggered cascade (100ms); matching words in the composer highlight blue as each row is read.",
+   "camera": "Slow 6 percent drift right to left; no zoom.",
+   "lighting": "Flat, even studio light. Depth only from opaque surfaces on lavender and hairline borders.",
+   "transitionOut": "Slide-wipe to a row of devices."
+  },
+  {
+   "id": "anywhere",
+   "act": "showcase",
+   "startSec": 30,
+   "durationSec": 6.5,
+   "purpose": "Same agent in chat apps, laptop, browser and phone.",
+   "emotionalBeat": "at ease",
+   "voiceover": "Use it in the chat apps you already use, or on your laptop, browser and phone.",
+   "onScreenText": "Wherever you are.",
+   "layout": "Four surfaces on a shared stage in a row: green chat first (phone), laptop app, browser tab, phone app. One thread shown on each.",
+   "elements": "Four surfaces on a shared stage in a row: green chat first (phone), laptop app, browser tab, phone app. One thread shown on each.",
+   "animation": "Parallax layers pan: devices slide at 0.6x/1x/1.4x speeds; each surface lights (white fill vs lavender) as it is named.",
+   "camera": "Horizontal dolly right 1500px over 5s, ease-in-out.",
+   "lighting": "Flat, even studio light. Depth only from opaque surfaces on lavender and hairline borders.",
+   "transitionOut": "Camera dips into dark for night (hard cut justified by time passing: clock 23:40)."
+  },
+  {
+   "id": "overnight",
+   "act": "showcase",
+   "startSec": 36.5,
+   "durationSec": 6.5,
+   "purpose": "Works while you sleep.",
+   "emotionalBeat": "calm, relief",
+   "voiceover": "Give it jobs before bed. It works through them overnight, and tells you in the morning.",
+   "onScreenText": "It works while you sleep.",
+   "layout": "Dark board (To do, Doing, Done) at night with a clock 23:40, then the bedside phone at 07:30 with a green chat message '3 jobs done overnight'.",
+   "elements": "Dark board (To do, Doing, Done) at night with a clock 23:40, then the bedside phone at 07:30 with a green chat message '3 jobs done overnight'.",
+   "animation": "Cards carry across columns one at a time (350ms ease-in-out); clock numerals roll; sunrise = background field switches lavender via a 0.5s wipe.",
+   "camera": "Locked-off board, then a vertical tilt down to the phone on a bedside table.",
+   "lighting": "Flat, even studio light. Depth only from opaque surfaces on lavender and hairline borders.",
+   "transitionOut": "Wipe up."
+  },
+  {
+   "id": "profiles",
+   "act": "showcase",
+   "startSec": 43,
+   "durationSec": 6,
+   "purpose": "Profiles with their own jobs.",
+   "emotionalBeat": "capable",
+   "voiceover": "Profiles each have a job. Ada does errands, Milo watches money, Juno writes.",
+   "onScreenText": "A profile for each job.",
+   "layout": "Three real profile screens side by side: Ada (Errands, itinerary), Milo (Money, a bar list), Juno (Writing, a document). Names large above each.",
+   "elements": "Three real profile screens side by side: Ada (Errands, itinerary), Milo (Money, a bar list), Juno (Writing, a document). Names large above each.",
+   "animation": "Orbit-free: screens rise at different depths (Z hierarchy), the named one scales 1.06 and others dim to 70 percent in turn.",
+   "camera": "Slow push-in 1.1x on the active screen.",
+   "lighting": "Flat, even studio light. Depth only from opaque surfaces on lavender and hairline borders.",
+   "transitionOut": "Cross-slide to the log."
+  },
+  {
+   "id": "control",
+   "act": "showcase",
+   "startSec": 49,
+   "durationSec": 4,
+   "purpose": "Control and transparency.",
+   "emotionalBeat": "trust",
+   "voiceover": "You set the limit, and see every step.",
+   "onScreenText": "See every step.",
+   "layout": "Left: spend limit meter 38 of 50 euros. Right: step log with times and ticks.",
+   "elements": "Left: spend limit meter 38 of 50 euros. Right: step log with times and ticks.",
+   "animation": "Meter fills 0.9s ease-out; log rows type in with 120ms stagger.",
+   "camera": "Guided zoom to the log, 1.3x.",
+   "lighting": "Flat, even studio light. Depth only from opaque surfaces on lavender and hairline borders.",
+   "transitionOut": "Rows scroll off to a parcel icon list."
+  },
+  {
+   "id": "skills",
+   "act": "showcase",
+   "startSec": 53,
+   "durationSec": 2.5,
+   "purpose": "Weekly new skills without breakage.",
+   "emotionalBeat": "reassured",
+   "voiceover": "New skills weekly. Nothing breaks.",
+   "onScreenText": "New skills every week.",
+   "layout": "Skills list with 'New this week' rows; Memory and profiles rows beside them keep a green tick.",
+   "elements": "Skills list with 'New this week' rows; Memory and profiles rows beside them keep a green tick.",
+   "animation": "Rows drop in 80ms stagger; ticks pop on old rows.",
+   "camera": "Static, 1.05x drift.",
+   "lighting": "Flat, even studio light. Depth only from opaque surfaces on lavender and hairline borders.",
+   "transitionOut": "Rows collapse toward the centre mark."
+  },
+  {
+   "id": "close",
+   "act": "close",
+   "startSec": 55.5,
+   "durationSec": 4.5,
+   "purpose": "Brand, tagline, address.",
+   "emotionalBeat": "settled",
+   "voiceover": "Headmaster. Your AI staff, always on.",
+   "onScreenText": "Headmaster. Your AI staff, always on.",
+   "layout": "Blue agent character small above the wordmark on lavender; URL below. Hold 2s.",
+   "elements": "Blue agent character small above the wordmark on lavender; URL below. Hold 2s.",
+   "animation": "Agent hops once (spring 0.5s), wordmark rises from a mask, URL fades in last.",
+   "camera": "Pull back 1.0 to 0.94 over 4s.",
+   "lighting": "Flat, even studio light. Depth only from opaque surfaces on lavender and hairline borders.",
+   "transitionOut": "End."
+  }
+ ]
+}

@@ -1,0 +1,211 @@
+1
+00:00:00,400 --> 00:00:02,100
+Say you need a hotel.
+
+2
+00:00:02,100 --> 00:00:03,333
+You just ask.
+
+3
+00:00:07,900 --> 00:00:10,133
+It has its own private computer.
+
+4
+00:00:10,133 --> 00:00:11,667
+It searches, compares,
+
+5
+00:00:11,667 --> 00:00:13,700
+and finds the booking page.
+
+6
+00:00:14,900 --> 00:00:15,533
+Curious?
+
+7
+00:00:15,533 --> 00:00:17,733
+Watch its computer at work,
+
+8
+00:00:17,733 --> 00:00:19,667
+or take over any time.
+
+9
+00:00:21,233 --> 00:00:23,233
+Before anything important,
+
+10
+00:00:23,233 --> 00:00:25,767
+like booking, it checks with you.
+
+11
+00:00:25,767 --> 00:00:28,867
+Approve once, always allow, or say no.
+
+12
+00:00:30,233 --> 00:00:32,267
+Most AI apps only talk.
+
+13
+00:00:32,267 --> 00:00:34,733
+Yours actually does the job,
+
+14
+00:00:34,733 --> 00:00:36,733
+from start to finish.
+
+15
+00:00:37,967 --> 00:00:40,300
+It remembers how you like things.
+
+16
+00:00:40,300 --> 00:00:41,900
+So next time, just say:
+
+17
+00:00:41,900 --> 00:00:43,133
+book the usual.
+
+18
+00:00:44,267 --> 00:00:46,333
+Connect your email and calendar.
+
+19
+00:00:46,333 --> 00:00:49,833
+It spots the confirmation and adds the trip for you.
+
+20
+00:00:51,067 --> 00:00:53,700
+Use it in the chat apps you already use,
+
+21
+00:00:53,700 --> 00:00:56,300
+or on your laptop, browser and phone.
+
+22
+00:00:57,467 --> 00:00:58,300
+Rather talk?
+
+23
+00:00:58,300 --> 00:01:01,100
+Just call it, like you'd call a friend.
+
+24
+00:01:02,667 --> 00:01:04,667
+At work, hand it the busywork.
+
+25
+00:01:04,667 --> 00:01:06,133
+Send it a spreadsheet,
+
+26
+00:01:06,133 --> 00:01:08,567
+and it writes the one-page report.
+
+27
+00:01:10,000 --> 00:01:11,100
+Snap a receipt.
+
+28
+00:01:11,100 --> 00:01:13,633
+It files it and keeps the total.
+
+29
+00:01:15,200 --> 00:01:17,067
+Need something every week?
+
+30
+00:01:17,067 --> 00:01:20,167
+Say, every Monday at nine, send me my plan.
+
+31
+00:01:20,167 --> 00:01:21,467
+It just happens.
+
+32
+00:01:22,800 --> 00:01:24,267
+Give it jobs before bed.
+
+33
+00:01:24,267 --> 00:01:26,200
+It works through them overnight,
+
+34
+00:01:26,200 --> 00:01:28,100
+and tells you in the morning.
+
+35
+00:01:29,300 --> 00:01:30,667
+Running a business?
+
+36
+00:01:30,667 --> 00:01:32,400
+Give each profile a job.
+
+37
+00:01:32,400 --> 00:01:35,667
+Ada takes the orders, Milo watches the money,
+
+38
+00:01:35,667 --> 00:01:37,433
+Juno writes the posts.
+
+39
+00:01:38,633 --> 00:01:39,167
+Big job?
+
+40
+00:01:39,167 --> 00:01:41,967
+It splits the work between your profiles,
+
+41
+00:01:41,967 --> 00:01:44,367
+then brings it all back together.
+
+42
+00:01:45,767 --> 00:01:46,933
+Bring your team.
+
+43
+00:01:46,933 --> 00:01:49,100
+Everyone gets their own agent,
+
+44
+00:01:49,100 --> 00:01:50,933
+and you stay in charge.
+
+45
+00:01:52,367 --> 00:01:53,600
+Need something new?
+
+46
+00:01:53,600 --> 00:01:56,500
+Add it from the Extensions store in one tap.
+
+47
+00:01:56,500 --> 00:01:59,300
+It connects to the apps you already use.
+
+48
+00:02:00,700 --> 00:02:03,000
+Already pay for ChatGPT or Claude?
+
+49
+00:02:03,000 --> 00:02:04,833
+Bring that plan with you.
+
+50
+00:02:06,367 --> 00:02:08,333
+No more ten different apps.
+
+51
+00:02:08,333 --> 00:02:11,933
+One agent that knows you, and gets it all done.
+
+52
+00:02:13,167 --> 00:02:14,300
+Headmaster.
+
+53
+00:02:14,300 --> 00:02:17,133
+Your own agent, always on.

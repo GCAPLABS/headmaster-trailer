@@ -1,0 +1,304 @@
+     PROMPT PACK: NO AFTER EFFECTS                                                                                                 Opus 5.5 prompt
+
+
+
+CHARACTER FILM / 12 S / 16:9 / 30 FPS
+
+
+
+
+No After Effects.
+Just Clawd.
+Clawd starts as a flat PNG layer inside an After Effects-style comp. He peels himself off the screen, pops into 3D and builds
+the whole motion graphic by jumping on the buttons: Type, Rectangle, Pen, Glow, four keyframes, a ride on the playhead,
+Play. Then the editor falls apart and only his work is left. The interface, the scene and the sound were all written by Claude
+Opus 5.5 from the prompt on page 2.
+
+
+
+
+12.0 s                   30 fps                    1920x1080                10 hits                   390                      3
+120 BPM, 24 BEATS        360 FRAMES                CYCLES ON THE GPU        BUTTONS, KEYS, PLAYHEAD   WORDS OF PROMPT          FOLLOW-UPS
+
+
+
+
+1.30 S                   2.10 S                    3.00 S                   5.00 S                    7.00 S                   9.00 S
+FLAT PNG                 POP                       TOOLS                    KICK GLOW                 KEYFRAMES                PLAYHEAD
+THE FORMULA
+
+01    Build the UI in HTML                                                    02    One layout, three readers
+      Real panels, labels and icons as a web page, screenshot at 3x:                timeline.py holds each button in UI pixels; the HTML, the 3D
+      crisp as a real app, and every pixel position is known.                       buttons and the sound read the same numbers.
+
+03    Slabs, not a screenshot                                                 04    The comp is a canvas
+      Each panel is its own slab with its own piece of the texture, so              What Clawd builds is drawn per frame from the playhead time,
+      they can light up, press and fall one by one.                                 so keyframes and the ride follow real AE logic.
+
+05    Hide the lights from glass                                              06    Measure, don't guess
+      Glossy UI mirrors big area lights as white blocks; the rim and top            Contact sheets of the comp and of 18 stills before the full
+      lights stay out of its reflections.                                           render; loudness per half second for the mix.
+
+
+     PAGE 02                    PAGE 03                       PAGE 04                    PAGE 05                        PAGE 06
+
+     The prompt,                Every follow-up, in           Make it yours, render it   Every hit on its frame.        Sound, prompt and
+     copy-ready.                order.                        fast.                                                     check.
+
+
+
+         Clawd Motion Lab                                                                                                                P 01 / 06
+   PROMPT PACK: NO AFTER EFFECTS                                                                                                    Opus 5.5 prompt
+
+
+
+
+The prompt                                    COPY-READY          390 WORDS
+
+
+
+
+Paste it as is into Claude Code running Opus 5.5 at effort high, with Blender 5, Node with puppeteer and ffmpeg installed.
+It writes the interface as HTML, the scene as Python, renders headless on the GPU and checks its own stills.
+
+
+
+   BRAND
+   HERO: Clawd, the Claude Code mascot as one smooth toy: body 12x8x6 units, two side nubs, four short legs, two black eye
+   slits, soft rounded bevels, no voxel grid, terracotta D97757
+   APP: a pixel-faithful After Effects-style workspace, dark theme: menu bar, toolbar (Home, Selection ... Rectangle, Pen, Type
+   ... Puppet), Project, Composition, Info, Preview, Effects & Presets searched for "glow", and a Timeline with five layers and
+   open Position and Scale rows. Real layout and labels, no logos
+   RESULT: the comp Clawd builds: "MADE WITH CLAUDE", an orange spark, a pen swoosh, a glow, the subtitle OPUS 5.5
+   SET: every panel is a floating slab over a dark warm studio; the UI glows like a screen
+
+   FORMAT: Blender 5 Python, Cycles GPU, 1920x1080, 30 fps, 12.0 s at 120 BPM. Build the interface in HTML and screenshot it
+   with puppeteer into a 3840x2160 texture; draw the comp and the timecode on a canvas, one PNG per frame. One timeline.py holds
+   the layout in UI pixels and every event; the HTML, the Blender scene and the sound all read it.
+
+   BEATS (seconds):
+   0-1.5 Clawd is a flat clawd.png layer in the comp, selection handles around him; he knocks twice from inside
+   1.5-2.0 peels off the screen as a flat card and pops into 3D; the viewer glass cracks, shards fly
+   2.5-3.5 lands on Type, Rectangle and Pen: each press types the title, pops the spark, draws the swoosh
+   4.5-5.5 flips across to Effects > Glow, a Glow chip pops up, he kicks it into the comp: glow on
+   6.0-7.5 four hops along the Position row; each stamps a keyframe and the comp jumps to that pose
+   8.0-9.6 hops on the playhead, it rewinds to 0, he surfs it to the end while the comp plays
+   10-12 Preview > Play; every other panel powers down and falls away; Clawd waves next to the finished comp
+
+   CAMERA: starts wide on the whole workspace, follows every hop at Clawd height with shallow focus, whips to each button, ends
+   on the comp alone.
+
+   LOOK: UI as emission under black glossy glass; keep the lights out of the UI reflections so nothing blows out; bloom, 0.5
+   shutter blur, AgX; the body must read D97757.
+
+   CHECKS: render the UI texture and a comp contact sheet first, then 18 stills at half res before the full render.
+
+
+
+
+BRAND                    The block you swap. HERO, APP, RESULT, SET. The rest of the prompt only uses these names.
+
+
+APP                      Name every panel and the state it is in. The more real the labels, the more the film reads as the real app.
+
+
+FORMAT                   HTML for the interface, a canvas for the comp, Blender for the world: each tool does what it is best at.
+
+
+BEATS                    Every hop lands on something that changes the comp. A jump that changes nothing is cut.
+
+
+LOOK                     The one line that fixed the first previews: glossy screens and big area lights fight.
+
+
+CHECKS                   Makes Opus look before it spends GPU time. Most of the polish comes from this line.
+
+
+
+
+         Clawd Motion Lab                                                                                                                P 02 / 06
+   PROMPT PACK: NO AFTER EFFECTS                                                                                                 Opus 5.5 prompt
+
+
+
+
+Every follow-up                                                 3 ROUNDS
+
+
+
+
+After each contact sheet I wrote what I saw and what to change, in order. These are the notes; the pictures below are the
+same frame before and after follow-up 2.
+
+FOLLOW-UP 1 / AFTER THE COMP CONTACT SHEET
+
+The spark is ten hairlines: make every ray twice as wide. At the third keyframe
+the title runs off the right edge: pull that pose in to 190 px right at 100%.
+OPUS 5.5 is too small to read in the panel: 78 px.
+
+                                                                                                FOLLOW-UP 1
+FOLLOW-UP 2 / AFTER THE FIRST 18 STILLS                                                         Result: the spark reads as a shape, the title stays in
+The rim and top lights show up in the glossy panels as huge white blocks. Hide                  frame.
+them from glossy rays, drop the UI specular to 0.1 and roughen it to 0.32. Clawd
+reads salmon: exposure 0.6 to 0.15 and the body base to 0.5, 0.085, 0.03. In the                FOLLOW-UP 2
+last shot he stands on OPUS 5.5: land him on the comp panel's right corner and
+                                                                                                Result: no blown highlights; the body reads
+raise the camera.
+                                                                                                terracotta (pictures below).
+
+FOLLOW-UP 3 / AFTER THE FULL RENDER                                                             FOLLOW-UP 3
+Two misses in the full render. Mid-leap to Glow he flies out of the top of the                  Result: Clawd stays in frame on the leap; title,
+frame: lower that apex from 0.55 to 0.36 m. In the last frame he is half off the                subtitle and Clawd in one clean end frame.
+right edge: land him at x 800 instead of 862 and move the camera right and back.
+Re-render only frames 105 to 145 and 285 to 360.
+                                                                                                FULL RENDER
+                                                                                                Result: 1.47 s a frame on an RTX 4070 SUPER, 360
+                                                                                                frames in 8.8 min plus 117 re-rendered; 9.6 MB
+                                                                                                MP4.
+
+
+
+
+FOLLOW-UP 2 IN ONE PICTURE: 3.03 S, ON THE TOOLBAR
+
+
+
+
+Before: the lights mirror in the glass panels; the body reads salmon.      After: lights hidden from the UI glass, deeper body, lower exposure.
+
+
+
+
+         Clawd Motion Lab                                                                                                                P 03 / 06
+   PROMPT PACK: NO AFTER EFFECTS                                                                                         Opus 5.5 prompt
+
+
+
+
+Make it yours
+Only the BRAND block changes. Below: the interface texture and the comp exactly as Opus built them before any 3D.
+Swap APP for any program you want to "replace" and RESULT for what the hero should make in it.
+
+
+   BRAND (an example swap, not rendered)
+   HERO: the same
+   APP: a Premiere-style editor: Source, Program, Project bin, an Effects panel searched for "warp", a timeline with V1 V2 A1
+   tracks and clips
+   RESULT: a cut-down trailer: three clips snapped together, a title, a warp transition
+   SET: the same
+
+
+
+
+ui.png, 3840x2160: the whole workspace from HTML, before it is cut   The comp at 3.6, 5.6, 7.0 and 11 s: the canvas that plays on the 3D
+into slabs.                                                          screen.
+
+Render it fast
+1. Build the UI: python build_ui.py, then node render_ui.js for ui.png, the 360 comp frames and the timecode.
+2. Build the .blend from scene.py with blender -b --factory-startup -P scene.py.
+3. Preview 18 stills at 50% and 40 samples first and read them as one contact sheet.
+4. Pass -P gpu.py on every render: the OptiX device is a user preference, not part of the file.
+5. Encode H.264 High CRF 17, 30 fps, soft vignette, mux the WAV as AAC 320k, +faststart.
+
+
+
+
+        Clawd Motion Lab                                                                                                        P 04 / 06
+    PROMPT PACK: NO AFTER EFFECTS                                                                                                    Opus 5.5 prompt
+
+
+
+
+Every hit on its frame
+Read straight from timeline.py; the frame is time x 30 + 1. At 120 BPM a beat is 0.5 s, so every landing, click and keyframe
+sits on a beat.
+TIME                        FRAME                  PICTURE                                             SOUND
+
+0.00 to 1.50 s              f1 to f46              wide on the workspace; flat Clawd in the comp,      soft pad, ticking hats, two glass knocks
+                                                   handles around him, two knocks
+
+1.50 to 1.90 s              f46 to f58             he peels up off the screen as a flat card           sticker peel, riser
+
+2.00 s                      f61                    pop into 3D, cracks in the comp, shards             pop, glass, sub boom, the beat drops
+
+2.50 s                      f76                    Type tool, the title types on                       keycap click, blip, 16 key taps
+
+3.00 / 3.50 s               f91 / f106             Rectangle: spark; Pen: swoosh                       clicks, bloop, pen scribble
+
+4.50 s                      f136                   front flip onto Effects > Glow, the chip pops up    whoosh, landing, select blip
+
+5.00 to 5.50 s              f151 to f166           kick, the chip flies into the comp: glow on         thwack, whoosh, magic shimmer, bells
+
+6.0 to 7.5 s                f181 to f226           four keyframes stamped on Position, one a beat      rising dings C E G C
+
+8.00 to 8.40 s              f241 to f253           onto the playhead, it rewinds to 0                  tape rewind chirps
+
+8.50 to 9.60 s              f256 to f289           he surfs the playhead, the comp plays               skate roll, scrub ticks
+
+10.00 s                     f301                   Preview > Play: flash, particles, OPUS 5.5          click, C major brass, shimmer
+
+10.45 to 11.20 s            f314 to f337           every other panel powers down and falls             six power-downs, boom, yay chirps
+
+11.20 to 12.00 s            f337 to f360           Clawd waves, ^^ eyes, the comp alone                chord rings out, fade
+
+
+
+3 TIPS
+
+
+1                                                    2                                                3
+Pixels are the API                                   Show the software logic                          Every jump changes something
+Keep the layout in UI pixels; one function turns     Keyframes jump the comp to their pose, the       A hop that presses nothing is filler; cut it or
+them into metres for Blender.                        playhead plays it: anyone who knows AE           give it a button.
+                                                     smiles.
+
+
+
+
+          Clawd Motion Lab                                                                                                                P 05 / 06
+   PROMPT PACK: NO AFTER EFFECTS                                                                                        Opus 5.5 prompt
+
+
+
+
+Sound                      COPY-READY       220 WORDS
+
+
+
+
+The picture comes from the prompt on page 2; the sound came from this one more prompt, driven by the same
+timeline.py.
+
+
+   Add sound. Synthesize everything in Python with numpy, scipy and pedalboard: no samples, no words. 48 kHz stereo WAV, 12.0 s,
+   read every event from timeline.py and land each hit on its frame.
+
+   Music: a cute lo-fi beat at 120 BPM. Before the pop only a soft pad and ticking hats; the beat drops on the pop: kick, snare,
+   hats, a rubbery bass on F G Am C, glassy FM keys on the off-beats, a kick pump on the bed. On Play a C major brass stab, then
+   the chord rings out to a 0.5 s fade.
+
+   Effects: two glass knocks, a sticker peel, a pop with breaking glass and a sub boom; a boing on every take-off and a soft
+   pomf on every landing, whooshes on the big leaps; a chunky keycap click and a UI blip on each tool, a key tap for every typed
+   letter, a bloop for the spark, a pen scribble; a thwack for the kick, a whoosh for the chip and a magic shimmer with bells
+   for the glow; rising glockenspiel dings C E G C for the keyframes; tape-rewind chirps, a skate roll and scrub ticks for the
+   playhead; a power-down zap and a whoosh for each falling panel; yay chirps and sparkles at the end.
+
+   Master: a compressor and a limiter at -1 dBFS.
+
+
+
+
+The check I ran
+LOUDNESS PER HALF SECOND, BEFORE ANY SOUND FOLLOW-UP
+
+-28 dB in the first half second, -21 dB during the knocks, -14 dB on the peel, then -11 to -12 dB from the pop to the end, and -19
+dB in the fade. The drop lands where the picture explodes and nothing pokes out above the groove, so no sound follow-up was needed.
+
+
+Into the MP4: the WAV was muxed in as the video's AAC 320k track with ffmpeg; the same step works for your own video.
+
+
+
+
+        Clawd Motion Lab                                                                                                     P 06 / 06
+

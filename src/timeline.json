@@ -1,0 +1,203 @@
+{
+ "fps": 30,
+ "voiceOffset": 12,
+ "scenes": [
+  {
+   "id": "ask",
+   "line": "L01",
+   "start": 0,
+   "dur": 225
+  },
+  {
+   "id": "works",
+   "line": "L02",
+   "start": 225,
+   "dur": 210
+  },
+  {
+   "id": "asks",
+   "line": "L03",
+   "start": 435,
+   "dur": 270
+  },
+  {
+   "id": "remembers",
+   "line": "L04",
+   "start": 705,
+   "dur": 189
+  },
+  {
+   "id": "anywhere",
+   "line": "L05",
+   "start": 894,
+   "dur": 192
+  },
+  {
+   "id": "overnight",
+   "line": "L06",
+   "start": 1086,
+   "dur": 195
+  },
+  {
+   "id": "profiles",
+   "line": "L07",
+   "start": 1281,
+   "dur": 234
+  },
+  {
+   "id": "control",
+   "line": "L08",
+   "start": 1515,
+   "dur": 129
+  },
+  {
+   "id": "skills",
+   "line": "L09",
+   "start": 1644,
+   "dur": 126
+  },
+  {
+   "id": "close",
+   "line": "L10",
+   "start": 1770,
+   "dur": 186
+  }
+ ],
+ "total": 1956,
+ "sfx": {
+  "ask": {
+   "ticks": [
+    34,
+    46,
+    58,
+    70,
+    76,
+    112,
+    150
+   ],
+   "whooshes": [
+    129
+   ]
+  },
+  "works": {
+   "ticks": [
+    36,
+    48,
+    60,
+    72,
+    78,
+    100,
+    126,
+    148,
+    172
+   ],
+   "whooshes": [
+    0
+   ]
+  },
+  "asks": {
+   "ticks": [
+    18,
+    128,
+    157,
+    190,
+    236,
+    250
+   ],
+   "whooshes": []
+  },
+  "remembers": {
+   "ticks": [
+    16,
+    26,
+    36,
+    130,
+    141,
+    148,
+    158,
+    164,
+    168,
+    173,
+    178
+   ],
+   "whooshes": []
+  },
+  "anywhere": {
+   "ticks": [
+    2,
+    7,
+    12,
+    17,
+    92,
+    125,
+    143
+   ],
+   "whooshes": [
+    112
+   ]
+  },
+  "overnight": {
+   "ticks": [
+    52,
+    66,
+    70,
+    84,
+    88,
+    100,
+    146,
+    158
+   ],
+   "whooshes": [
+    112
+   ]
+  },
+  "profiles": {
+   "ticks": [
+    4,
+    12,
+    20,
+    80,
+    123,
+    175
+   ],
+   "whooshes": []
+  },
+  "control": {
+   "ticks": [
+    14,
+    22,
+    27,
+    32,
+    37
+   ],
+   "whooshes": []
+  },
+  "skills": {
+   "ticks": [
+    10,
+    14,
+    18,
+    22,
+    66,
+    72,
+    78,
+    84
+   ],
+   "whooshes": []
+  },
+  "close": {
+   "ticks": [
+    6,
+    44,
+    49,
+    54,
+    59,
+    64,
+    100
+   ],
+   "whooshes": [
+    14
+   ]
+  }
+ }
+}

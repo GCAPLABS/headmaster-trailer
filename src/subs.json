@@ -1,0 +1,307 @@
+{
+ "ask": [
+  {
+   "text": "Say you need a hotel.",
+   "a": 12,
+   "b": 63
+  },
+  {
+   "text": "You just ask.",
+   "a": 63,
+   "b": 100
+  }
+ ],
+ "works": [
+  {
+   "text": "It has its own private computer.",
+   "a": 12,
+   "b": 79
+  },
+  {
+   "text": "It searches, compares,",
+   "a": 79,
+   "b": 125
+  },
+  {
+   "text": "and finds the booking page.",
+   "a": 125,
+   "b": 186
+  }
+ ],
+ "takeover": [
+  {
+   "text": "Curious?",
+   "a": 12,
+   "b": 31
+  },
+  {
+   "text": "Watch its computer at work,",
+   "a": 31,
+   "b": 97
+  },
+  {
+   "text": "or take over any time.",
+   "a": 97,
+   "b": 155
+  }
+ ],
+ "asks": [
+  {
+   "text": "Before anything important,",
+   "a": 12,
+   "b": 72
+  },
+  {
+   "text": "like booking, it checks with you.",
+   "a": 72,
+   "b": 148
+  },
+  {
+   "text": "Approve once, always allow, or say no.",
+   "a": 148,
+   "b": 241
+  }
+ ],
+ "vs": [
+  {
+   "text": "Most AI apps only talk.",
+   "a": 12,
+   "b": 73
+  },
+  {
+   "text": "Yours actually does the job,",
+   "a": 73,
+   "b": 147
+  },
+  {
+   "text": "from start to finish.",
+   "a": 147,
+   "b": 207
+  }
+ ],
+ "remembers": [
+  {
+   "text": "It remembers how you like things.",
+   "a": 12,
+   "b": 82
+  },
+  {
+   "text": "So next time, just say:",
+   "a": 82,
+   "b": 130
+  },
+  {
+   "text": "book the usual.",
+   "a": 130,
+   "b": 167
+  }
+ ],
+ "mail": [
+  {
+   "text": "Connect your email and calendar.",
+   "a": 12,
+   "b": 74
+  },
+  {
+   "text": "It spots the confirmation and adds the trip for you.",
+   "a": 74,
+   "b": 179
+  }
+ ],
+ "anywhere": [
+  {
+   "text": "Use it in the chat apps you already use,",
+   "a": 12,
+   "b": 91
+  },
+  {
+   "text": "or on your laptop, browser and phone.",
+   "a": 91,
+   "b": 169
+  }
+ ],
+ "call": [
+  {
+   "text": "Rather talk?",
+   "a": 12,
+   "b": 37
+  },
+  {
+   "text": "Just call it, like you'd call a friend.",
+   "a": 37,
+   "b": 121
+  }
+ ],
+ "work": [
+  {
+   "text": "At work, hand it the busywork.",
+   "a": 12,
+   "b": 72
+  },
+  {
+   "text": "Send it a spreadsheet,",
+   "a": 72,
+   "b": 116
+  },
+  {
+   "text": "and it writes the one-page report.",
+   "a": 116,
+   "b": 189
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Snap a receipt.",
+   "a": 12,
+   "b": 45
+  },
+  {
+   "text": "It files it and keeps the total.",
+   "a": 45,
+   "b": 121
+  }
+ ],
+ "weekly": [
+  {
+   "text": "Need something every week?",
+   "a": 12,
+   "b": 68
+  },
+  {
+   "text": "Say, every Monday at nine, send me my plan.",
+   "a": 68,
+   "b": 161
+  },
+  {
+   "text": "It just happens.",
+   "a": 161,
+   "b": 200
+  }
+ ],
+ "overnight": [
+  {
+   "text": "Give it jobs before bed.",
+   "a": 12,
+   "b": 56
+  },
+  {
+   "text": "It works through them overnight,",
+   "a": 56,
+   "b": 114
+  },
+  {
+   "text": "and tells you in the morning.",
+   "a": 114,
+   "b": 171
+  }
+ ],
+ "profiles": [
+  {
+   "text": "Running a business?",
+   "a": 12,
+   "b": 53
+  },
+  {
+   "text": "Give each profile a job.",
+   "a": 53,
+   "b": 105
+  },
+  {
+   "text": "Ada takes the orders, Milo watches the money,",
+   "a": 105,
+   "b": 203
+  },
+  {
+   "text": "Juno writes the posts.",
+   "a": 203,
+   "b": 256
+  }
+ ],
+ "split": [
+  {
+   "text": "Big job?",
+   "a": 12,
+   "b": 28
+  },
+  {
+   "text": "It splits the work between your profiles,",
+   "a": 28,
+   "b": 112
+  },
+  {
+   "text": "then brings it all back together.",
+   "a": 112,
+   "b": 184
+  }
+ ],
+ "team": [
+  {
+   "text": "Bring your team.",
+   "a": 12,
+   "b": 47
+  },
+  {
+   "text": "Everyone gets their own agent,",
+   "a": 47,
+   "b": 112
+  },
+  {
+   "text": "and you stay in charge.",
+   "a": 112,
+   "b": 167
+  }
+ ],
+ "store": [
+  {
+   "text": "Need something new?",
+   "a": 12,
+   "b": 49
+  },
+  {
+   "text": "Add it from the Extensions store in one tap.",
+   "a": 49,
+   "b": 136
+  },
+  {
+   "text": "It connects to the apps you already use.",
+   "a": 136,
+   "b": 220
+  }
+ ],
+ "plan": [
+  {
+   "text": "Already pay for ChatGPT or Claude?",
+   "a": 12,
+   "b": 81
+  },
+  {
+   "text": "Bring that plan with you.",
+   "a": 81,
+   "b": 136
+  }
+ ],
+ "oneapp": [
+  {
+   "text": "No more ten different apps.",
+   "a": 12,
+   "b": 71
+  },
+  {
+   "text": "One agent that knows you, and gets it all done.",
+   "a": 71,
+   "b": 179
+  }
+ ],
+ "close": [
+  {
+   "text": "Headmaster.",
+   "a": 12,
+   "b": 46
+  },
+  {
+   "text": "Your own agent, always on.",
+   "a": 46,
+   "b": 131
+  }
+ ]
+}

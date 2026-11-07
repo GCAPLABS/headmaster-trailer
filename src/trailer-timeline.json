@@ -1,0 +1,15 @@
+{
+  "fps": 30, "bpm": 120, "beat": 15, "total": 2250,
+  "acts": {"hook": [0, 480], "evolved": [480, 720], "fifty": [720, 840], "remind": [840, 960], "until": [960, 1110],
+           "ask": [1110, 1290], "screen": [1290, 1500], "list": [1500, 1830], "gallery": [1830, 2070], "end": [2070, 2250]},
+  "local": {
+    "evolved": {"wins": [0, 15, 30, 60], "reminder": 120, "sync": 150, "assistant": 180},
+    "remind": {"dialogs": [15, 30, 45], "cap": 60},
+    "until": {"type": 6, "offA": 48, "offB": 58, "land": 60},
+    "ask": {"typeAt": 30, "per": 3, "sent": 90, "reply": 120, "working": 150},
+    "screen": {"page2": 90, "move": 20, "click": 60},
+    "list": {"ticks": [30, 60], "cursorIn": 150, "tap": 195, "titleSwap": 165},
+    "gallery": {"pan": [0, 150], "icon": 135, "line2": 150},
+    "end": {"land": 0, "word": 15, "url": 45}
+  }
+}

@@ -1,0 +1,9 @@
+## Design skills (required for visual work)
+
+Any visual or UI work (layout, styling, motion, copy on screen, design review) must first load the design skills in `.claude/skills`: web-design-guidelines, ui-ux-pro-max, design-taste-frontend, redesign-existing-projects, design-md-library and the Emil Kowalski set (emil-design-eng, animate, review-animations and the rest). Every visual change must also pass `no-vibecoded-look`, the owner's list of 20 AI-design patterns to avoid; check the rendered screen against it before calling the work done. Our own palette and font decisions still win over any skill default.
+
+Every screen starts from 21st.dev: search the 21st.dev MCP (`search`, `get_component`, `get_inspiration`) for each piece (buttons, forms, tables, tabs, dialogs, icons, motion), then restyle it to our palette and fonts. At least 95% of every screen is 21st.dev components (owner, 27 Oct 2026); old screens moved in unchanged do not count. No hand-coded UI, and that includes admin, settings and security pages such as MFA setup. Each visual PR names the 21st.dev component or search behind each piece.
+
+**Component sources (owner, 3 Nov 2026).** Every screen starts from 21st.dev. When it has nothing that fits, or the piece is an animation or a chart, take it from Kokonut UI, BKLit UI, Componentry, Magic UI, Aceternity UI (free tier) or the free `motion` package. Use the real component code with all its animations. Never drop or simplify motion; lazy-load heavy components instead. Port onto Studio tokens, Hugeicons and `motion/react`, mark the file `// @imported`, and name the source and component in each visual PR. These count toward the 95% like 21st.dev. Paid tiers need the owner's go. Registries and porting rules: `apps/desktop/DESIGN.md`, "Animated component sources".
+
+## Before you push (owner, 27 Oct 2026)

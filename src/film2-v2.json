@@ -1,0 +1,351 @@
+{
+ "fps": 30,
+ "total": 2880,
+ "note": "One timeline for picture and sound. vo = [firstWord, lastWord, filmSeconds, subtitle or null]. Music = take A placed in segments; offsets are whole half-beats so the 0.5 s grid holds.",
+ "scenes": {
+  "hook": [
+   0,
+   645
+  ],
+  "evolved": [
+   645,
+   735
+  ],
+  "paper": [
+   735,
+   795
+  ],
+  "pocket": [
+   795,
+   855
+  ],
+  "remind": [
+   855,
+   915
+  ],
+  "sync": [
+   915,
+   951
+  ],
+  "share": [
+   951,
+   987
+  ],
+  "nag": [
+   987,
+   1050
+  ],
+  "snow": [
+   1050,
+   1170
+  ],
+  "archive": [
+   1170,
+   1290
+  ],
+  "notif": [
+   1290,
+   1365
+  ],
+  "message": [
+   1365,
+   1485
+  ],
+  "wait": [
+   1485,
+   1605
+  ],
+  "until": [
+   1605,
+   1710
+  ],
+  "app": [
+   1710,
+   1845
+  ],
+  "ask": [
+   1845,
+   1965
+  ],
+  "results": [
+   1965,
+   2250
+  ],
+  "approve": [
+   2250,
+   2400
+  ],
+  "gallery": [
+   2400,
+   2700
+  ],
+  "end": [
+   2700,
+   2880
+  ]
+ },
+ "vo": [
+  [
+   0,
+   3,
+   0.6,
+   null
+  ],
+  [
+   4,
+   7,
+   2.8,
+   null
+  ],
+  [
+   8,
+   8,
+   5.0,
+   null
+  ],
+  [
+   9,
+   9,
+   7.5,
+   null
+  ],
+  [
+   10,
+   10,
+   10.0,
+   null
+  ],
+  [
+   11,
+   11,
+   12.0,
+   null
+  ],
+  [
+   12,
+   12,
+   17.0,
+   null
+  ],
+  [
+   13,
+   14,
+   18.6,
+   null
+  ],
+  [
+   15,
+   17,
+   21.8,
+   "Oh, it evolved."
+  ],
+  [
+   18,
+   18,
+   23.2,
+   "Constantly."
+  ],
+  [
+   19,
+   22,
+   24.8,
+   "It left the paper."
+  ],
+  [
+   23,
+   27,
+   26.6,
+   "It moved into your pocket."
+  ],
+  [
+   28,
+   32,
+   28.6,
+   "It learned to remind you."
+  ],
+  [
+   33,
+   34,
+   30.6,
+   "To sync."
+  ],
+  [
+   35,
+   36,
+   31.8,
+   "To share."
+  ],
+  [
+   37,
+   38,
+   33.0,
+   "To nag."
+  ],
+  [
+   39,
+   49,
+   35.0,
+   null
+  ],
+  [
+   50,
+   60,
+   39.5,
+   "Not one of them ever did a single thing on it."
+  ],
+  [
+   61,
+   67,
+   43.4,
+   "Your day hands you work all day."
+  ],
+  [
+   68,
+   72,
+   45.6,
+   "It knows what you promised."
+  ],
+  [
+   73,
+   77,
+   47.4,
+   "It has everything it needs."
+  ],
+  [
+   78,
+   83,
+   49.8,
+   "And it waits for you anyway."
+  ],
+  [
+   84,
+   85,
+   54.0,
+   null
+  ],
+  [
+   86,
+   95,
+   56.3,
+   "This is the first to-do list that does itself."
+  ],
+  [
+   96,
+   96,
+   60.0,
+   null
+  ],
+  [
+   97,
+   109,
+   61.8,
+   "Tell your agent what you need, and it gets it started for you."
+  ],
+  [
+   110,
+   111,
+   66.0,
+   null
+  ],
+  [
+   112,
+   112,
+   67.0,
+   null
+  ],
+  [
+   113,
+   114,
+   68.0,
+   null
+  ],
+  [
+   115,
+   115,
+   69.0,
+   null
+  ],
+  [
+   116,
+   117,
+   70.0,
+   null
+  ],
+  [
+   118,
+   118,
+   71.0,
+   null
+  ],
+  [
+   119,
+   122,
+   72.5,
+   null
+  ],
+  [
+   123,
+   126,
+   74.2,
+   null
+  ],
+  [
+   127,
+   131,
+   76.2,
+   null
+  ],
+  [
+   132,
+   138,
+   80.5,
+   "Everything we make finds its next form."
+  ],
+  [
+   139,
+   145,
+   84.0,
+   "Your to-do list waited fifty years."
+  ],
+  [
+   146,
+   150,
+   87.0,
+   "Its next form starts today."
+  ]
+ ],
+ "music": [
+  {
+   "film": 0.0,
+   "src": 11.0,
+   "dur": 36.5,
+   "fadeOut": 1.5
+  },
+  {
+   "film": 36.5,
+   "src": 1.5,
+   "dur": 14.0,
+   "fadeIn": 1.0,
+   "fadeOut": 1.5,
+   "gain": 6
+  },
+  {
+   "film": 52.5,
+   "src": 48.5,
+   "dur": 22.5,
+   "fadeIn": 1.0,
+   "fadeOut": 2.0
+  },
+  {
+   "film": 73.0,
+   "src": 18.0,
+   "dur": 23.0,
+   "fadeIn": 2.0,
+   "fadeOut": 3.0
+  }
+ ],
+ "duck": {
+  "db": -11,
+  "from": 21.0
+ }
+}

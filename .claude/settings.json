@@ -1,0 +1,7 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {"hooks": [{"type": "command", "command": "bash \"$CLAUDE_PROJECT_DIR/scripts/setup.sh\" > /tmp/trailer-setup.log 2>&1 || echo 'setup failed, see /tmp/trailer-setup.log'", "timeout": 900}]}
+    ]
+  }
+}
