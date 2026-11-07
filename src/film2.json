@@ -319,42 +319,38 @@
    "src_file": "music-seam-1.mp3",
    "film": 0.0,
    "src": 0.0,
-   "dur": 59.0,
+   "dur": 16.0,
    "fadeIn": 0.05,
+   "gain": -9,
+   "note": "piece 1, held low under the montage (the reference opening carries almost no bass after its first seconds)"
+  },
+  {
+   "src_file": "music-seam-1.mp3",
+   "film": 16.0,
+   "src": 16.0,
+   "dur": 5.0,
+   "gain": -9,
+   "gainEnd": 0,
+   "note": "rises into the story"
+  },
+  {
+   "src_file": "music-seam-1.mp3",
+   "film": 21.0,
+   "src": 21.0,
+   "dur": 38.0,
    "fadeOut": 1.5,
    "gain": 0,
-   "note": "piece 1 (ElevenLabs, reference style: 62 Hz swelling bass, no kick); it thins to near silence by 58-60 under \"Not anymore\""
+   "note": "story bed; thins to near silence by 58 under \"Not anymore\""
   },
   {
-   "src_file": "music-a.mp3",
-   "film": 58.0,
-   "src": 54.0,
-   "dur": 14.0,
-   "fadeIn": 0.3,
-   "fadeOut": 0.05,
+   "src_file": "music-seam-2.mp3",
+   "film": 57.5,
+   "src": 0.0,
+   "dur": 49.5,
+   "fadeIn": 0.5,
+   "fadeOut": 1.0,
    "gain": 0,
-   "note": "the seam: the upbeat track enters on its build under \"Not anymore\"; the drop (src 56) lands at 60.0 with the logo"
-  },
-  {
-   "src_file": "music-a.mp3",
-   "film": 72.0,
-   "src": 16.0,
-   "dur": 30.0,
-   "fadeIn": 0.05,
-   "fadeOut": 0.05,
-   "gain": 0,
-   "gainEnd": 3,
-   "note": "main phrase, bar-aligned splice src 68 -> 16; climbs 3 dB into the museum"
-  },
-  {
-   "src_file": "music-a.mp3",
-   "film": 102.0,
-   "src": 66.0,
-   "dur": 5.0,
-   "fadeIn": 0.05,
-   "fadeOut": 2.5,
-   "gain": 3,
-   "note": "the natural ending (src 68) rings out on the end card"
+   "note": "piece 2 (reference shape: near silent start, one climb, peak ~93 s in the museum, falls away on the end card)"
   }
  ],
  "duck": {
