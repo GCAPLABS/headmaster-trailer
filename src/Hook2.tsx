@@ -3,6 +3,20 @@ import {AbsoluteFill, Img, OffthreadVideo, random, Sequence, staticFile, useCurr
 import TL from './film2.json';
 import {C, FONT, out, prog} from './theme';
 import {BLACK, Center, Crt, TERM, Term} from './Trailer';
+import WORDS from './vo-words.json';
+
+// Clean line, like the reference's cold open: Figtree on pure black, each word appears as the narration says it.
+const VW = WORDS as [number, number, string][];
+const Clean: React.FC<{f: number; line: number; text: string; size?: number; dark?: boolean}> = ({f, line, text, size = 72, dark = true}) => {
+  const [a, , t] = (TL as any).vo[line] as [number, number, number];
+  const ws = text.split(' ');
+  const shown = ws.filter((_, i) => f >= Math.round((t + (VW[a + i]?.[0] ?? VW[a][0]) - VW[a][0]) * 30)).length;
+  return (
+    <div style={{fontFamily: FONT.body, fontWeight: 500, fontSize: size, letterSpacing: '-0.01em', color: dark ? '#f2f2f2' : C.ink, whiteSpace: 'pre'}}>
+      {ws.map((w, i) => <span key={i} style={{opacity: i < shown ? 1 : 0}}>{w}{i < ws.length - 1 ? ' ' : ''}</span>)}
+    </div>
+  );
+};
 
 // v2 opening, paced like the reference: a cut every half beat (15 frames at 120 bpm), 4 photos per word
 // running old -> today, type that smashes through the camera, an original 8-bit "evolving" gag, a music run,
@@ -143,7 +157,7 @@ const Ask: React.FC<{lf: number}> = ({lf}) => {
           {badge > 0 && <Badge n={badge} size={300} />}
         </div>
       </Center>
-      <Center y={250}><Term f={lf} at={10} text="And your to-do list?" size={96} /></Center>
+      <Center y={250}><Clean f={lf + H2.ask} line={7} text="And your to-do list?" size={64} /></Center>
     </AbsoluteFill>
   );
 };
@@ -152,21 +166,17 @@ export const Hook2: React.FC = () => {
   const f = useCurrentFrame();
   // Cold open: CRT power-on line, then the lines type in.
   if (f < H2.montage) {
-    const on = prog(f, 0, 10);
     const sm = prog(f, H2.smash[0], H2.smash[1], (t) => t * t * t);
     return (
       <AbsoluteFill style={{background: '#000'}}>
-        <AbsoluteFill style={{background: BLACK, transform: `scaleY(${0.004 + 0.996 * on})`, filter: `brightness(${1 + 2 * (1 - on)})`}}>
-          {f < 86 && <Center><Term f={f} at={H2.line1} text="Every tool we love got better." step={7} size={124} /></Center>}
-          {f >= 86 && (
-            <Center>
-              <div style={{transform: `scale(${1 + 14 * sm})`, filter: `blur(${sm * 14}px)`, opacity: 1 - prog(f, H2.smash[1] - 3, H2.smash[1])}}>
-                <Term f={f} at={H2.line2} text="Nobody asked it to." step={9} size={124} cursor={sm === 0} />
-              </div>
-            </Center>
-          )}
-          <Crt f={f} />
-        </AbsoluteFill>
+        {f < 86 && <Center><Clean f={f} line={0} text="Every tool we love got better." /></Center>}
+        {f >= 86 && (
+          <Center>
+            <div style={{transform: `scale(${1 + 14 * sm})`, filter: `blur(${sm * 14}px)`, opacity: 1 - prog(f, H2.smash[1] - 3, H2.smash[1])}}>
+              <Clean f={f} line={1} text="Nobody asked it to." />
+            </div>
+          </Center>
+        )}
       </AbsoluteFill>
     );
   }

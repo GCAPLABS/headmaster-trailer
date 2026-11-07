@@ -79,8 +79,8 @@ const Evolved: React.FC<{f: number}> = ({f}) => {
   const line = words.filter(([, t]) => g >= t).map(([w]) => w).join(' ');
   return (
     <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
-      {/* one picture per spoken word: each lands on its word (the spring settles about 3 frames after it starts) */}
-      {COLLAGE.map((c, i) => <Shot key={c.src} src={c.src} f={f} at={Math.max(0, words[Math.min(i, words.length - 1)][1] - S.evolved[0] - 3)} x={c.x} y={c.y} w={c.w} rot={c.rot} radius={6} />)}
+      {/* pictures drop in at an even, steady pace through the line, like the reference (one every 12 frames) */}
+      {COLLAGE.map((c, i) => <Shot key={c.src} src={c.src} f={f} at={i * 12} x={c.x} y={c.y} w={c.w} rot={c.rot} radius={6} />)}
       <div style={{position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center', fontFamily: FONT.body, fontWeight: 600, fontSize: 64, letterSpacing: '-0.01em', color: '#fff', zIndex: 2}}>{line}</div>
     </AbsoluteFill>
   );
@@ -227,7 +227,8 @@ const MailHead: React.FC<{ago: string}> = ({ago}) => (
 );
 const Message: React.FC<{f: number}> = ({f}) => {
   const base = S.message[0];
-  const hl = [0, voAt(19) - base + 4, voAt(19) - base + 14, voAt(19) - base + 24, voAt(20) - base + 6];
+  // each highlight lands on its spoken word, like the reference's: "asks", "your", "messages", then "details"
+  const hl = [0, wordAt(19, 'asks') - base - 2, wordAt(19, 'your') - base - 2, wordAt(19, 'messages') - base - 2, wordAt(20, 'details') - base - 2];
   return (
     <AbsoluteFill style={{background: '#f8fafd', overflow: 'hidden', perspective: 2400}}>
       <AbsoluteFill style={{transformOrigin: '22% 52%', transform: `rotateY(${6 - 4 * prog(f, 0, 120, inOut)}deg) rotateX(3deg) scale(${1.55 - 0.1 * prog(f, 0, 120, inOut)}) translateX(${-40 * prog(f, 0, 120, inOut)}px)`}}>
@@ -307,7 +308,7 @@ const RealShot: React.FC<{src: string; f: number; skip?: number; cam: [number, n
 // Camera keys for the chat turn, [clip seconds, focusX, focusY, zoom] in 1920x1080 clip pixels.
 const TURN_CAM: [number, number, number, number][] = [
   [0, 960, 540, 1.0], [4.2, 1150, 860, 1.3], [5.8, 1240, 640, 1.42], [7.4, 1240, 380, 1.44], [12.8, 1240, 420, 1.44],
-  [14.6, 1230, 520, 1.46], [18.9, 1230, 540, 1.48], [21.8, 1300, 520, 1.47], [31.7, 1300, 560, 1.47],
+  [14.6, 1150, 520, 1.42], [18.9, 1130, 540, 1.44], [21.8, 1300, 520, 1.47], [31.7, 1300, 560, 1.47],
 ];
 const App: React.FC<{f: number}> = ({f}) => {
   const nameAt = wordAt(23, 'Headmaster') - S.app[0];
@@ -551,19 +552,22 @@ const End: React.FC<{f: number}> = ({f}) => {
 };
 
 // Subtitles for the narrated lines a scene does not already spell out. Dark scenes get light type and vice versa.
-const LIGHT = new Set(['remind', 'sync', 'share', 'message', 'wait', 'app', 'ask', 'results', 'approve', 'gallery', 'end']);
+// Captions, styled apart from the product (brand lime #e0ef7c on a dark pill, Archivo; the reference's are a similar yellow-green) so they never read as part of the app's UI. Like the
+// reference, each word appears as it is spoken (word times from src/vo-words.json).
+const CAP = (TL.vo as [number, number, number, string | null][]).map(([a, b, t]) => W.slice(a, b + 1).map((w) => Math.round((t + w[0] - W[a][0]) * FPS)));
 const Subtitle: React.FC = () => {
   const f = useCurrentFrame();
   const i = VO.findIndex((v, k) => v.sub && f >= v.at && f < Math.min(v.at + v.len + 12, k + 1 < VO.length ? VO[k + 1].at : 1e9));
   if (i < 0) return null;
   const v = VO[i];
-  const scene = Object.entries(S).find(([, [a, b]]) => f >= a && f < b)?.[0] ?? '';
-  if (scene === 'ask' || scene === 'approve') return null;
-  const e = prog(f, v.at, v.at + 5);
-  const light = LIGHT.has(scene);
+  const words = (v.sub as string).split(' '), times = CAP[i];
+  const spoken = times.filter((t) => f >= t).length;
+  const n = Math.max(1, Math.round((spoken / times.length) * words.length));
   return (
-    <div style={{position: 'absolute', left: 0, right: 0, bottom: 64, display: 'flex', justifyContent: 'center'}}>
-      <div style={{fontFamily: FONT.body, fontWeight: 600, fontSize: 40, color: light ? C.ink : '#fff', background: light ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.55)', borderRadius: 12, padding: '8px 22px', opacity: e}}>{v.sub}</div>
+    <div style={{position: 'absolute', left: 0, right: 0, bottom: 46, display: 'flex', justifyContent: 'center'}}>
+      <div style={{fontFamily: FONT.display, fontWeight: 600, fontSize: 34, color: '#e0ef7c', background: 'rgba(12,12,22,0.66)', borderRadius: 10, padding: '6px 18px'}}>
+        {words.slice(0, n).join(' ')}
+      </div>
     </div>
   );
 };
