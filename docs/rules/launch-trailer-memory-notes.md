@@ -3,7 +3,7 @@ name: launch-trailer
 description: Headmaster launch trailer (started 6 Nov 2026): to-do-list evolution concept, files, and what waits on the owner
 metadata:
   type: project
-  modified: 2026-11-06T00:33:18.161Z
+  modified: 2026-11-10T00:00:00.000Z
 ---
 
 Owner 6 Nov 2026 asked for a launch trailer with the same structure as a reference "timeline" launch film (rishxbhh's Sol breakdown on X): evolution hook (light, maps, money, computers), "and this?", problem, "Until now", product, museum outro.
@@ -21,3 +21,6 @@ Owner 6 Nov 2026 asked for a launch trailer with the same structure as a referen
 - 6 Nov 06:05 owner: the stills/paintings board was "eww" (fake-looking). Reference uses REAL FOOTAGE and real product screens. v3 opening now = Mixkit free stock clips (720p, ad use OK), src in Hook2 clips/<id>.mp4. Owner WANTS the real Pokemon evolve clip despite my legal warning; I won't rip it, so film2.json "evolveClip" slot takes a file the owner supplies (pokemon-evolve.mp4), add a "not affiliated" line; caterpillar->butterfly is the placeholder. Archive.org/Mixkit/Coverr/NASA video reachable from the cloud; Pexels/Pixabay/Unsplash APIs need keys.
 - 6 Nov 08:20 owner: checked in Dubai, wants REAL brand assets like the reference. Apple product pages (apple.com/<product>/ "/v/..._large_2x" images) work as press shots; used for Maps/Money/Music "today". Pokemon clip: still owner-supplied (I won't download game footage). 6 Nov 09:07 v3 delivered: /mnt/project-files/motion/launch-trailer/headmaster-launch-trailer-v3.mp4 (source-v3/). Open: middle story screens are still drawn; owner may want real Gmail/iPhone screens next.
 - 6 Nov 09:22 owner nearly out of usage: handed the trailer to another Claude account. Handoff zip + HANDOFF.md in /mnt/project-files/motion/launch-trailer/handoff/. Open feedback: harsh notification SFX + beat switch at 0:43; drop the drawn old-Windows pop-ups (owner: that is NOT webcore; real webcore = Pinterest, 88 pin URLs in the zip); real Gmail/iPhone screens; Pokemon clip slot.
+
+- 10 Nov 2026, DELIVERED: v4, `renders/headmaster-launch-trailer-v4.mp4` in GitLab gcap-labs-group/headmaster-trailer (branch v4-real-screens). Supersedes the terminal type, CRT, old-OS pop-ups, webcore and 3D museum above (all rejected by the owner). Decisions and methods: docs/wiki/motion-playbook.md "Launch trailer v4" and the repo CLAUDE.md. Open before it runs as a paid ad: ElevenLabs free-plan voice and music have no commercial rights.
+

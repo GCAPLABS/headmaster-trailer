@@ -1,10 +1,11 @@
 ---
 title: Owner and working rules
 created: 2026-10-27
-updated: 2026-11-06
+updated: 2026-11-10
 type: concept
 tags: [rule, person]
 sources:
+  - raw/transcripts/launch-trailer-v4-2026-11-07/summary.md
   - raw/transcripts/nightly-2026-11-06/summary.md
   - raw/transcripts/nightly-2026-11-05/summary.md
   - raw/transcripts/nightly-2026-11-04/summary.md
@@ -175,3 +176,11 @@ icon-set-hugeicons.md, db-traffic-rule.md, raw/transcripts/plan-2026-10-27/page-
 
 ## Depend less on Claude (owner, 6 Nov 2026)
 - "Use MCPs and n8n instead of building" is about our own workflow, not product features. Before any hand step (box, Cloudflare, monitoring, releases), look for an MCP or workflow that does it. Routine work must run without Claude: GitHub workflows, an uptime monitor with phone alerts, our own Headmaster agent on a non-Claude model for light chores. Claude is for building. See [[mcp-and-upstream-replacements]]. ^[raw/transcripts/nightly-2026-11-06/summary.md]
+
+## Film and media work (owner, 7 to 10 Nov 2026)
+- Decide the expensive, shaping things (music, voice) first, and show them in context (with the picture and the script), since the owner can't judge music alone. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- Don't generate what wasn't decided yet, and treat paid credits (ElevenLabs) as precious: one generation at a time, ask first. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- Never raise licensing for this film again; the owner checked brand use in the UAE. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- Report progress with real numbers (frames rendered), never a time estimate. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- When something can only be done on a signed-in machine, write one self-contained prompt for the Mac mini (Cursor), not step-by-step chat. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+

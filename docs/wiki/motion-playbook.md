@@ -1,10 +1,11 @@
 ---
 title: Motion playbook
 created: 2026-10-27
-updated: 2026-11-06
+updated: 2026-11-10
 type: concept
 tags: [design, motion]
 sources:
+  - raw/transcripts/launch-trailer-v4-2026-11-07/summary.md
   - raw/transcripts/nightly-2026-11-06/summary.md
   - raw/transcripts/plan-2026-10-27/page-reference.md
   - raw/articles/motion-2026-10-27/0xmovez-motion-design-course.md
@@ -113,4 +114,23 @@ Our rules win over any source:
 The owner asked for a launch trailer in the structure of a reference "timeline" launch film (evolution hook: light, maps, money, computers; "and this?"; the problem; "Until now"; the product; a museum outro). Our version: the to-do list is the thing that never evolved, and Headmaster is its next form (an agent that does the list). Script and shot list: https://claude.ai/artifact/ALzk6XBUM9Y61F6eKv73CT. Opening render and four style frames in `/mnt/project-files/motion/launch-trailer/`, source (the v4 Remotion project plus `src/Trailer.tsx`, `tools/trailer_audio.py`) beside them. Archive pictures come from The Met Open Access (CC0) and NASA (public domain) because the Wikimedia API rate-limits the cloud container. Owner (6 Nov) liked the old NASA / old-computer look and asked to keep the reference's calm vibe and to follow this playbook and the No After Effects pack. The full 75 s cut was built that way: one timeline file (`src/trailer-timeline.json`) read by the picture and the synthesised sound, every hit on a 15-frame beat at 120 bpm, spring cursors, the beat drops when Headmaster lands, an 18-still critique pass and a loudness check per half second, then H.264 CRF 17 with AAC 320k and faststart. File: `/mnt/project-files/motion/launch-trailer/headmaster-launch-trailer.mp4`.
 
 Owner feedback after that cut (6 Nov): v1 had no energy against the reference, whose fast cuts last only its first 15 s before a calm narrator holds 2 to 8 s shots. v2 (96 s, narrated; ElevenLabs free plan, so no commercial rights for voice or music) was "much better", but the voice sat under the music (about -3 dB, the reference keeps it about +11 dB over) and the gallery ending looked tacky. Rule: audit and compare every version against the reference (beat, voice versus music level, tone, each shot) and search libraries and MCPs before building; no cheap knockoff look. Stills and paintings read as fake, so v3 uses real footage (free stock clips) and real product screens; an old-web "webcore" look suits on-screen web beats, drawn our own way. A game clip the owner wants for the evolve gag is not ripped by us; that slot takes a file the owner supplies. ^[raw/transcripts/nightly-2026-11-06/summary.md]
+
+## Launch trailer v4 (7 to 10 Nov 2026, delivered)
+`renders/headmaster-launch-trailer-v4.mp4` in the trailer repo (GitLab, branch `v4-real-screens`): 1920x1080, 103.5 s, -14.1 LUFS. The repo's `CLAUDE.md` and `docs/03-v4-audit-vs-reference.md` hold the file-level detail. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+
+What the owner decided, and what now applies to every film:
+- **Real things only.** Real footage, real brand screens, moving archive clips (Prelinger, archive.org), never stills dressed up. Never fake a camera look (moiré, CRT) over a screenshot; it only counts when a camera really filmed a screen. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- **Match the reference's beats with our own iconic alternatives**, not its images. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- **Decide the music before voicing or mixing.** Measure every option against the reference (beat strength, bass, level per act) before showing it. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- **Voice as one continuous take** with the owner's recipe (eleven_v4, default settings, `[calm, unhurried, warm]`, a blank line per sentence); never line by line. Ask before spending ElevenLabs credits. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- **The reference is the mix target**, measured the same way on both films, per act. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- **Show the product, in real time.** One continuous real chat turn beats a montage of cut-down clips or any 3D set; never speed footage up. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- **Sync picture to words** as the reference does: captions word by word, highlights on the key word, montage cuts about 0.25 s ahead of the word. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- **Captions** are small and plain: no box, no outline, white on dark and ink on light. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+
+Methods:
+- Audit a reference shot by shot (clip or still, at several points per shot) and against its words (Whisper) before building. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- Snap narration cuts to real pauses, then transcribe the finished mix and diff it against the script. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- Record web apps sharp and smooth: CSS zoom 2x on a pinned panel, injected styles to hide UI, in-page text swap for the story, slow the page 5x while recording and speed the video back up, freeze the last frame of a looping demo. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
+- Hand signed-in captures to the owner's Mac as one prompt for Cursor that inspects the page and checks a screenshot before and after every take. ^[raw/transcripts/launch-trailer-v4-2026-11-07/summary.md]
 
