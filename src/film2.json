@@ -124,13 +124,13 @@
   [
    12,
    12,
-   17.0,
+   16.1,
    null
   ],
   [
    13,
    14,
-   18.6,
+   18.4,
    null
   ],
   [
@@ -320,7 +320,8 @@
    "film": 0.0,
    "src": 11.0,
    "dur": 21.5,
-   "fadeOut": 1.5
+   "fadeOut": 1.5,
+   "gain": -14
   },
   {
    "src_file": "music-bed.mp3",
@@ -328,7 +329,8 @@
    "src": 0.0,
    "dur": 32.0,
    "fadeIn": 1.5,
-   "fadeOut": 2.0
+   "fadeOut": 2.0,
+   "gain": 5.5
   },
   {
    "src_file": "music-a.mp3",
@@ -336,7 +338,8 @@
    "src": 48.5,
    "dur": 21.5,
    "fadeIn": 1.0,
-   "fadeOut": 2.0
+   "fadeOut": 2.0,
+   "gain": 4
   },
   {
    "src_file": "music-bed.mp3",
@@ -344,12 +347,14 @@
    "src": 34.0,
    "dur": 23.5,
    "fadeIn": 2.0,
-   "fadeOut": 3.0
+   "fadeOut": 3.0,
+   "gain": 4
   }
  ],
  "duck": {
   "db": -7,
-  "from": 0.0
+  "from": 0.0,
+  "hold": 1.6
  },
  "extra": [
   {
@@ -368,27 +373,12 @@
   },
   {
    "file": "sfx/evolve.mp3",
-   "film": 15.8,
-   "db": -6
+   "film": 14.6,
+   "db": -16
   },
   {
    "file": "sfx/whoosh.mp3",
    "film": 21.5,
-   "db": -10
-  },
-  {
-   "file": "sfx/whoosh.mp3",
-   "film": 35.0,
-   "db": -10
-  },
-  {
-   "file": "sfx/whoosh.mp3",
-   "film": 43.0,
-   "db": -10
-  },
-  {
-   "file": "sfx/whoosh.mp3",
-   "film": 80.0,
    "db": -10
   },
   {
@@ -400,6 +390,11 @@
    "file": "sfx/ding.mp3",
    "film": 22.9,
    "db": -12
+  },
+  {
+   "file": "sfx/pen.mp3",
+   "film": 24.7,
+   "db": -8
   },
   {
    "file": "sfx/ding.mp3",
@@ -417,39 +412,14 @@
    "db": -12
   },
   {
-   "file": "sfx/pen.mp3",
-   "film": 24.7,
-   "db": -8
+   "file": "sfx/whoosh.mp3",
+   "film": 35.0,
+   "db": -10
   },
   {
    "file": "sfx/notif.mp3",
-   "film": 43.07,
-   "db": -14
-  },
-  {
-   "file": "sfx/notif.mp3",
-   "film": 43.43,
-   "db": -14
-  },
-  {
-   "file": "sfx/notif.mp3",
-   "film": 43.8,
-   "db": -14
-  },
-  {
-   "file": "sfx/notif.mp3",
-   "film": 44.17,
-   "db": -14
-  },
-  {
-   "file": "sfx/notif.mp3",
-   "film": 44.53,
-   "db": -14
-  },
-  {
-   "file": "sfx/notif.mp3",
-   "film": 44.9,
-   "db": -14
+   "film": 43.1,
+   "db": -24
   },
   {
    "file": "sfx/tick.mp3",
@@ -467,6 +437,16 @@
    "db": -14
   },
   {
+   "file": "sfx/logo.mp3",
+   "film": 55.1,
+   "db": -6
+  },
+  {
+   "file": "sfx/typing.mp3",
+   "film": 61.77,
+   "db": -12
+  },
+  {
    "file": "sfx/tick.mp3",
    "film": 67.0,
    "db": -14
@@ -482,28 +462,24 @@
    "db": -14
   },
   {
-   "file": "sfx/typing.mp3",
-   "film": 61.77,
-   "db": -12
+   "file": "sfx/click.mp3",
+   "film": 77.33,
+   "db": -8
   },
   {
-   "file": "sfx/logo.mp3",
-   "film": 55.1,
-   "db": -6
+   "file": "sfx/whoosh.mp3",
+   "film": 80.0,
+   "db": -10
   },
   {
    "file": "sfx/logo.mp3",
    "film": 90.1,
    "db": -12
-  },
-  {
-   "file": "sfx/click.mp3",
-   "film": 77.33,
-   "db": -8
   }
  ],
  "gains": {
   "music": 0.3,
   "voice": 2.0
- }
+ },
+ "evolveClip": "pokemon-evolve.mp4"
 }

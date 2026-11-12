@@ -1,13 +1,13 @@
 import React from 'react';
-import {AbsoluteFill, Audio, continueRender, delayRender, Img, interpolate, random, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, continueRender, delayRender, Img, interpolate, OffthreadVideo, random, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {AgentAvatar} from './Agent';
 import {Check, Cursor} from './kit';
 import {C, FONT, inOut, out, prog} from './theme';
 import {Bubble, GREEN} from './ThreadUI';
 import {Gallery3D} from './Gallery3D';
-import {Hook2} from './Hook2';
+import {Badge, Hook2} from './Hook2';
 import {Lines, Pic, PhoneShell, Title, Win} from './Full';
-import {BLACK, Center, Crt, Dialog, TERM, TodoIcon, useRetroFonts} from './Trailer';
+import {Center, Crt, useRetroFonts} from './Trailer';
 import TL from './film2.json';
 import WORDS from './vo-words.json';
 
@@ -29,168 +29,115 @@ const useHand = () => {
 };
 const springAt = (f: number, at: number, cfg = {damping: 16, stiffness: 150, mass: 0.9}) => spring({frame: f - at, fps: FPS, config: cfg});
 
-// ---------------------------------------------------------------- "Oh, it evolved. Constantly." Old list apps pile up on the CRT.
+// ---------------------------------------------------------------- The middle story, v4: real footage and real screens only.
+// Old web: real webcore pins (webcore-pinterest-urls.txt). Today: Apple's own iOS 26 and macOS screenshots (support.apple.com).
+// Footage: Mixkit. No drawn dialogs, no drawn phones.
+const GMAIL = 'Roboto, Arial, sans-serif';
+const useRoboto = () => {
+  const [h] = React.useState(() => delayRender('roboto'));
+  React.useEffect(() => {
+    new FontFace('Roboto', `url(${staticFile('fonts/Roboto.ttf')})`, {weight: '100 900'}).load().then((ff) => { document.fonts.add(ff); continueRender(h); });
+  }, [h]);
+};
+// A real clip from its own in-point, filling the frame, with a slow push.
+const Footage: React.FC<{src: string; from: number; f: number; len: number; pos?: string; push?: number}> = ({src, from, f, len, pos = '50% 50%', push = 0.06}) => (
+  <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+    <AbsoluteFill style={{transform: `scale(${1.02 + push * prog(f, 0, len, (t) => t)})`}}>
+      <OffthreadVideo src={staticFile(src)} muted startFrom={Math.round(from * FPS)} style={{width: '100%', height: '100%', objectFit: 'cover', objectPosition: pos, filter: 'contrast(1.05) saturate(0.95)'}} />
+    </AbsoluteFill>
+    <AbsoluteFill style={{background: 'radial-gradient(120% 95% at 50% 50%, transparent 50%, rgba(0,0,0,0.5) 100%)'}} />
+  </AbsoluteFill>
+);
+// A real screenshot that springs in and drifts, with a soft floor shadow.
+const Shot: React.FC<{src: string; f: number; at?: number; x: number; y: number; w: number; rot?: number; radius?: number; shadow?: boolean; soft?: boolean}> = ({src, f, at = 0, x, y, w, rot = 0, radius = 0, shadow = true, soft = false}) => {
+  const s = springAt(f, at, {damping: 18, stiffness: 140, mass: 0.9});
+  if (f < at) return null;
+  return (
+    <Img src={staticFile(src)} style={{position: 'absolute', left: x, top: y, width: w, borderRadius: radius, opacity: Math.min(1, s * 2), transform: `translateY(${(1 - s) * 50}px) rotate(${rot}deg) scale(${0.96 + 0.04 * Math.min(1, s)})`, boxShadow: !shadow ? 'none' : soft ? '0 24px 60px rgba(20,20,60,0.16), 0 0 0 1px rgba(0,0,0,0.06)' : '0 30px 70px rgba(0,0,0,0.45)'}} />
+  );
+};
+
+// "Oh, it evolved. Constantly." A collage on black, old web first, today's list last.
+const COLLAGE = [
+  {src: 'webcore/pin2.jpg', x: 120, y: 90, w: 430, rot: -5}, {src: 'webcore/pin16.jpg', x: 1380, y: 70, w: 420, rot: 4},
+  {src: 'webcore/pin27.jpg', x: 160, y: 600, w: 470, rot: 3}, {src: 'webcore/pin10.jpg', x: 1330, y: 640, w: 480, rot: -4},
+  {src: 'webcore/pin24.jpg', x: 600, y: 60, w: 330, rot: 6}, {src: 'webcore/pin45.jpg', x: 1000, y: 700, w: 400, rot: 5},
+  {src: 'apple/mac-reminders-camping.png', x: 560, y: 330, w: 640, rot: -2}, {src: 'apple/ios-reminders-home.png', x: 1080, y: 210, w: 330, rot: 3},
+];
 const Evolved: React.FC<{f: number}> = ({f}) => (
-  <AbsoluteFill style={{background: '#16161c'}}>
-    <Win x={90} y={70} w={560} h={330} title="TO-DO.TXT" at={2} f={f}><Lines f={f} at={6} rows={['[ ] call the dentist', '[ ] school form', '[ ] reply to Sam', '[ ] ...']} size={40} /></Win>
-    <Win x={600} y={150} w={640} h={360} title="ORGANIZER" at={12} f={f}><Pic src="arch/GRC-1956-C-42046.jpg" /></Win>
-    <Dialog x={1250} y={90} w={560} title="Reminder" buttons={['OK', 'Snooze']} pop={prog(f, 22, 28)}>Call the dentist.<br />Due today.</Dialog>
-    <Win x={180} y={520} w={600} h={330} title="TASKS 2.0" at={32} f={f}><Lines f={f} at={36} rows={['Today (3)', '  Team dinner      !', '  Supplier form    !!', '  Reply to Sam     !']} size={40} /></Win>
-    <Dialog x={860} y={600} w={480} title="Sync" pop={prog(f, 42, 48)}>Synced to 3 devices.</Dialog>
-    <Win x={1330} y={470} w={520} h={340} title="SHARED LIST" at={52} f={f}><Pic src="arch/GRC-1952-C-29212.jpg" /></Win>
-    <Crt f={f} />
+  <AbsoluteFill style={{background: '#000', overflow: 'hidden'}}>
+    <AbsoluteFill style={{transform: `scale(${1 + 0.05 * prog(f, 0, 90, (t) => t)})`}}>
+      {COLLAGE.map((c, i) => <Shot key={c.src} f={f} at={4 + i * 9} {...c} radius={6} />)}
+    </AbsoluteFill>
   </AbsoluteFill>
 );
 
-// "It left the paper." A pad, the list written in by hand, then the sheet tears away.
-const Paper: React.FC<{f: number}> = ({f}) => {
-  const rows = ['call the dentist', 'school form!', 'reply to Sam'];
-  const tear = prog(f, 40, 60, (t) => t * t);
-  return (
-    <AbsoluteFill style={{background: '#2a2620', overflow: 'hidden'}}>
-      <AbsoluteFill style={{transform: `scale(${1.04 + 0.04 * prog(f, 0, 60, inOut)})`}}>
-        <div style={{position: 'absolute', left: 560, top: 110, width: 800, height: 860, background: '#f3e27a', boxShadow: '0 30px 80px rgba(0,0,0,0.5)'}} />
-        <div style={{position: 'absolute', left: 560, top: 110, width: 800, height: 860, background: '#fbec8f', transformOrigin: '50% 0%', transform: `translate(${tear * 300}px, ${tear * 900}px) rotate(${tear * 18}deg)`, boxShadow: '0 10px 30px rgba(0,0,0,0.25)'}}>
-          <div style={{position: 'absolute', left: 70, top: 70, fontFamily: HAND, fontWeight: 700, fontSize: 96, color: '#1d2a6b'}}>To do</div>
-          {rows.map((r, i) => {
-            const w = prog(f, 6 + i * 9, 16 + i * 9, (t) => t);
-            return (
-              <div key={r} style={{position: 'absolute', left: 80, top: 250 + i * 150, display: 'flex', alignItems: 'center', gap: 34}}>
-                <div style={{width: 56, height: 56, border: '5px solid #1d2a6b', borderRadius: 6}} />
-                <div style={{fontFamily: HAND, fontWeight: 600, fontSize: 96, color: '#1d2a6b', clipPath: `inset(0 ${100 - w * 100}% 0 0)`, whiteSpace: 'nowrap'}}>{r}</div>
-              </div>
-            );
-          })}
-        </div>
-      </AbsoluteFill>
-      <Crt f={f} grain={0.07} />
-    </AbsoluteFill>
-  );
-};
+// "It left the paper." A pen on a real notepad.
+const Paper: React.FC<{f: number}> = ({f}) => <Footage src="clips/42655.mp4" from={0.4} f={f} len={60} pos="50% 40%" />;
 
-// "It moved into your pocket." A pocket organiser, then a phone, same list.
-const Pocket: React.FC<{f: number}> = ({f}) => {
-  const phone = f >= 30;
-  const lf = phone ? f - 30 : f;
-  const e = springAt(lf, 0);
-  return (
-    <AbsoluteFill style={{background: phone ? '#1a1830' : '#24241f', overflow: 'hidden'}}>
-      <div style={{position: 'absolute', left: 960 - 270, top: 120, width: 540, height: 860, transform: `translateY(${(1 - e) * 500}px) rotate(${phone ? -4 : 5}deg)`}}>
-        {!phone ? (
-          <div style={{position: 'absolute', inset: 0, borderRadius: 40, background: '#6c6f72', border: '6px solid #4a4d50', boxShadow: '0 30px 80px rgba(0,0,0,0.6)'}}>
-            <div style={{position: 'absolute', left: 50, top: 60, right: 50, height: 470, background: '#9fb08a', border: '8px solid #3b3e40', boxShadow: 'inset 0 0 30px rgba(0,0,0,0.25)'}}>
-              <div style={{padding: '24px 26px', fontFamily: TERM, fontSize: 52, color: '#1f2a18', lineHeight: 1.12}}>
-                <div>TO DO  9:41</div><div>---------</div><div>1 Dentist</div><div>2 Form</div><div>3 Reply Sam</div>
-              </div>
-            </div>
-            {[0, 1, 2, 3].map((i) => <div key={i} style={{position: 'absolute', top: 600, left: 60 + i * 110, width: 84, height: 84, borderRadius: 42, background: '#3f4245'}} />)}
-            <div style={{position: 'absolute', left: 200, top: 730, width: 140, height: 60, borderRadius: 30, background: '#3f4245'}} />
-          </div>
-        ) : (
-          <div style={{position: 'absolute', inset: 0, borderRadius: 72, background: C.dark, boxShadow: '0 30px 80px rgba(0,0,0,0.6)'}}>
-            <div style={{position: 'absolute', inset: 16, borderRadius: 58, background: C.white, overflow: 'hidden', padding: '110px 40px'}}>
-              <div style={{fontFamily: FONT.display, fontWeight: 800, fontSize: 60, color: C.ink}}>Today</div>
-              {['Call the dentist', 'School form', 'Reply to Sam'].map((r) => (
-                <div key={r} style={{display: 'flex', alignItems: 'center', gap: 22, padding: '28px 0', borderBottom: `2px solid ${C.line}`}}>
-                  <div style={{width: 40, height: 40, borderRadius: 20, border: `4px solid ${C.blue}`}} />
-                  <div style={{fontFamily: FONT.body, fontWeight: 600, fontSize: 38, color: C.ink}}>{r}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-      <Crt f={f} grain={0.06} />
-    </AbsoluteFill>
-  );
-};
+// "It moved into your pocket." A real phone in real hands.
+const Pocket: React.FC<{f: number}> = ({f}) => <Footage src="clips/4915.mp4" from={1} f={f} len={60} pos="50% 55%" />;
 
-// "It learned to remind you." Reminder pop-ups land over an archive office.
+// Real Apple screens on a dark stage, pushed in slowly.
+const Stage: React.FC<{f: number; len: number; origin?: string; children: React.ReactNode; bg?: string}> = ({f, len, origin = '50% 50%', children, bg = '#ffffff'}) => (
+  <AbsoluteFill style={{background: bg, overflow: 'hidden'}}>
+    <AbsoluteFill style={{transformOrigin: origin, transform: `scale(${1 + 0.08 * prog(f, 0, len, inOut)})`}}>{children}</AbsoluteFill>
+  </AbsoluteFill>
+);
+
+// "It learned to remind you." iOS Reminders: the urgent alarm.
 const Remind: React.FC<{f: number}> = ({f}) => (
-  <AbsoluteFill>
-    <AbsoluteFill style={{transform: `scale(${1.08 - 0.06 * prog(f, 0, 60)})`}}><Pic src="arch/GRC-1968-C-00447.jpg" pos="50% 40%" /></AbsoluteFill>
-    <AbsoluteFill style={{background: '#000', opacity: 0.25}} />
-    <Dialog x={1150} y={160} w={620} title="Reminder" buttons={['OK', 'Snooze']} pop={prog(f, 4, 10)}>Call the dentist.<br />Due today.</Dialog>
-    <Dialog x={1100} y={420} w={620} title="Reminder" buttons={['OK', 'Snooze']} pop={prog(f, 20, 26)}>School form.<br />Overdue.</Dialog>
-    <Dialog x={1050} y={680} w={620} title="Reminder" buttons={['OK', 'Snooze']} pop={prog(f, 36, 42)}>Reply to Sam.<br />Overdue.</Dialog>
-    <Crt f={f} />
-  </AbsoluteFill>
+  <Stage f={f} len={60} origin="50% 20%">
+    <Shot src="apple/ios-reminders-urgent.png" f={f} x={960 - 380} y={40} w={760} shadow={false} />
+  </Stage>
 );
 
-// "To sync." The same list on a desktop and a phone, a pulse running between them.
-const Sync: React.FC<{f: number}> = ({f}) => {
-  const p = (f % 18) / 18;
-  return (
-    <AbsoluteFill style={{background: '#101624'}}>
-      <div style={{position: 'absolute', left: 260, top: 250, width: 720, height: 500, background: '#c8c8cc', border: '6px solid', borderColor: '#f4f4f6 #505058 #505058 #f4f4f6'}}>
-        <div style={{height: 44, background: C.blue, fontFamily: TERM, fontSize: 34, color: '#fff', padding: '2px 12px'}}>TO-DO.TXT</div>
-        <Lines f={99} at={0} size={48} rows={['[x] call the dentist', '[ ] school form', '[ ] reply to Sam']} />
-      </div>
-      <div style={{position: 'absolute', left: 1320, top: 220, width: 300, height: 600, borderRadius: 44, background: C.dark, border: '10px solid #2c2c35', overflow: 'hidden'}}>
-        <div style={{margin: 10, height: 560, borderRadius: 32, background: C.white, padding: '60px 22px', fontFamily: FONT.body, fontWeight: 600, fontSize: 28, color: C.ink, lineHeight: 2.1}}>
-          <div style={{textDecoration: 'line-through', color: C.muted}}>Call the dentist</div><div>School form</div><div>Reply to Sam</div>
-        </div>
-      </div>
-      {[0, 1, 2].map((i) => {
-        const t = (p + i / 3) % 1;
-        return <div key={i} style={{position: 'absolute', left: 1000 + t * 300, top: 494, width: 22, height: 22, background: '#7fe3ff', boxShadow: '0 0 24px #7fe3ff', opacity: Math.sin(t * Math.PI)}} />;
-      })}
-      <div style={{position: 'absolute', left: 0, right: 0, top: 860, textAlign: 'center', fontFamily: TERM, fontSize: 64, color: '#7fe3ff'}}>SYNCING{'.'.repeat(1 + (Math.floor(f / 6) % 3))}</div>
-      <Crt f={f} />
-    </AbsoluteFill>
-  );
-};
+// "To sync." The same grocery list on a Mac and an iPhone.
+const Sync: React.FC<{f: number}> = ({f}) => (
+  <Stage f={f} len={36}>
+    <Shot src="apple/mac-reminders-groceries.png" f={f} at={0} x={110} y={170} w={1100} radius={14} soft />
+    <Shot src="apple/ios-reminders-groceries.png" f={f} at={5} x={1250} y={110} w={600} shadow={false} />
+  </Stage>
+);
 
-// "To share." People join the list, one avatar at a time.
+// "To share." A family list on the Mac, one column per person.
 const Share: React.FC<{f: number}> = ({f}) => (
-  <AbsoluteFill style={{background: '#1c1430'}}>
-    <div style={{position: 'absolute', left: 560, top: 230, width: 800, height: 560, background: '#c8c8cc', border: '6px solid', borderColor: '#f4f4f6 #505058 #505058 #f4f4f6'}}>
-      <div style={{height: 44, background: C.blue, fontFamily: TERM, fontSize: 34, color: '#fff', padding: '2px 12px'}}>SHARED LIST</div>
-      <Lines f={99} at={0} size={48} rows={['[ ] team dinner', '[ ] supplier form', '[ ] reply to Sam', '[ ] ...and 9 more']} />
-      <div style={{position: 'absolute', left: 30, bottom: 30, display: 'flex'}}>
-        {['#e5484d', '#30a46c', '#f5a623', '#0090ff'].map((c, i) => {
-          const s = springAt(f, 4 + i * 6, {damping: 12, stiffness: 220, mass: 0.6});
-          return <div key={c} style={{width: 96, height: 96, borderRadius: 48, marginLeft: i ? -24 : 0, background: c, border: '6px solid #c8c8cc', opacity: Math.min(1, s * 2), transform: `scale(${0.95 + 0.05 * Math.min(1, s)}) translateY(${(1 - s) * 30}px)`}} />;
-        })}
-      </div>
-    </div>
-    <Crt f={f} />
-  </AbsoluteFill>
+  <Stage f={f} len={36} origin="60% 20%">
+    <Shot src="apple/mac-reminders-family-tasks.png" f={f} x={960 - 760} y={40} w={1520} radius={16} soft />
+  </Stage>
 );
 
-// "To nag." The badge climbs to 99 and the icon shakes with every jump.
+// "To nag." The real Reminders icon, its badge climbing to 99; the icon jolts on every jump.
 const Nag: React.FC<{f: number}> = ({f}) => {
   const n = Math.min(99, Math.floor(12 + Math.pow(f / 50, 1.6) * 87));
   const k = Math.exp(-((f % 4) / 1.5));
   return (
-    <AbsoluteFill style={{background: BLACK}}>
-      <Center><div style={{transform: `translate(${(random(`n${f}`) - 0.5) * 18 * k}px, ${(random(`m${f}`) - 0.5) * 12 * k}px) scale(${1 + 0.1 * prog(f, 0, 60)})`}}><TodoIcon size={300} badge={n} /></div></Center>
-      <Crt f={f} grain={0.06} />
+    <AbsoluteFill style={{background: '#000'}}>
+      <Center>
+        <div style={{position: 'relative', width: 340, height: 340, transform: `translate(${(random(`n${f}`) - 0.5) * 14 * k}px, ${(random(`m${f}`) - 0.5) * 10 * k}px) scale(${1 + 0.08 * prog(f, 0, 60)})`}}>
+          <Img src={staticFile('apple/reminders-icon.png')} style={{width: 340, height: 340}} />
+          <Badge n={n} size={340} />
+        </div>
+      </Center>
     </AbsoluteFill>
   );
 };
 
-// "Every one of those steps made the list better at remembering." Sticky notes snow down and pile up.
-const Snow: React.FC<{f: number}> = ({f}) => {
-  const notes = Array.from({length: 90});
-  const cols = ['#ffe066', '#ffd1e8', '#c6f1d6', '#cfe1ff'];
-  return (
-    <AbsoluteFill style={{background: `linear-gradient(${C.blue}, #5a5af0)`, overflow: 'hidden'}}>
-      {notes.map((_, i) => {
-        const start = random(`s${i}`) * 90;
-        const t = Math.max(0, f - start);
-        const x = random(`x${i}`) * 1980 - 30;
-        const rest = 1080 - 60 - random(`r${i}`) * (40 + 200 * Math.min(1, f / 120));
-        const y = Math.min(rest, -120 + t * t * 0.35 + t * 8);
-        const rot = (random(`o${i}`) - 0.5) * 70 + (y < rest ? Math.sin(t / 6 + i) * 20 : 0);
-        return <div key={i} style={{position: 'absolute', left: x, top: y, width: 110, height: 110, background: cols[i % 4], transform: `rotate(${rot}deg)`, boxShadow: '0 6px 14px rgba(0,0,0,0.18)'}}><div style={{margin: '26px 18px', height: 6, background: 'rgba(0,0,0,0.25)'}} /><div style={{margin: '0 18px', width: 50, height: 6, background: 'rgba(0,0,0,0.25)'}} /></div>;
-      })}
-      <div style={{position: 'absolute', left: 0, right: 0, top: 300, display: 'flex', justifyContent: 'center', opacity: prog(f, 10, 24)}}>
-        <div style={{fontFamily: FONT.display, fontWeight: 700, fontSize: 84, letterSpacing: '-0.02em', color: '#fff', background: C.blue, padding: '6px 34px', borderRadius: 20}}>better at remembering.</div>
-      </div>
-    </AbsoluteFill>
-  );
-};
+// "Every one of those steps made the list better at remembering." Real Reminders icons snow down and pile up.
+const Snow: React.FC<{f: number}> = ({f}) => (
+  <AbsoluteFill style={{background: 'linear-gradient(#2f7fe0, #8cc4f5)', overflow: 'hidden'}}>
+    {Array.from({length: 80}).map((_, i) => {
+      const start = random(`s${i}`) * 90;
+      const t = Math.max(0, f - start);
+      const x = random(`x${i}`) * 1980 - 30;
+      const rest = 1080 - 70 - random(`r${i}`) * (40 + 200 * Math.min(1, f / 120));
+      const y = Math.min(rest, -140 + t * t * 0.35 + t * 8);
+      const rot = (random(`o${i}`) - 0.5) * 60 + (y < rest ? Math.sin(t / 6 + i) * 18 : 0);
+      return <Img key={i} src={staticFile('apple/reminders-icon.png')} style={{position: 'absolute', left: x, top: y, width: 120, height: 120, transform: `rotate(${rot}deg)`}} />;
+    })}
+    <div style={{position: 'absolute', left: 0, right: 0, top: 300, textAlign: 'center', opacity: prog(f, 10, 24), zIndex: 2}}><span style={{fontFamily: FONT.body, fontWeight: 600, fontSize: 64, color: '#fff', background: '#1d5fc4', borderRadius: 18, padding: '8px 30px'}}>better at remembering.</span></div>
+  </AbsoluteFill>
+);
 
 // "Not one of them ever did a single thing on it." One long archive hold.
 const Archive: React.FC<{f: number}> = ({f}) => (
@@ -201,49 +148,60 @@ const Archive: React.FC<{f: number}> = ({f}) => (
   </AbsoluteFill>
 );
 
-// "Your day hands you work all day." Notifications stack on a deep violet screen.
-const NOTES = [
-  ['Sam', 'Any news on the venue for Friday?'], ['Clinic', 'Please confirm your check-up.'], ['Dana', 'Supplier form is due Friday.'],
-  ['Team', 'Who is booking dinner?'], ['Sam', 'Still need that venue list.'], ['Dana', 'Reminder: the form.'],
-];
-const Notif: React.FC<{f: number}> = ({f}) => (
-  <AbsoluteFill style={{background: 'radial-gradient(120% 90% at 0% 50%, #4b1f8f 0%, #170b2e 55%, #08060f 100%)'}}>
-    {NOTES.map(([who, txt], i) => {
-      const at = 2 + i * 11;
-      const s = springAt(f, at, {damping: 18, stiffness: 200, mass: 0.7});
-      const k = NOTES.filter((_, j) => f >= 2 + j * 11).length - 1 - i;
-      if (f < at) return null;
-      return (
-        <div key={i} style={{position: 'absolute', right: 160, top: 120 + k * 150, width: 760, height: 128, borderRadius: 28, background: 'rgba(245,245,250,0.92)', display: 'flex', alignItems: 'center', gap: 22, padding: '0 28px', boxSizing: 'border-box', opacity: Math.min(1, s * 2) * (k > 4 ? 0 : 1), transform: `translateY(${(1 - s) * -60}px) scale(${0.95 + 0.05 * s})`}}>
-          <div style={{width: 72, height: 72, borderRadius: 18, background: C.chatHead}} />
-          <div><div style={{fontFamily: FONT.body, fontWeight: 700, fontSize: 32, color: C.ink}}>{who}</div><div style={{fontFamily: FONT.body, fontWeight: 500, fontSize: 30, color: C.ink2}}>{txt}</div></div>
-        </div>
-      );
-    })}
-  </AbsoluteFill>
-);
+// "Your day hands you work all day." Real iOS notifications land one on top of the other.
+const CARDS = [{src: 'apple/notif-2.png', h: 148}, {src: 'apple/notif-1.png', h: 171}, {src: 'apple/notif-0.png', h: 120}];
+const Notif: React.FC<{f: number}> = ({f}) => {
+  const K = 1.75;
+  return (
+    <AbsoluteFill style={{background: 'radial-gradient(120% 90% at 0% 50%, #4b1f8f 0%, #170b2e 55%, #08060f 100%)', overflow: 'hidden'}}>
+      {CARDS.map((c, i) => {
+        const at = 4 + i * 16;
+        if (f < at) return null;
+        const s = springAt(f, at, {damping: 18, stiffness: 200, mass: 0.7});
+        // Each new card lands on top and pushes the older ones down.
+        const above = CARDS.slice(i + 1).reduce((acc, d, j) => acc + Math.min(1, springAt(f, 4 + (i + 1 + j) * 16, {damping: 18, stiffness: 200, mass: 0.7})) * (d.h * K + 22), 0);
+        return <Img key={c.src} src={staticFile(c.src)} style={{position: 'absolute', right: 150, top: 150 + above, width: 548 * K, opacity: Math.min(1, s * 2), transform: `translateY(${(1 - s) * -60}px) scale(${0.96 + 0.04 * Math.min(1, s)})`}} />;
+      })}
+    </AbsoluteFill>
+  );
+};
 
-// "It knows what you promised. It has everything it needs." The real ask, each task highlighted.
+// "It knows what you promised. It has everything it needs." The email, read close up; each task is highlighted.
+// Stand-in for a real Gmail capture (docs/shot-list-iphone-gmail.md): Gmail's reading view, its type and colours.
 const ASK = [
   {t: 'Hi! Before Friday could you ', h: 0}, {t: 'book dinner for the team', h: 1}, {t: ', ', h: 0}, {t: 'fill in the supplier form', h: 2},
   {t: ' and ', h: 0}, {t: 'reply to Sam about the venue', h: 3}, {t: '? ', h: 0}, {t: 'Everything you need is in this thread.', h: 4},
 ];
+const MailHead: React.FC<{ago: string}> = ({ago}) => (
+  <>
+    <div style={{display: 'flex', alignItems: 'center', gap: 22, marginBottom: 34}}>
+      <div style={{fontFamily: GMAIL, fontWeight: 400, fontSize: 52, color: '#1f1f1f'}}>Friday plans</div>
+      <div style={{fontFamily: GMAIL, fontWeight: 500, fontSize: 24, color: '#444746', background: '#e9eef6', borderRadius: 8, padding: '4px 14px'}}>Inbox</div>
+    </div>
+    <div style={{display: 'flex', alignItems: 'center', gap: 22}}>
+      <div style={{width: 80, height: 80, borderRadius: 40, background: '#e8710a', color: '#fff', fontFamily: GMAIL, fontWeight: 500, fontSize: 40, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>D</div>
+      <div style={{flex: 1}}>
+        <div style={{fontFamily: GMAIL, fontSize: 34, color: '#1f1f1f'}}><b style={{fontWeight: 600}}>Dana Haddad</b> <span style={{color: '#5e5e5e', fontSize: 28}}>&lt;dana@northwind.co&gt;</span></div>
+        <div style={{fontFamily: GMAIL, fontSize: 28, color: '#5e5e5e'}}>to me</div>
+      </div>
+      <div style={{fontFamily: GMAIL, fontSize: 28, color: '#5e5e5e'}}>{ago}</div>
+    </div>
+  </>
+);
 const Message: React.FC<{f: number}> = ({f}) => {
   const base = S.message[0];
   const hl = [0, voAt(19) - base + 4, voAt(19) - base + 14, voAt(19) - base + 24, voAt(20) - base + 6];
   return (
-    <AbsoluteFill style={{background: '#e9e9ee', overflow: 'hidden'}}>
-      <AbsoluteFill style={{transform: `scale(${1.15 - 0.08 * prog(f, 0, 120, inOut)}) translateX(${-30 * prog(f, 0, 120, inOut)}px)`}}>
-        <div style={{position: 'absolute', left: 260, top: 160, width: 1400, padding: '50px 60px', background: C.white, borderRadius: 30, boxShadow: '0 30px 80px rgba(20,20,60,0.12)'}}>
-          <div style={{display: 'flex', alignItems: 'center', gap: 20, marginBottom: 30}}>
-            <div style={{width: 72, height: 72, borderRadius: 36, background: '#f5a623'}} />
-            <div><div style={{fontFamily: FONT.body, fontWeight: 700, fontSize: 36, color: C.ink}}>Dana</div><div style={{fontFamily: FONT.body, fontWeight: 500, fontSize: 28, color: C.muted}}>Friday plans · 9:02</div></div>
-          </div>
-          <div style={{fontFamily: FONT.body, fontWeight: 500, fontSize: 58, lineHeight: 1.5, color: C.ink}}>
+    <AbsoluteFill style={{background: '#f8fafd', overflow: 'hidden', perspective: 2400}}>
+      <AbsoluteFill style={{transformOrigin: '30% 50%', transform: `rotateY(${8 - 4 * prog(f, 0, 120, inOut)}deg) rotateX(3deg) scale(${1.18 - 0.08 * prog(f, 0, 120, inOut)}) translateX(${-40 * prog(f, 0, 120, inOut)}px)`}}>
+        <div style={{position: 'absolute', left: 170, top: 120, width: 1580, height: 980, padding: '56px 70px', boxSizing: 'border-box', background: '#fff', borderRadius: 28}}>
+          <MailHead ago="9:02 AM (0 minutes ago)" />
+          <div style={{fontFamily: GMAIL, fontWeight: 400, fontSize: 54, lineHeight: 1.55, color: '#1f1f1f', marginTop: 46, marginLeft: 102}}>
             {ASK.map((p, i) => {
               const on = p.h ? prog(f, hl[p.h], hl[p.h] + 8) : 0;
-              return <span key={i} style={{backgroundImage: 'linear-gradient(#ffe066, #ffe066)', backgroundRepeat: 'no-repeat', backgroundSize: `${on * 100}% 100%`, padding: p.h ? '0 4px' : 0}}>{p.t}</span>;
+              return <span key={i} style={{backgroundImage: 'linear-gradient(#fde293, #fde293)', backgroundRepeat: 'no-repeat', backgroundSize: `${on * 100}% 100%`, padding: p.h ? '0 4px' : 0}}>{p.t}</span>;
             })}
+            <div style={{marginTop: 30}}>Thanks!<br />Dana</div>
           </div>
         </div>
       </AbsoluteFill>
@@ -251,23 +209,22 @@ const Message: React.FC<{f: number}> = ({f}) => {
   );
 };
 
-// "And it waits for you anyway." The list sits untouched while the clock runs all day.
+// "And it waits for you anyway." The reply box stays empty while the day goes by.
 const Wait: React.FC<{f: number}> = ({f}) => {
-  const mins = 9 * 60 + Math.floor(prog(f, 0, 110, (t) => t) * 525);
-  const clock = `${String(Math.floor(mins / 60)).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}`;
-  const blink = Math.floor(f / 12) % 2 === 0;
+  const hours = Math.min(9, Math.floor(prog(f, 6, 110, (t) => t) * 9));
+  const blink = Math.floor(f / 15) % 2 === 0;
   return (
-    <AbsoluteFill style={{background: '#14141a'}}>
-      <AbsoluteFill style={{transform: `scale(${1 + 0.06 * prog(f, 0, 120, (t) => t)})`}}>
-        <div style={{position: 'absolute', left: 360, top: 170, width: 1200, height: 700, background: '#c8c8cc', border: '6px solid', borderColor: '#f4f4f6 #505058 #505058 #f4f4f6'}}>
-          <div style={{height: 52, background: C.blue, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px', fontFamily: TERM, fontSize: 40, color: '#fff'}}><span>TO-DO.TXT</span><span>{clock}</span></div>
-          <div style={{margin: 10, height: 616, background: '#fff', padding: '30px 40px', fontFamily: TERM, fontSize: 70, color: '#111', lineHeight: 1.25}}>
-            <div>[ ] book the team dinner</div><div>[ ] supplier form</div><div>[ ] reply to Sam</div>
-            <div>{blink ? '█' : ' '}</div>
+    <AbsoluteFill style={{background: '#f8fafd', overflow: 'hidden'}}>
+      <AbsoluteFill style={{transformOrigin: '25% 70%', transform: `scale(${1.05 + 0.1 * prog(f, 0, 120, (t) => t)})`}}>
+        <div style={{position: 'absolute', left: 170, top: 90, width: 1580, height: 940, padding: '50px 70px', boxSizing: 'border-box', background: '#fff', borderRadius: 28}}>
+          <MailHead ago={hours === 0 ? '9:02 AM (0 minutes ago)' : `9:02 AM (${hours} hour${hours > 1 ? 's' : ''} ago)`} />
+          <div style={{marginTop: 44, marginLeft: 102, border: '2px solid #dadce0', borderRadius: 20, height: 560, boxShadow: '0 2px 8px rgba(60,64,67,0.18)', position: 'relative'}}>
+            <div style={{padding: '30px 36px', fontFamily: GMAIL, fontSize: 30, color: '#444746'}}>↩&nbsp; Dana Haddad</div>
+            <div style={{position: 'absolute', left: 36, top: 110, width: 4, height: 56, background: '#1f1f1f', opacity: blink ? 1 : 0}} />
+            <div style={{position: 'absolute', left: 36, bottom: 32, height: 76, padding: '0 46px', borderRadius: 38, background: '#0b57d0', color: '#fff', fontFamily: GMAIL, fontWeight: 500, fontSize: 32, display: 'flex', alignItems: 'center'}}>Send</div>
           </div>
         </div>
       </AbsoluteFill>
-      <Crt f={f} />
     </AbsoluteFill>
   );
 };
@@ -498,12 +455,13 @@ const End: React.FC<{f: number}> = ({f}) => {
           <div style={{fontFamily: FONT.body, fontWeight: 700, fontSize: 52, color: C.blue, opacity: side, transform: `translateX(${(1 - side) * -30}px)`}}>headmaster.app</div>
         </div>
       </Center>
+      <div style={{position: 'absolute', left: 0, right: 0, bottom: 56, textAlign: 'center', fontFamily: FONT.body, fontWeight: 500, fontSize: 22, color: C.muted, opacity: side}}>Not affiliated with any brand shown.</div>
     </AbsoluteFill>
   );
 };
 
 // Subtitles for the narrated lines a scene does not already spell out. Dark scenes get light type and vice versa.
-const LIGHT = new Set(['message', 'app', 'ask', 'results', 'approve', 'gallery', 'end']);
+const LIGHT = new Set(['remind', 'sync', 'share', 'message', 'wait', 'app', 'ask', 'results', 'approve', 'gallery', 'end']);
 const Subtitle: React.FC = () => {
   const f = useCurrentFrame();
   const i = VO.findIndex((v, k) => v.sub && f >= v.at && f < Math.min(v.at + v.len + 12, k + 1 < VO.length ? VO[k + 1].at : 1e9));
@@ -530,6 +488,7 @@ const Run: React.FC<{C: React.FC<{f: number}>}> = ({C: Comp}) => <Comp f={useCur
 export const Film2: React.FC = () => {
   useRetroFonts();
   useHand();
+  useRoboto();
   return (
     <AbsoluteFill style={{background: '#000'}}>
       <Audio src={staticFile('film2-mix.wav')} />

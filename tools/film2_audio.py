@@ -35,6 +35,15 @@ for x in TL.get('extra', []):
 sfx = np.zeros((N, 2), np.float32)
 for x in TL.get('sfx', []):
     seg = src(x['file']) * (10 ** (x['db'] / 20)); t = int(x['film'] * R); e = min(N, t + len(seg)); sfx[t:e] += seg[:e - t]
+# Hold the duck across short gaps between lines, so the bed sits steady instead of pumping up and down.
+hold = int(TL['duck'].get('hold', 0) * R)
+if hold:
+    on_i = np.flatnonzero(mask > 0.5)
+    if len(on_i):
+        br = np.flatnonzero(np.diff(on_i) > 1)
+        for k in br:
+            a0, b0 = on_i[k], on_i[k + 1]
+            if b0 - a0 < hold: mask[a0:b0] = 1
 # Smooth duck envelope: 0.15 s attack, 0.5 s release.
 env = np.zeros(N, np.float32); g = 0.0; att, rel = 1 / (0.15 * R), 1 / (0.5 * R)
 step = 64
